@@ -1,8 +1,8 @@
 @import url('./fonts/fonts.css');
 
 body {
-  background-color: #131316;
   margin: 0 auto;
+  max-width: 1280px;
   font-family: JetBrains Mono, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

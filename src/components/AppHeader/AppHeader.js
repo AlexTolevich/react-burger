@@ -16,12 +16,12 @@ function AppHeader() {
             {/*Удалить строки 14,15 и снять коментарии с 17,18 после вёрстки всех старниц и настройки роутинга*/}
             {/*   className={`${headerStyle.link} ${path.pathname === '/constructor' && headerStyle.link_is_active} pl-5 pr-5`}>*/}
             {/*<BurgerIcon type={path.pathname === '/constructor' ? "primary" : "secondary"}/>*/}
-            <p className="ml-2">Конструктор</p>
+            <p className="ml-2 text text_type_main-default">Конструктор</p>
           </Link>
           <Link to="/"
                 className={`${headerStyle.link} ${path.pathname === '/order' && headerStyle.link_is_active} pl-5 pr-5`}>
             <ListIcon type={path.pathname === '/order' ? "primary" : "secondary"}/>
-            <p className="ml-2">Лента заказов</p>
+            <p className="ml-2 text text_type_main-default">Лента заказов</p>
           </Link>
         </div>
         <Link to="/" className={`${headerStyle.logo}`}>
@@ -31,7 +31,7 @@ function AppHeader() {
           <Link to="/"
                 className={`${headerStyle.link} ${path.pathname === '/profile' && headerStyle.link_is_active} pl-5 pr-5`}>
             <ProfileIcon type={path.pathname === '/profile' ? "primary" : "secondary"}/>
-            <p className="ml-2">Личный кабинет</p>
+            <p className="ml-2 text text_type_main-default">Личный кабинет</p>
           </Link>
         </div>
       </nav>

@@ -1,7 +1,12 @@
-import React, {useEffect} from 'react';
-import ingredientsStyle from './BurgerIngredients.module.css'
+import React, {useEffect, useState} from 'react';
+import style from './BurgerIngredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
+import {v4 as uuidv4} from 'uuid';
+import Modal from "../Modal/Modal";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import {ingredientsType} from "../../utils/ingredientsType";
+import PropTypes from "prop-types";
 
 const TABS = [
   {
@@ -21,44 +26,66 @@ const TABS = [
   }
 ];
 
-// eslint-disable-next-line react/prop-types
-function BurgerIngredients({ingredients}) {
+function BurgerIngredients({ingredients, burger, setBurger}) {
+  const [current, setCurrent] = useState('bun')
+  const [categories, setCategories] = useState([]);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [selectedIngredient, setSelectedIngredient] = useState(null);
 
-  const [current, setCurrent] = React.useState('bun')
-  const [categories, setCategories] = React.useState([]);
+  function handleBurger(ingredient) {
+    if (ingredient.type === 'bun') {
+      setBurger(state =>
+        state.filter(item => item.type === 'bun' ? null : item)
+      );
+      setBurger(state => [...state, {...ingredient, id: uuidv4()}]);
+    } else {
+      setBurger([...burger, {...ingredient, id: uuidv4()}]);
+    }
+  }
 
   useEffect(() => {
-      // eslint-disable-next-line react/prop-types
-      const newCategories = [...new Set(ingredients.data?.map(item => item.type))]
+      const newCategories = [...new Set(ingredients?.map(item => item.type))]
       setCategories(newCategories)
     },
     [ingredients]
   );
 
+  function handleClick(ingredient) {
+    setSelectedIngredient(ingredient);
+    setIsOpenModal(true);
+  }
+
+  function onClose() {
+    setIsOpenModal(false);
+    setSelectedIngredient(null);
+  }
+
   return (
-    <section className={ingredientsStyle.ingredients}>
-      <h2 className={`${ingredientsStyle.header} text text_type_main-large mt-10 mb-5`}>Соберите бургер</h2>
-      <ul className={`${ingredientsStyle.list} ${ingredientsStyle.tabs}`}>
+    <section className={style.ingredients}>
+      <h2 className={`${style.header} text text_type_main-large mt-10 mb-5`}>Соберите бургер</h2>
+      <ul className={`${style.list} ${style.tabs}`}>
         {TABS.map((tab, i) => (
-            <li key={tab.id} className={ingredientsStyle.item}>
+            <li key={tab.id} className={style.item}>
               <Tab value={tab.type} active={current === tab.type} onClick={setCurrent}>{tab.title}</Tab>
             </li>
           )
         )}
       </ul>
-      <ul className={`${ingredientsStyle.list} ${ingredientsStyle.categoryList}`}>
+      <ul className={`${style.list} ${style.categoryList}`}>
         {categories.map((cat, i) => (
-            <li key={i} className={`${ingredientsStyle.item} ${ingredientsStyle.category} pt-10 pb-6`}>
+            <li key={i} className={`${style.item} ${style.category} pt-10 pb-6`}>
               <h3
                 className="text text_type_main-medium mb-6">{(cat === "bun") ? "Булки" : (cat === "sauce") ? "Соусы" : cat === "main" ? "Начинки" : cat}</h3>
-              <ul className={`${ingredientsStyle.list} ${ingredientsStyle.ingredientList} ml-4 mr-4`}>
-                {/* eslint-disable-next-line react/prop-types */}
-                {ingredients.data?.filter(({type}) => type === cat)
+              <ul className={`${style.list} ${style.ingredientList} ml-4 mr-4`}>
+                {ingredients?.filter(({type}) => type === cat)
                   .map((ingredient, i) => (
-                    <li key={ingredient._id} className={ingredientsStyle.ingredient}>
+                    <li key={ingredient._id} className={style.ingredient} onClick={() => {
+                      handleClick(ingredient);
+                      handleBurger(ingredient)
+                    }}>
                       <Counter count={3} size="default"/>
                       <img src={ingredient.image} alt={ingredient.name} className='ml-4 mr-4'/>
-                      <div className={`${ingredientsStyle.price} mt-2 mb-2`}>
+                      <div className={`${style.price} mt-2 mb-2`}>
                         <p className='text text_type_digits-default mr-2'>{ingredient.price}</p>
                         <CurrencyIcon type='primary'/>
                       </div>
@@ -72,9 +99,17 @@ function BurgerIngredients({ingredients}) {
           )
         )}
       </ul>
-
+      {isOpenModal && <Modal onClose={onClose} title="Детали ингредиента">
+        <IngredientDetails ingredient={selectedIngredient}/>
+      </Modal>}
     </section>
   )
+}
+
+BurgerIngredients.propTypes = {
+  ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientsType)).isRequired,
+  setBurger: PropTypes.func.isRequired,
+  burger: PropTypes.arrayOf(PropTypes.shape(ingredientsType)).isRequired
 }
 
 export default BurgerIngredients;

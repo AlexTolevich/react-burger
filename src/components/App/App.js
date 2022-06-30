@@ -5,13 +5,13 @@ import {Routes, Route} from 'react-router-dom';
 import getData from "../../utils/Api";
 
 function App() {
-  const [ingredients, setIngredients] = React.useState({});
+  const [ingredients, setIngredients] = React.useState([]);
 
   useEffect(() => {
       getData()
         .then((res) => {
           if (res) {
-            setIngredients(res);
+            setIngredients(res.data);
           }
         })
         .catch((err) => {

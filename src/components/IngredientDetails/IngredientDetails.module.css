@@ -1,0 +1,24 @@
+.details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 520px;
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  gap: 20px;
+}
+
+.item {
+  min-width: 112px;
+}
+
+.itemText {
+  text-align: center;
+  color: #8585ad;
+}

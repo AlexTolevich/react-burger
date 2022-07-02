@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import './App.css';
+import style from './App.module.css';
 import Main from "../Main/Main";
 import {Routes, Route} from 'react-router-dom';
 import getData from "../../utils/Api";
@@ -22,7 +22,7 @@ function App() {
   );
 
   return (
-    <div className="App">
+    <div className={style.App}>
       <Routes>
         <Route path="/"
                element={

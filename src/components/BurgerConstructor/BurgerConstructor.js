@@ -3,13 +3,18 @@ import style from './BurgerConstructor.module.css'
 import {ConstructorElement, DragIcon, Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import PropTypes from "prop-types";
-import {ingredientsType} from "../../utils/ingredientsType";
+import {useSelector, useDispatch} from "react-redux";
+import {DEL_INGREDIENT, submitOrder} from "../../services/actions";
 
-function BurgerConstructor({burger}) {
+function BurgerConstructor() {
+  const dispatch = useDispatch();
+  const burger = useSelector(state => state.burgerConstructor.burger);
+  const orderId = useSelector(state => state.order.order);
   const [bun, setBun] = useState([]);
   const [filling, setFilling] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const ingredients = burger.map(ingredient => ingredient._id);
+
 
   useEffect(() => {
     setBun(burger.filter((item) => item.type === 'bun'));
@@ -21,12 +26,20 @@ function BurgerConstructor({burger}) {
     return (bun.length ? bun[0]?.price * 2 : 0) + amountFilling;
   }
 
-  function handleClick() {
+  function handleSubmit() {
+    dispatch(submitOrder({ingredients}))
     setIsOpenModal(true);
   }
 
   function onClose() {
     setIsOpenModal(false);
+  }
+
+  function handleDelElement(element) {
+    dispatch({
+      type: DEL_INGREDIENT,
+      ingredient: element
+    })
   }
 
   return (
@@ -55,6 +68,7 @@ function BurgerConstructor({burger}) {
                         text={element.name}
                         price={element.price}
                         thumbnail={element.image}
+                        handleClose={() => handleDelElement(element)}
                       />
                     </li>
                   ))}
@@ -67,7 +81,7 @@ function BurgerConstructor({burger}) {
                 <ConstructorElement
                   type="bottom"
                   isLocked={true}
-                  text={`${bun[0]?.name} (верх)`}
+                  text={`${bun[0]?.name} (низ)`}
                   price={bun[0]?.price}
                   thumbnail={bun[0]?.image}
                 />
@@ -80,7 +94,7 @@ function BurgerConstructor({burger}) {
               <p className="text text_type_digits-medium mr-2">{calcTotalAmount()}</p>
               <CurrencyIcon type="primary"/>
             </div>
-            <Button type="primary" size="large" onClick={handleClick}>
+            <Button type="primary" size="large" onClick={handleSubmit} htmlType="button">
               Оформить заказ
             </Button>
 
@@ -91,13 +105,9 @@ function BurgerConstructor({burger}) {
         <p className="text text_type_main-default">Для создания своего идеального бургера, кликните по
           понравившемся ингредиентам</p>
       }
-      {isOpenModal && <Modal onClose={onClose}><OrderDetails orderId={"034536"}/></Modal>}
+      {isOpenModal && <Modal onClose={onClose}><OrderDetails orderId={orderId}/></Modal>}
     </section>
   )
-}
-
-BurgerConstructor.propTypes = {
-  burger: PropTypes.arrayOf(PropTypes.shape({...ingredientsType, id: PropTypes.string.isRequired})).isRequired
 }
 
 export default BurgerConstructor;

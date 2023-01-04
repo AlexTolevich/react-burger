@@ -2,11 +2,16 @@ import React, {useEffect, useState} from 'react';
 import style from './BurgerIngredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
-import {v4 as uuidv4} from 'uuid';
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import {ingredientsType} from "../../utils/ingredientsType";
-import PropTypes from "prop-types";
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  ADD_INGREDIENT,
+  ADD_VIEWED_INGREDIENT,
+  DEL_VIEWED_INGREDIENT,
+  getIngredients,
+  SET_ACTIVE_TAB
+} from "../../services/actions";
 
 const TABS = [
   {
@@ -26,22 +31,24 @@ const TABS = [
   }
 ];
 
-function BurgerIngredients({ingredients, burger, setBurger}) {
-  const [current, setCurrent] = useState('bun')
+function BurgerIngredients() {
   const [categories, setCategories] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [selectedIngredient, setSelectedIngredient] = useState(null);
+  const selectedIngredient = useSelector(state => state.viewedIngredient.ingredient);
+  const {ingredients, activeTab} = useSelector(state => state.ingredients);
+
+  const dispatch = useDispatch();
 
   function handleBurger(ingredient) {
-    if (ingredient.type === 'bun') {
-      setBurger(state =>
-        state.filter(item => item.type === 'bun' ? null : item)
-      );
-      setBurger(state => [...state, {...ingredient, id: uuidv4()}]);
-    } else {
-      setBurger([...burger, {...ingredient, id: uuidv4()}]);
-    }
+    dispatch({
+      type: ADD_INGREDIENT,
+      ingredient: ingredient
+    })
   }
+
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, [dispatch])
 
   useEffect(() => {
       const newCategories = [...new Set(ingredients?.map(item => item.type))]
@@ -51,22 +58,27 @@ function BurgerIngredients({ingredients, burger, setBurger}) {
   );
 
   function handleClick(ingredient) {
-    setSelectedIngredient(ingredient);
+    dispatch({
+      type: ADD_VIEWED_INGREDIENT,
+      ingredient: ingredient
+    })
     setIsOpenModal(true);
   }
 
   function onClose() {
     setIsOpenModal(false);
-    setSelectedIngredient(null);
+    dispatch({type: DEL_VIEWED_INGREDIENT})
   }
 
   return (
     <section className={style.ingredients}>
       <h2 className={`${style.header} text text_type_main-large mt-10 mb-5`}>Соберите бургер</h2>
       <ul className={`${style.list} ${style.tabs}`}>
-        {TABS.map((tab, i) => (
+        {TABS.map((tab) => (
             <li key={tab.id} className={style.item}>
-              <Tab value={tab.type} active={current === tab.type} onClick={setCurrent}>{tab.title}</Tab>
+              <Tab value={tab.type} active={activeTab === tab.type}
+                   onClick={() => dispatch({type: SET_ACTIVE_TAB, value: tab.type})}
+              >{tab.title}</Tab>
             </li>
           )
         )}
@@ -78,7 +90,7 @@ function BurgerIngredients({ingredients, burger, setBurger}) {
                 className="text text_type_main-medium mb-6">{(cat === "bun") ? "Булки" : (cat === "sauce") ? "Соусы" : cat === "main" ? "Начинки" : cat}</h3>
               <ul className={`${style.list} ${style.ingredientList} ml-4 mr-4`}>
                 {ingredients?.filter(({type}) => type === cat)
-                  .map((ingredient, i) => (
+                  .map((ingredient) => (
                     <li key={ingredient._id} className={style.ingredient} onClick={() => {
                       handleClick(ingredient);
                       handleBurger(ingredient)
@@ -104,12 +116,6 @@ function BurgerIngredients({ingredients, burger, setBurger}) {
       </Modal>}
     </section>
   )
-}
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientsType)).isRequired,
-  setBurger: PropTypes.func.isRequired,
-  burger: PropTypes.arrayOf(PropTypes.shape(ingredientsType)).isRequired
 }
 
 export default BurgerIngredients;

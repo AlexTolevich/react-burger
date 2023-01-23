@@ -1,17 +1,12 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import style from './BurgerIngredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from "../Modal/Modal";
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {useSelector, useDispatch} from 'react-redux';
 import {
-  ADD_INGREDIENT,
-  ADD_VIEWED_INGREDIENT,
-  DEL_VIEWED_INGREDIENT,
   getIngredients,
   SET_ACTIVE_TAB
 } from "../../services/actions";
+import Ingredient from "../Ingredient/Ingredient";
 
 const TABS = [
   {
@@ -32,9 +27,8 @@ const TABS = [
 ];
 
 function BurgerIngredients() {
+  const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const selectedIngredient = useSelector(state => state.viewedIngredient.ingredient);
   const {ingredients, activeTab} = useSelector(state => state.ingredients);
 
   const refContainerIngredients = useRef(null);
@@ -43,15 +37,6 @@ function BurgerIngredients() {
     if (!element || refArray.current.includes(element)) return;
     refArray.current.splice(index, 0, element);
   }, []);
-
-  const dispatch = useDispatch();
-
-  function handleBurger(ingredient) {
-    dispatch({
-      type: ADD_INGREDIENT,
-      ingredient: ingredient
-    });
-  }
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -63,19 +48,6 @@ function BurgerIngredients() {
     },
     [ingredients]
   );
-
-  function handleClick(ingredient) {
-    dispatch({
-      type: ADD_VIEWED_INGREDIENT,
-      ingredient: ingredient
-    })
-    setIsOpenModal(true);
-  }
-
-  function onClose() {
-    setIsOpenModal(false);
-    dispatch({type: DEL_VIEWED_INGREDIENT});
-  }
 
   function handleTabClick(tab) {
     dispatch({type: SET_ACTIVE_TAB, value: tab.type});
@@ -118,29 +90,13 @@ function BurgerIngredients() {
               <ul className={`${style.list} ${style.ingredientList} ml-4 mr-4`}>
                 {ingredients?.filter(({type}) => type === cat)
                   .map((ingredient) => (
-                    <li key={ingredient._id} className={style.ingredient} onClick={() => {
-                      handleClick(ingredient);
-                      handleBurger(ingredient)
-                    }}>
-                      <Counter count={3} size="default"/>
-                      <img src={ingredient.image} alt={ingredient.name} className='ml-4 mr-4'/>
-                      <div className={`${style.price} mt-2 mb-2`}>
-                        <p className='text text_type_digits-default mr-2'>{ingredient.price}</p>
-                        <CurrencyIcon type='primary'/>
-                      </div>
-                      <div>
-                        <h4 className={'text text_type_main-default'}>{ingredient.name}</h4>
-                      </div>
-                    </li>
+                    <Ingredient ingredient={ingredient} key={ingredient._id}/>
                   ))}
               </ul>
             </li>
           )
         )}
       </ul>
-      {isOpenModal && <Modal onClose={onClose} title="Детали ингредиента">
-        <IngredientDetails ingredient={selectedIngredient}/>
-      </Modal>}
     </section>
   )
 }

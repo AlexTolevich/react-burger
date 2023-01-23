@@ -11,7 +11,7 @@ export const DEL_INGREDIENT = 'DEL_VIEWED_INGREDIENT';
 export const POST_ORDER_REQUEST = 'POST_ORDER_REQUEST';
 export const POST_ORDER_SUCCESS = 'POST_ORDER_SUCCESS';
 export const POST_ORDER_FAILED = 'POST_ORDER_FAILED';
-
+export const SORT_INGREDIENTS = 'SORT_INGREDIENTS';
 
 export function getIngredients() {
   return function (dispatch) {

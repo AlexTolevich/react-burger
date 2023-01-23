@@ -4,7 +4,10 @@ import {ConstructorElement, DragIcon, Button, CurrencyIcon} from "@ya.praktikum/
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import {useSelector, useDispatch} from "react-redux";
-import {DEL_INGREDIENT, submitOrder} from "../../services/actions";
+import {ADD_INGREDIENT, DEL_INGREDIENT, submitOrder} from "../../services/actions";
+import {useDrop} from 'react-dnd';
+import FillingIngredient from "../FillingIngredient/FillingIngredient";
+
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -35,15 +38,26 @@ function BurgerConstructor() {
     setIsOpenModal(false);
   }
 
-  function handleDelElement(element) {
+  function handleBurger(ingredient) {
     dispatch({
-      type: DEL_INGREDIENT,
-      ingredient: element
-    })
+      type: ADD_INGREDIENT,
+      ingredient: ingredient
+    });
   }
 
+  const [{isHover}, dropTarget] = useDrop({
+    accept: 'ingredient',
+    collect: monitor => ({
+      isHover: monitor.isOver()
+    }),
+    drop(ingredient) {
+      handleBurger(ingredient);
+    }
+  });
+
   return (
-    <section className={style.constructor} aria-label="Конструктор бургера">
+    <section className={`${style.constructor} ${isHover && style.hover}`} aria-label="Конструктор бургера"
+             ref={dropTarget}>
       {burger.length ?
         (<div className={style.container}>
           <div className={style.ingredients}>
@@ -62,15 +76,7 @@ function BurgerConstructor() {
             {filling.length ?
               (<ul className={style.fillingList}>
                   {filling?.map((element, i) => (
-                    <li key={element.id} className={style.fillingItem}>
-                      <DragIcon type="primary"/>
-                      <ConstructorElement
-                        text={element.name}
-                        price={element.price}
-                        thumbnail={element.image}
-                        handleClose={() => handleDelElement(element)}
-                      />
-                    </li>
+                    <FillingIngredient key={element.id} element={element}/>
                   ))}
                 </ul>
               ) :
@@ -102,8 +108,8 @@ function BurgerConstructor() {
 
         </div>)
         :
-        <p className="text text_type_main-default">Для создания своего идеального бургера, кликните по
-          понравившемся ингредиентам</p>
+        <p className="text text_type_main-default">Для создания своего идеального бургера, перетащи сюда
+          понравившиеся ингредиенты</p>
       }
       {isOpenModal && <Modal onClose={onClose}><OrderDetails orderId={orderId}/></Modal>}
     </section>

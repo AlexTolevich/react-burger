@@ -1,4 +1,11 @@
-import {ADD_INGREDIENT, DEL_INGREDIENT, POST_ORDER_REQUEST, POST_ORDER_SUCCESS, POST_ORDER_FAILED} from "../actions";
+import {
+  ADD_INGREDIENT,
+  DEL_INGREDIENT,
+  POST_ORDER_REQUEST,
+  POST_ORDER_SUCCESS,
+  POST_ORDER_FAILED,
+  SORT_INGREDIENTS
+} from "../actions";
 import {v4 as uuidv4} from "uuid";
 
 const initialBurger = {
@@ -21,9 +28,21 @@ export const constructorReducer = (state = initialBurger, action) => {
           [...state.burger, {...action.ingredient, id: uuidv4()}]
       };
     }
-    case
-    DEL_INGREDIENT: {
+    case DEL_INGREDIENT: {
       return {...state, burger: [...state.burger.filter(item => item.id !== action.ingredient?.id)]};
+    }
+    case SORT_INGREDIENTS: {
+      const indexDropElement = state.burger.findIndex(item => item.id === action.dropElementId);
+      const dragElement = state.burger.find(item => item.id === action.dragElementId);
+      const sortedBurger = state.burger.filter(item => item.id !== action.dragElementId)
+      if (dragElement && indexDropElement) {
+        console.log(indexDropElement, dragElement, sortedBurger, sortedBurger.splice(indexDropElement, 0, dragElement))
+      }
+
+      // return {
+      //   ...state,
+      //   burger: [...state.burger.filter(item => item.id !== action.dragElementId).splice(indexDropElement, 0, dragElement)]
+      // };
     }
     default: {
       return state;

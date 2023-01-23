@@ -6,7 +6,6 @@ import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {useSelector, useDispatch} from 'react-redux';
 import {
-  ADD_INGREDIENT,
   ADD_VIEWED_INGREDIENT,
   DEL_VIEWED_INGREDIENT,
 } from "../../services/actions";
@@ -19,9 +18,12 @@ function Ingredient({ingredient}) {
   const burger = useSelector(state => state.burgerConstructor.burger);
   const count = burger.filter(item => item._id === ingredient._id).length;
 
-  const [, dragRef] = useDrag({
+  const [{isDrag}, dragRef] = useDrag({
     type: 'ingredient',
-    item: ingredient
+    item: ingredient,
+    collect: (monitor) => ({
+      isDrag: monitor.isDragging(),
+    }),
   });
 
   const dispatch = useDispatch();
@@ -42,7 +44,7 @@ function Ingredient({ingredient}) {
 
   return (
     <>
-      <li ref={dragRef} className={style.ingredient} onClick={() => {
+      <li ref={dragRef} className={`${style.ingredient} ${isDrag && style.isDrag}`} onClick={() => {
         handleClick(ingredient)
       }}>
         {count ? <Counter count={ingredient.type === 'bun' ? count * 2 : count} size="default"/> : null}

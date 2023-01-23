@@ -34,15 +34,12 @@ export const constructorReducer = (state = initialBurger, action) => {
     case SORT_INGREDIENTS: {
       const indexDropElement = state.burger.findIndex(item => item.id === action.dropElementId);
       const dragElement = state.burger.find(item => item.id === action.dragElementId);
-      const sortedBurger = state.burger.filter(item => item.id !== action.dragElementId)
-      if (dragElement && indexDropElement) {
-        console.log(indexDropElement, dragElement, sortedBurger, sortedBurger.splice(indexDropElement, 0, dragElement))
-      }
-
-      // return {
-      //   ...state,
-      //   burger: [...state.burger.filter(item => item.id !== action.dragElementId).splice(indexDropElement, 0, dragElement)]
-      // };
+      const sortedBurger = state.burger.filter(item => item.id !== action.dragElementId);
+      sortedBurger.splice(indexDropElement, 0, dragElement);
+      return {
+        ...state,
+        burger: sortedBurger,
+      };
     }
     default: {
       return state;

@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import style from './BurgerConstructor.module.css'
-import {ConstructorElement, DragIcon, Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {ConstructorElement, Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import {useSelector, useDispatch} from "react-redux";
-import {ADD_INGREDIENT, DEL_INGREDIENT, submitOrder} from "../../services/actions";
+import {ADD_INGREDIENT, submitOrder} from "../../services/actions";
 import {useDrop} from 'react-dnd';
 import FillingIngredient from "../FillingIngredient/FillingIngredient";
 

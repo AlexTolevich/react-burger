@@ -11,11 +11,12 @@ import {
 } from "../../services/actions";
 import {useDrag} from 'react-dnd';
 import {ingredientsType} from "../../utils/ingredientsType";
+import {getBurger, getViewedIngredient} from "../../services/selectors/selectors";
 
 function Ingredient({ingredient}) {
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const selectedIngredient = useSelector(state => state.viewedIngredient.ingredient);
-  const burger = useSelector(state => state.burgerConstructor.burger);
+  const selectedIngredient = useSelector(getViewedIngredient);
+  const burger = useSelector(getBurger);
   const count = burger.filter(item => item._id === ingredient._id).length;
 
   const [{isDrag}, dragRef] = useDrag({

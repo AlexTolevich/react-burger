@@ -28,7 +28,7 @@ export const ingredientsReducer = (state = initialIngredients, action) => {
       return {...state, ingredientsFailed: false, ingredients: action.ingredients, ingredientsRequest: false};
     }
     case GET_INGREDIENTS_FAILED: {
-      return {...state, ingredientsFailed: true, ingredientsRequest: false};
+      return {...state, ingredientsFailed: true, ingredients: [], ingredientsRequest: false};
     }
     case SET_ACTIVE_TAB: {
       return {...state, activeTab: action.value,};

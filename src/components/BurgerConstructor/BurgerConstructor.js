@@ -4,15 +4,14 @@ import {ConstructorElement, Button, CurrencyIcon} from "@ya.praktikum/react-deve
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import {useSelector, useDispatch} from "react-redux";
-import {ADD_INGREDIENT, submitOrder} from "../../services/actions";
+import {ADD_INGREDIENT, CLOSE_ORDER, submitOrder} from "../../services/actions";
 import {useDrop} from 'react-dnd';
 import FillingIngredient from "../FillingIngredient/FillingIngredient";
-
+import {getBurger} from "../../services/selectors/selectors";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
-  const burger = useSelector(state => state.burgerConstructor.burger);
-  const orderId = useSelector(state => state.order.order);
+  const burger = useSelector(getBurger);
   const [bun, setBun] = useState([]);
   const [filling, setFilling] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -36,6 +35,7 @@ function BurgerConstructor() {
 
   function onClose() {
     setIsOpenModal(false);
+    dispatch({type: CLOSE_ORDER});
   }
 
   function handleBurger(ingredient) {
@@ -111,7 +111,7 @@ function BurgerConstructor() {
         <p className="text text_type_main-default">Для создания своего идеального бургера, перетащи сюда
           понравившиеся ингредиенты</p>
       }
-      {isOpenModal && <Modal onClose={onClose}><OrderDetails orderId={orderId}/></Modal>}
+      {isOpenModal && <Modal onClose={onClose}><OrderDetails/></Modal>}
     </section>
   )
 }

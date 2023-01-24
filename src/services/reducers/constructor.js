@@ -4,7 +4,9 @@ import {
   POST_ORDER_REQUEST,
   POST_ORDER_SUCCESS,
   POST_ORDER_FAILED,
-  SORT_INGREDIENTS
+  SORT_INGREDIENTS,
+  CLOSE_ORDER,
+  RESET_INGREDIENTS
 } from "../actions";
 import {v4 as uuidv4} from "uuid";
 
@@ -31,6 +33,9 @@ export const constructorReducer = (state = initialBurger, action) => {
     case DEL_INGREDIENT: {
       return {...state, burger: [...state.burger.filter(item => item.id !== action.ingredient?.id)]};
     }
+    case RESET_INGREDIENTS: {
+      return {burger: []};
+    }
     case SORT_INGREDIENTS: {
       const indexDropElement = state.burger.findIndex(item => item.id === action.dropElementId);
       const dragElement = state.burger.find(item => item.id === action.dragElementId);
@@ -56,7 +61,10 @@ export const orderReducer = (state = initialOrder, action) => {
       return {...state, orderFailed: false, order: action.order.number, orderRequest: false};
     }
     case POST_ORDER_FAILED: {
-      return {...state, orderFailed: true, orderRequest: false};
+      return {...state, orderFailed: true, order: 0, orderRequest: false};
+    }
+    case CLOSE_ORDER: {
+      return {orderFailed: false, order: 0, orderRequest: false};
     }
     default: {
       return state;

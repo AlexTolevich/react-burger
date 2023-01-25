@@ -1,13 +1,17 @@
 import React from "react";
 import style from "./OrderDetails.module.css";
 import done from "../../images/done.svg"
-import PropTypes from 'prop-types';
+import {useSelector} from "react-redux";
+import {getOrder} from "../../services/selectors/selectors";
+import Preloader from "../Preloader/Preloader";
 
-function OrderDetails({orderId}) {
-  return (
+function OrderDetails() {
+  const {orderRequest, order} = useSelector(getOrder);
+  return orderRequest ?
+    <Preloader/> :
     <div className={`${style.order} pt-5 pb-15`}>
       <h2 className="text text_type_digits-large">
-        {orderId}
+        {order}
       </h2>
       <p className="text text_type_main-medium mt-8 mb-15">
         идентификатор заказа
@@ -23,11 +27,6 @@ function OrderDetails({orderId}) {
         Дождитесь готовности на орбитальной станции
       </p>
     </div>
-  )
-}
-
-OrderDetails.propTypes = {
-  orderId: PropTypes.string.isRequired
 }
 
 export default OrderDetails;

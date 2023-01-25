@@ -5,6 +5,12 @@
   width: 600px;
   height: calc(100vh - 108px);
   box-sizing: border-box;
+  border-radius: var(--common-border-radius-s);
+}
+
+.hover {
+  box-shadow: inset 0px 0px 7px 3px #4C4CFF;
+  background-color: #1E1E28;
 }
 
 .container {
@@ -39,13 +45,6 @@
 
 .fillingList::-webkit-scrollbar-thumb {
   background: #8585AD;
-}
-
-.fillingItem {
-  list-style-type: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .order {

@@ -3,25 +3,22 @@ import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import style from "./Main.module.css";
-import {ingredientsType} from "../../utils/ingredientsType";
-import PropTypes from "prop-types";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
-function Main({ingredients}) {
-  const [burger, setBurger] = React.useState([]);
 
+function Main() {
   return (
     <>
       <AppHeader/>
-      <main className={style.container}>
-        <BurgerIngredients ingredients={ingredients} burger={burger} setBurger={setBurger}/>
-        <BurgerConstructor burger={burger}/>
-      </main>
+      <DndProvider backend={HTML5Backend}>
+        <main className={style.container}>
+          <BurgerIngredients/>
+          <BurgerConstructor/>
+        </main>
+      </DndProvider>
     </>
   )
-}
-
-Main.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientsType)).isRequired
 }
 
 export default Main;

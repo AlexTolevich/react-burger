@@ -2,6 +2,7 @@ import React from 'react';
 import style from './App.module.css';
 import Main from "../Main/Main";
 import {Routes, Route} from 'react-router-dom';
+import NotFound from "../../pages/NotFound/NotFound";
 
 function App() {
 
@@ -11,6 +12,10 @@ function App() {
         <Route path="/"
                element={
                  <Main/>
+               }/>
+        <Route path="*"
+               element={
+                 <NotFound/>
                }/>
       </Routes>
     </div>

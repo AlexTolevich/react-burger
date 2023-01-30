@@ -1,0 +1,38 @@
+.notfound {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  max-width: fit-content;
+  min-height: 95vh;
+  margin: 0 auto;
+}
+
+.header {
+  font-weight: 400;
+  font-size: 140px;
+  line-height: 1.21;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.text {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.1875;
+  text-align: center;
+  margin: 2vh auto 10vh;
+}
+
+@media screen and (max-width: 767px) {
+  .header {
+    font-size: 80px;
+    line-height: 1.21;
+  }
+
+  .text {
+    font-size: 12px;
+    line-height: 1.25;
+  }
+}

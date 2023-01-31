@@ -1,17 +1,29 @@
 import React from 'react';
 import style from './App.module.css';
-import Main from "../Main/Main";
+import Constructor from "../../pages/Constructor/Constructor";
 import {Routes, Route} from 'react-router-dom';
 import NotFound from "../../pages/NotFound/NotFound";
+import Login from "../../pages/Login/Login";
+import AppHeader from "../AppHeader/AppHeader";
+import Register from "../../pages/Register/Register";
 
 function App() {
 
   return (
     <div className={style.App}>
+      <AppHeader/>
       <Routes>
         <Route path="/"
                element={
-                 <Main/>
+                 <Constructor/>
+               }/>
+        <Route path="/register"
+               element={
+                 <Register/>
+               }/>
+        <Route path="/login"
+               element={
+                 <Login/>
                }/>
         <Route path="*"
                element={

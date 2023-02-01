@@ -2,10 +2,14 @@ import React, {useState, useEffect} from 'react';
 
 import style from "./Login.module.css";
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useFormWithValidation} from "../../utils/hooks/useValidation";
+import {useDispatch} from "react-redux";
+import {onLogin} from "../../services/actions";
 
 function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {values, handleChange, errors, isValid, resetForm} = useFormWithValidation();
   const [hidden, setHidden] = useState(true);
 
@@ -15,11 +19,11 @@ function Login() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    const onLogin = {
+    dispatch(onLogin({
       email: values.email,
       password: values.password
-    };
-    console.log(onLogin)
+    }));
+    navigate('/');
   }
 
   return (

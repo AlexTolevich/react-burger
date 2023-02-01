@@ -11,11 +11,8 @@ function AppHeader() {
       <nav className={style.nav}>
         <div className={style.container}>
           <Link to="/"
-                className={`${style.link} ${style.link_is_active} pl-5 pr-5`}>
-            <BurgerIcon type="primary"/>
-            {/*Удалить строки 14,15 и снять коментарии с 17,18 после вёрстки всех старниц и настройки роутинга*/}
-            {/*   className={`${style.link} ${path.pathname === '/constructor' && style.link_is_active} pl-5 pr-5`}>*/}
-            {/*<BurgerIcon type={path.pathname === '/constructor' ? "primary" : "secondary"}/>*/}
+                className={`${style.link} ${path.pathname === '/' && style.link_is_active} pl-5 pr-5`}>
+            <BurgerIcon type={path.pathname === '/' ? "primary" : "secondary"}/>
             <p className="ml-2 text text_type_main-default">Конструктор</p>
           </Link>
           <Link to="/"
@@ -28,7 +25,7 @@ function AppHeader() {
           <Logo/>
         </Link>
         <div className={`${style.container} ${style.container_from_right}`}>
-          <Link to="/"
+          <Link to="/profile"
                 className={`${style.link} ${path.pathname === '/profile' && style.link_is_active} pl-5 pr-5`}>
             <ProfileIcon type={path.pathname === '/profile' ? "primary" : "secondary"}/>
             <p className="ml-2 text text_type_main-default">Личный кабинет</p>

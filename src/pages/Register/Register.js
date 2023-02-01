@@ -2,10 +2,14 @@ import React, {useState, useEffect} from 'react';
 
 import style from "./Register.module.css";
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useFormWithValidation} from "../../utils/hooks/useValidation";
+import {useDispatch} from "react-redux";
+import {onRegister} from "../../services/actions";
 
 function Register() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {values, handleChange, errors, isValid, resetForm} = useFormWithValidation();
   const [hidden, setHidden] = useState(true);
 
@@ -15,12 +19,12 @@ function Register() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    const onRegister = {
+    dispatch(onRegister({
       name: values.name,
       email: values.email,
       password: values.password
-    };
-    console.log(onRegister)
+    }));
+    navigate('/');
   }
 
   return (
@@ -84,7 +88,7 @@ function Register() {
         Уже зарегистрированы?
         <Link to="/login" className={style.link}> Войти</Link>
       </p>
-          </section>
+    </section>
   )
 }
 

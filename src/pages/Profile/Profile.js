@@ -2,10 +2,16 @@ import React, {useState, useEffect} from 'react';
 
 import style from './Profile.module.css';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
-import {Link, NavLink} from 'react-router-dom';
+import {Link, NavLink, useNavigate} from 'react-router-dom';
 import {useFormWithValidation} from '../../utils/hooks/useValidation';
+import {func} from "prop-types";
+import {useDispatch} from "react-redux";
+import {onLogout} from "../../services/actions";
 
 function Profile() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const refreshToken = localStorage.getItem('refreshToken');
   const {values, handleChange, errors, isValid, resetForm} = useFormWithValidation();
   const classNavLink = (isActive) => `${style.link} text text_type_main-medium ` + (isActive?.isActive && style.link_active);
 
@@ -21,6 +27,11 @@ function Profile() {
       password: values.password
     };
     console.log(onRegister)
+  }
+
+  function handleExitUser() {
+    dispatch(onLogout({refreshToken},
+      navigate('/login')))
   }
 
   return (
@@ -44,8 +55,7 @@ function Profile() {
           <NavLink
             to="/login"
             className={classNavLink}
-            onClick={() => {
-            }}
+            onClick={() => handleExitUser()}
           >
             Выход
           </NavLink>

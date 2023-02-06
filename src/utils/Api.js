@@ -44,6 +44,34 @@ function signin(data, headers = defaultHeaders) {
   }).then((res) => _checkResponse(res));
 }
 
+function logout(data, headers = defaultHeaders) {
+  return fetch(`${BASE_URL}/auth/logout`, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({
+      token: data.refreshToken,
+    })
+  }).then((res) => _checkResponse(res));
+}
+
+function forgotPSWD(data, headers = defaultHeaders) {
+  return fetch(`${BASE_URL}/password-reset`, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({email: data.email})
+  }).then((res) => _checkResponse(res));
+}
+
+function resetPSWD(data, headers = defaultHeaders) {
+  return fetch(`${BASE_URL}/password-reset/reset`, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({
+      token: data.token,
+      password: data.password
+    })
+  }).then((res) => _checkResponse(res));
+}
 
 
-export {getInrgedientsRequest, postOrder, signup, signin};
+export {getInrgedientsRequest, postOrder, signup, signin, logout, forgotPSWD, resetPSWD};

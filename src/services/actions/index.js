@@ -1,5 +1,5 @@
-import {getInrgedientsRequest, postOrder, signin, signup} from "../../utils/Api";
-import {setCookie} from "../../utils/cookies";
+import {forgotPSWD, getInrgedientsRequest, logout, postOrder, resetPSWD, signin, signup} from "../../utils/Api";
+import {deleteCookie, setCookie} from "../../utils/cookies";
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -21,6 +21,15 @@ export const POST_SIGNUP_FAILED = 'POST_SIGNUP_FAILED';
 export const POST_LOGIN_REQUEST = 'POST_LOGIN_REQUEST';
 export const POST_LOGIN_SUCCESS = 'POST_LOGIN_SUCCESS';
 export const POST_LOGIN_FAILED = 'POST_LOGIN_FAILED';
+export const POST_LOGOUT_REQUEST = 'POST_LOGOUT_REQUEST';
+export const POST_LOGOUT_SUCCESS = 'POST_LOGOUT_SUCCESS';
+export const POST_LOGOUT_FAILED = 'POST_LOGOUT_FAILED';
+export const FORGOT_PSWD_REQUEST = 'FORGOT_PSWD_REQUEST';
+export const FORGOT_PSWD_SUCCESS = 'FORGOT_PSWD_SUCCESS';
+export const FORGOT_PSWD_FAILED = 'FORGOT_PSWD_FAILED';
+export const RESET_PSWD_REQUEST = 'RESET_PSWD_REQUEST';
+export const RESET_PSWD_SUCCESS = 'RESET_PSWD_SUCCESS';
+export const RESET_PSWD_FAILED = 'RESET_PSWD_FAILED';
 export const USER_LOGGED_IN = 'USER_LOGGED_IN';
 export const USER_LOGGED_OUT = 'USER_LOGGED_OUT';
 
@@ -66,7 +75,7 @@ export function submitOrder({ingredients}) {
   };
 }
 
-export function onRegister(data) {
+export function onRegister(data, navigate) {
   return function (dispatch) {
     dispatch({
       type: POST_SIGNUP_REQUEST
@@ -81,10 +90,11 @@ export function onRegister(data) {
             });
             const authToken = res.accessToken.split('Bearer ')[1];
             if (authToken) {
-              setCookie('accessToken', authToken);
+              setCookie('accessToken', authToken, {expires: 1200});
             }
             localStorage.setItem('refreshToken', res.refreshToken);
             dispatch({type: USER_LOGGED_IN})
+            navigate();
           }
         }
       )
@@ -95,7 +105,7 @@ export function onRegister(data) {
         if (err === 400) {
           console.log(err, 'Переданы некорректные данные при создании пользователя.');
 
-        } else if (err === 409) {
+        } else if (err === 409 || err === 403) {
           console.log(err, 'Пользователь с указанным email уже зарегистрирован.');
 
         } else {
@@ -105,7 +115,7 @@ export function onRegister(data) {
   }
 }
 
-export function onLogin(data) {
+export function onLogin(data, navigate) {
   return function (dispatch) {
     dispatch({
       type: POST_LOGIN_REQUEST
@@ -120,10 +130,11 @@ export function onLogin(data) {
             });
             const authToken = res.accessToken.split('Bearer ')[1];
             if (authToken) {
-              setCookie('accessToken', authToken);
+              setCookie('accessToken', authToken, {expires: 1200});
             }
             localStorage.setItem('refreshToken', res.refreshToken);
             dispatch({type: USER_LOGGED_IN})
+            navigate();
           }
         }
       )
@@ -141,5 +152,89 @@ export function onLogin(data) {
           console.log(err, 'Произошла ошибка на сервере. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.');
         }
       })
+  }
+}
+
+export function onLogout(data, navigate) {
+  return function (dispatch) {
+    dispatch({
+      type: POST_LOGOUT_REQUEST
+    });
+    logout(data)
+      .then((res) => {
+          if (res && res.success) {
+            dispatch({
+              type: POST_LOGOUT_SUCCESS,
+              user: {email: '', name: '',},
+              refreshToken: '',
+            });
+            deleteCookie('accessToken');
+            localStorage.removeItem('refreshToken');
+            dispatch({
+              type: USER_LOGGED_OUT,
+            });
+            navigate();
+          }
+        }
+      )
+      .catch((err) => {
+          dispatch({
+            type: POST_LOGOUT_FAILED
+          });
+          console.log(err, 'Произошла ошибка на сервере. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.');
+        }
+      )
+  }
+}
+
+export function onForgotPSWD(data, navigate) {
+  return function (dispatch) {
+    dispatch({
+      type: FORGOT_PSWD_REQUEST
+    });
+    forgotPSWD(data)
+      .then((res) => {
+          if (res && res.success) {
+            dispatch({
+              type: FORGOT_PSWD_SUCCESS
+            })
+            navigate();
+          }
+        }
+      )
+      .catch((err) => {
+          dispatch({
+            type: FORGOT_PSWD_FAILED
+          });
+          console.log(err, err.message, 'Произошла ошибка на сервере. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.');
+
+        }
+      )
+  }
+}
+
+export function onResetPSWD(data, navigate) {
+  return function (dispatch) {
+    dispatch({
+      type: RESET_PSWD_REQUEST
+    });
+    resetPSWD(data)
+      .then((res) => {
+          if (res && res.success) {
+            dispatch({
+              type: RESET_PSWD_SUCCESS
+            })
+            navigate();
+          }
+        }
+      )
+      .catch((err) => {
+          dispatch({
+            type: RESET_PSWD_FAILED
+          });
+          console.log(err, err.message, 'Произошла ошибка на сервере. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.');
+
+        }
+      )
   }
 }

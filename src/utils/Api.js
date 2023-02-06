@@ -1,3 +1,5 @@
+import {getCookie} from "./cookies";
+
 const BASE_URL = "https://norma.nomoreparties.space/api";
 
 const defaultHeaders =
@@ -54,6 +56,23 @@ function logout(data, headers = defaultHeaders) {
   }).then((res) => _checkResponse(res));
 }
 
+function getUser(headers = defaultHeaders) {
+  headers.authorization = 'Bearer ' + getCookie('accessToken');
+  return fetch(`${BASE_URL}/auth/user`, {
+    method: 'GET',
+    headers: headers,
+  }).then((res) => _checkResponse(res));
+}
+
+function patchUser(data, headers = defaultHeaders) {
+  headers.authorization = 'Bearer ' + getCookie('accessToken');
+  return fetch(`${BASE_URL}/auth/user`, {
+    method: 'PATCH',
+    headers: headers,
+    body: JSON.stringify({name: data.name, email: data.email, password: data.password})
+  }).then((res) => _checkResponse(res));
+}
+
 function forgotPSWD(data, headers = defaultHeaders) {
   return fetch(`${BASE_URL}/password-reset`, {
     method: 'POST',
@@ -74,4 +93,4 @@ function resetPSWD(data, headers = defaultHeaders) {
 }
 
 
-export {getInrgedientsRequest, postOrder, signup, signin, logout, forgotPSWD, resetPSWD};
+export {getInrgedientsRequest, postOrder, signup, signin, logout, getUser, patchUser, forgotPSWD, resetPSWD};

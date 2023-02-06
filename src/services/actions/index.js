@@ -1,4 +1,13 @@
-import {forgotPSWD, getInrgedientsRequest, logout, postOrder, resetPSWD, signin, signup} from "../../utils/Api";
+import {
+  forgotPSWD,
+  getInrgedientsRequest,
+  getUser,
+  logout, patchUser,
+  postOrder,
+  resetPSWD,
+  signin,
+  signup
+} from "../../utils/Api";
 import {deleteCookie, setCookie} from "../../utils/cookies";
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
@@ -181,7 +190,59 @@ export function onLogout(data, navigate) {
           dispatch({
             type: POST_LOGOUT_FAILED
           });
-          console.log(err, 'Произошла ошибка на сервере. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.');
+          console.log(err, err.message, 'Произошла ошибка на сервере. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.');
+        }
+      )
+  }
+}
+
+export function onGetUser() {
+  return function (dispatch) {
+    dispatch({
+      type: POST_LOGIN_REQUEST
+    });
+    getUser()
+      .then((res) => {
+          if (res && res.success) {
+            dispatch({
+              type: POST_LOGIN_SUCCESS,
+              user: res.user,
+            });
+            dispatch({type: USER_LOGGED_IN})
+          }
+        }
+      )
+      .catch((err) => {
+          dispatch({
+            type: POST_LOGIN_FAILED
+          });
+          console.log(err, err.message, 'Произошла ошибка на сервере. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.');
+        }
+      )
+  }
+}
+
+export function onPatchUser(data) {
+  return function (dispatch) {
+    dispatch({
+      type: POST_LOGIN_REQUEST
+    });
+    patchUser(data)
+      .then((res) => {
+          if (res && res.success) {
+            dispatch({
+              type: POST_LOGIN_SUCCESS,
+              user: res.user,
+            });
+            dispatch({type: USER_LOGGED_IN})
+          }
+        }
+      )
+      .catch((err) => {
+          dispatch({
+            type: POST_LOGIN_FAILED
+          });
+          console.log(err, err.message, 'Произошла ошибка на сервере. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.');
         }
       )
   }

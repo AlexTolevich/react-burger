@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 
 import style from './Profile.module.css';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import {NavLink, useNavigate} from 'react-router-dom';
 import {useFormWithValidation} from '../../utils/hooks/useValidation';
 import {useDispatch, useSelector} from "react-redux";
-import {onGetUser, onLogout, onPatchUser} from "../../services/actions";
+import {onLogout, onPatchUser} from "../../services/actions";
 import {getUser} from "../../services/selectors/selectors";
 import Preloader from "../../components/Preloader/Preloader";
 
@@ -18,7 +18,6 @@ function Profile() {
   const classNavLink = (isActive) => `${style.link} text text_type_main-medium ` + (isActive?.isActive && style.link_active);
 
   useEffect(() => {
-    dispatch(onGetUser());
     resetForm({name: name, email: email, password: ''});
   }, [resetForm, name, email]);
 

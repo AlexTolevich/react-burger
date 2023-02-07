@@ -12,8 +12,8 @@ import Profile from "../../pages/Profile/Profile";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import {useDispatch, useSelector} from "react-redux";
-import {DEL_VIEWED_INGREDIENT, getIngredients} from "../../services/actions";
+import {useDispatch} from "react-redux";
+import {DEL_VIEWED_INGREDIENT, getIngredients, onGetUser} from "../../services/actions";
 import IngredientDetailsPage from "../../pages/IngredientDetailsPage/IngredientDetailsPage";
 
 function App() {
@@ -23,6 +23,8 @@ function App() {
   let state = location.state as { backgroundLocation?: Location };
 
   useEffect(() => {
+    // @ts-ignore
+    dispatch(onGetUser());
     // @ts-ignore
     dispatch(getIngredients());
   }, []);

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import style from './App.module.css';
 import Constructor from "../../pages/Constructor/Constructor";
-import {Routes, Route} from 'react-router-dom';
+import {Routes, Route, useLocation, useNavigate} from 'react-router-dom';
 import NotFound from "../../pages/NotFound/NotFound";
 import Login from "../../pages/Login/Login";
 import AppHeader from "../AppHeader/AppHeader";
@@ -10,13 +10,33 @@ import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import Profile from "../../pages/Profile/Profile";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import Modal from "../Modal/Modal";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import {useDispatch, useSelector} from "react-redux";
+import {DEL_VIEWED_INGREDIENT, getIngredients} from "../../services/actions";
+import IngredientDetailsPage from "../../pages/IngredientDetailsPage/IngredientDetailsPage";
 
 function App() {
+  let location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  let state = location.state as { backgroundLocation?: Location };
+
+  useEffect(() => {
+    // @ts-ignore
+    dispatch(getIngredients());
+  }, []);
+
+  function onCloseModal() {
+    navigate(-1);
+    dispatch({type: DEL_VIEWED_INGREDIENT});
+
+  }
 
   return (
     <div className={style.App}>
       <AppHeader/>
-      <Routes>
+      <Routes location={state?.backgroundLocation || location}>
         <Route path="/"
                element={
                  <Constructor/>
@@ -55,11 +75,22 @@ function App() {
                    <Profile/>
                  </ProtectedRoute>
                }/>
+        <Route path="/ingredients/:id"
+               element={
+                 <IngredientDetailsPage/>
+               }/>
         <Route path="*"
                element={
                  <NotFound/>
                }/>
       </Routes>
+      {state?.backgroundLocation && (
+        <Routes>
+          <Route path="/ingredients/:id" element={<Modal onClose={onCloseModal} title="Детали ингредиента">
+            <IngredientDetails/>
+          </Modal>}/>
+        </Routes>
+      )}
     </div>
   );
 }

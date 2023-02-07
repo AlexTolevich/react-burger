@@ -1,12 +1,17 @@
 .ingredient {
-  list-style-type: none;
   display: flex;
   position: relative;
   flex-direction: column;
   align-items: center;
   max-width: 272px;
+  text-decoration: none;
+  color: #F2F2F3;
 }
 
 .isDrag {
   opacity: 0.4;
+}
+
+.item {
+  list-style-type: none;
 }

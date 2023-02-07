@@ -7,3 +7,4 @@ export const getResetPSWDRequest = (state) => state.password.resetPSWDRequest;
 export const getUserRequest = (state) => state.user.userRequest;
 export const getUser = (state) => state.user;
 export const getLoggedIn = (state) => state.loggedIn.loggedIn;
+export const getForgotPSWD = (state) => state.password.forgotPSWD;

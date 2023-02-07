@@ -26,7 +26,8 @@ function Login() {
         email: values.email,
         password: values.password
       },
-      () => navigate('/')));
+      () => navigate(history.location.state.from.pathname)
+    ));
   }
 
   return (

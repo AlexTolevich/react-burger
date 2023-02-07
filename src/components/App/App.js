@@ -9,6 +9,7 @@ import Register from "../../pages/Register/Register";
 import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import Profile from "../../pages/Profile/Profile";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 function App() {
 
@@ -38,11 +39,21 @@ function App() {
                }/>
         <Route path="/profile"
                element={
-                 <Profile/>
+                 <ProtectedRoute>
+                   <Profile/>
+                 </ProtectedRoute>
                }/>
         <Route path="/profile/orders"
                element={
-                 <Profile/>
+                 <ProtectedRoute>
+                   <Profile/>
+                 </ProtectedRoute>
+               }/>
+        <Route path="/profile/orders/:id"
+               element={
+                 <ProtectedRoute>
+                   <Profile/>
+                 </ProtectedRoute>
                }/>
         <Route path="*"
                element={

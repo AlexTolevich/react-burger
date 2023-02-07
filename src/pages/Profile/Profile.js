@@ -14,7 +14,7 @@ function Profile() {
   const navigate = useNavigate();
   const {userRequest, email, name} = useSelector(getUser);
   const refreshToken = localStorage.getItem('refreshToken');
-  const {values, handleChange, errors, isValid, resetForm} = useFormWithValidation();
+  const {values, handleChange, errors, resetForm} = useFormWithValidation();
   const classNavLink = (isActive) => `${style.link} text text_type_main-medium ` + (isActive?.isActive && style.link_active);
 
   useEffect(() => {

@@ -15,7 +15,7 @@ function AppHeader() {
             <BurgerIcon type={path.pathname === '/' ? "primary" : "secondary"}/>
             <p className="ml-2 text text_type_main-default">Конструктор</p>
           </Link>
-          <Link to="/login"
+          <Link to="/"
                 className={`${style.link} ${path.pathname === '/order' && style.link_is_active} pl-5 pr-5`}>
             <ListIcon type={path.pathname === '/order' ? "primary" : "secondary"}/>
             <p className="ml-2 text text_type_main-default">Лента заказов</p>
@@ -26,8 +26,8 @@ function AppHeader() {
         </Link>
         <div className={`${style.container} ${style.container_from_right}`}>
           <Link to="/profile"
-                className={`${style.link} ${path.pathname === '/profile' && style.link_is_active} pl-5 pr-5`}>
-            <ProfileIcon type={path.pathname === '/profile' ? "primary" : "secondary"}/>
+                className={`${style.link} ${path.pathname.includes('/profile') && style.link_is_active} pl-5 pr-5`}>
+            <ProfileIcon type={path.pathname.includes('/profile') ? "primary" : "secondary"}/>
             <p className="ml-2 text text_type_main-default">Личный кабинет</p>
           </Link>
         </div>

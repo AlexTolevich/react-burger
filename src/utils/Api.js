@@ -23,6 +23,7 @@ function getInrgedientsRequest(headers = defaultHeaders) {
 }
 
 function postOrder(data, headers = defaultHeaders) {
+  headers.authorization = 'Bearer ' + getCookie('accessToken');
   return fetch(`${BASE_URL}/orders`, {
     method: 'POST',
     headers: headers,

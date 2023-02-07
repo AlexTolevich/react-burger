@@ -7,11 +7,14 @@ import {useSelector, useDispatch} from "react-redux";
 import {ADD_INGREDIENT, CLOSE_ORDER, submitOrder} from "../../services/actions";
 import {useDrop} from 'react-dnd';
 import FillingIngredient from "../FillingIngredient/FillingIngredient";
-import {getBurger} from "../../services/selectors/selectors";
+import {getBurger, getLoggedIn} from "../../services/selectors/selectors";
+import {useNavigate} from "react-router-dom";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
   const burger = useSelector(getBurger);
+  const loggedIn = useSelector(getLoggedIn);
+  const navigate = useNavigate();
   const [bun, setBun] = useState([]);
   const [filling, setFilling] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -29,8 +32,13 @@ function BurgerConstructor() {
   }
 
   function handleSubmit() {
-    dispatch(submitOrder({ingredients}))
-    setIsOpenModal(true);
+    if (loggedIn) {
+      dispatch(submitOrder({ingredients}));
+      setIsOpenModal(true);
+    } else {
+      navigate('/login');
+
+    }
   }
 
   function onClose() {

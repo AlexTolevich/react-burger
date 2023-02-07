@@ -33,7 +33,7 @@ function Login() {
   }
 
   return loggedIn ?
-    <Navigate to={"/"} replace/>
+    <Navigate to={location.state?.from?.pathname ? location.state?.from?.pathname : "/"} replace/>
     :
     (<section className={style.container}>
         <h2 className={`text text_type_main-medium pb-6`}>

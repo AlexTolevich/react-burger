@@ -2,8 +2,10 @@ import {
   forgotPSWD,
   getInrgedientsRequest,
   getUser,
-  logout, patchUser,
+  logout,
+  patchUser,
   postOrder,
+  refreshToken,
   resetPSWD,
   signin,
   signup
@@ -212,11 +214,47 @@ export function onGetUser() {
           }
         }
       )
-      .catch((err) => {
-          dispatch({
-            type: POST_LOGIN_FAILED
-          });
-          console.log(err, err.message, 'Произошла ошибка на сервере. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.');
+      .catch(async (err) => {
+          if (err.status === 403 || err.message === 'jwt expired') {
+            deleteCookie('accessToken');
+            await refreshToken()
+              .then((res) => {
+                if (res && res.success) {
+                  const authToken = res.accessToken.split('Bearer ')[1];
+                  if (authToken) {
+                    setCookie('accessToken', authToken, {expires: 1200});
+                  }
+                  localStorage.setItem('refreshToken', res.refreshToken);
+                  getUser()
+                    .then((res) => {
+                      if (res && res.success) {
+                        dispatch({
+                          type: POST_LOGIN_SUCCESS,
+                          user: res.user,
+                        });
+                        dispatch({type: USER_LOGGED_IN})
+                      }
+                    })
+                    .catch((err) => {
+                      dispatch({
+                        type: POST_LOGIN_FAILED
+                      });
+                      console.log(err, err.message, 'Произошла ошибка на сервере. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.');
+                    });
+                }
+              })
+              .catch((err) => {
+                dispatch({
+                  type: POST_LOGIN_FAILED
+                });
+                console.log(err, err.message, 'Произошла ошибка на сервере. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.');
+              });
+          } else {
+            dispatch({
+              type: POST_LOGIN_FAILED
+            });
+            console.log(err, err.message, 'Произошла ошибка на сервере. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.');
+          }
         }
       )
   }

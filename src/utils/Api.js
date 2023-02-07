@@ -47,6 +47,14 @@ function signin(data, headers = defaultHeaders) {
   }).then((res) => _checkResponse(res));
 }
 
+function refreshToken(headers = defaultHeaders) {
+  return fetch(`${BASE_URL}/auth/token`, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({token: localStorage.getItem('refreshToken')})
+  }).then((res) => _checkResponse(res));
+}
+
 function logout(data, headers = defaultHeaders) {
   return fetch(`${BASE_URL}/auth/logout`, {
     method: 'POST',
@@ -94,4 +102,15 @@ function resetPSWD(data, headers = defaultHeaders) {
 }
 
 
-export {getInrgedientsRequest, postOrder, signup, signin, logout, getUser, patchUser, forgotPSWD, resetPSWD};
+export {
+  getInrgedientsRequest,
+  postOrder,
+  signup,
+  signin,
+  refreshToken,
+  logout,
+  getUser,
+  patchUser,
+  forgotPSWD,
+  resetPSWD
+};

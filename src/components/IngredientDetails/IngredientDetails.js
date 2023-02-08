@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 import {getIngredientsFromStore} from "../../services/selectors/selectors";
 
 function IngredientDetails() {
-  const { id } = useParams();
+  const {id} = useParams();
   const {ingredients} = useSelector(getIngredientsFromStore);
   const ingredient = ingredients?.filter(item => item._id === id)[0];
   return (

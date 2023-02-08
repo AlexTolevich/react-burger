@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 
 import style from "./ForgotPassword.module.css";
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'

@@ -2,8 +2,6 @@ import {
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_FAILED,
-  ADD_VIEWED_INGREDIENT,
-  DEL_VIEWED_INGREDIENT,
   SET_ACTIVE_TAB
 } from "../actions/ingredients";
 
@@ -13,11 +11,6 @@ const initialIngredients = {
   ingredientsFailed: false,
   activeTab: 'bun',
 };
-
-const initialIngredient = {
-  ingredient: {},
-};
-
 
 export const ingredientsReducer = (state = initialIngredients, action) => {
   switch (action.type) {
@@ -32,20 +25,6 @@ export const ingredientsReducer = (state = initialIngredients, action) => {
     }
     case SET_ACTIVE_TAB: {
       return {...state, activeTab: action.value,};
-    }
-    default: {
-      return state;
-    }
-  }
-};
-
-export const viewedIngredientReducer = (state = initialIngredient, action) => {
-  switch (action.type) {
-    case ADD_VIEWED_INGREDIENT: {
-      return {...state, ingredient: action.ingredient};
-    }
-    case DEL_VIEWED_INGREDIENT: {
-      return {...state, ingredient: null};
     }
     default: {
       return state;

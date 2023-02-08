@@ -6,6 +6,10 @@ export const POST_ORDER_SUCCESS = 'POST_ORDER_SUCCESS';
 export const POST_ORDER_FAILED = 'POST_ORDER_FAILED';
 export const CLOSE_ORDER = 'CLOSE_ORDER';
 
+export function closeOrder() {
+  return {type: CLOSE_ORDER}
+}
+
 export function submitOrder({ingredients}) {
   return function (dispatch) {
     dispatch({

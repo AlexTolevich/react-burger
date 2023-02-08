@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 import style from './Ingredient.module.css'
 import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useSelector, useDispatch} from 'react-redux';
-import {ADD_VIEWED_INGREDIENT} from "../../services/actions/ingredients";
+import {useSelector} from 'react-redux';
 import {useDrag} from 'react-dnd';
 import {ingredientsType} from "../../utils/ingredientsType";
 import {getBurger} from "../../services/selectors/selectors";
@@ -11,7 +10,6 @@ import {Link, useLocation} from "react-router-dom";
 
 function Ingredient({ingredient}) {
   const burger = useSelector(getBurger);
-  const dispatch = useDispatch();
   const location = useLocation();
   const count = burger.filter(item => item._id === ingredient._id).length;
 
@@ -23,21 +21,12 @@ function Ingredient({ingredient}) {
     }),
   });
 
-  function handleClick(ingredient) {
-    dispatch({
-      type: ADD_VIEWED_INGREDIENT,
-      ingredient: ingredient
-    })
-  }
-
   return (
     <>
       <Link ref={dragRef} className={`${style.ingredient} ${isDrag && style.isDrag}`}
             to={`/ingredients/${ingredient._id}`}
             state={{backgroundLocation: location}}>
-        <li className={style.item} onClick={() => {
-          handleClick(ingredient)
-        }}>
+        <li className={style.item}>
           {count ? <Counter count={ingredient.type === 'bun' ? count * 2 : count} size="default"/> : null}
           <img src={ingredient.image} alt={ingredient.name} className='ml-4 mr-4'/>
           <div className={`${style.price} mt-2 mb-2`}>

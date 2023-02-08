@@ -13,7 +13,7 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {useDispatch} from "react-redux";
-import {DEL_VIEWED_INGREDIENT, getIngredients} from "../../services/actions/ingredients";
+import {getIngredients} from "../../services/actions/ingredients";
 import IngredientDetailsPage from "../../pages/IngredientDetailsPage/IngredientDetailsPage";
 import {onGetUser} from "../../services/actions/user";
 
@@ -32,8 +32,6 @@ function App() {
 
   function onCloseModal() {
     navigate(-1);
-    dispatch({type: DEL_VIEWED_INGREDIENT});
-
   }
 
   return (

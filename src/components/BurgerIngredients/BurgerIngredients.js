@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef, useCallback} from 'react';
 import style from './BurgerIngredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector, useDispatch} from 'react-redux';
-import {SET_ACTIVE_TAB} from "../../services/actions/ingredients";
+import {setActiveTab} from "../../services/actions/ingredients";
 import Ingredient from "../Ingredient/Ingredient";
 import {getIngredientsFromStore} from "../../services/selectors/selectors";
 import Preloader from "../Preloader/Preloader";
@@ -44,7 +44,7 @@ function BurgerIngredients() {
   );
 
   function handleTabClick(tab) {
-    dispatch({type: SET_ACTIVE_TAB, value: tab.type});
+    dispatch(setActiveTab(tab.type));
     const idTab = refArray.current?.findIndex(item => item.id === tab.type);
     refArray.current?.[idTab]?.scrollIntoView();
   }
@@ -57,7 +57,7 @@ function BurgerIngredients() {
       return obj;
     });
     const minDistanceObj = newViewCategory.reduce((a, b) => a.distance < b.distance ? a : b)
-    dispatch({type: SET_ACTIVE_TAB, value: minDistanceObj.type});
+    dispatch(setActiveTab(minDistanceObj.type));
   }
 
   return (

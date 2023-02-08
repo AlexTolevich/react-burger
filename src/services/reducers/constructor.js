@@ -4,7 +4,13 @@ import {
   SORT_INGREDIENTS,
   RESET_INGREDIENTS
 } from "../actions/ingredients";
-import {CLOSE_ORDER, POST_ORDER_FAILED, POST_ORDER_REQUEST, POST_ORDER_SUCCESS} from "../actions/order";
+
+import {
+  CLOSE_ORDER,
+  POST_ORDER_FAILED,
+  POST_ORDER_REQUEST,
+  POST_ORDER_SUCCESS
+} from "../actions/order";
 
 const initialBurger = {
   burger: [],

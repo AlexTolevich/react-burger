@@ -44,19 +44,27 @@ function App() {
                }/>
         <Route path="/register"
                element={
-                 <Register/>
+                 <ProtectedRoute anonymous={true}>
+                   <Register/>
+                 </ProtectedRoute>
                }/>
         <Route path="/login"
                element={
-                 <Login/>
+                 <ProtectedRoute anonymous={true}>
+                   <Login/>
+                 </ProtectedRoute>
                }/>
         <Route path="/forgot-password"
                element={
-                 <ForgotPassword/>
+                 <ProtectedRoute anonymous={true}>
+                   <ForgotPassword/>
+                 </ProtectedRoute>
                }/>
         <Route path="/reset-password"
                element={
-                 <ResetPassword/>
+                 <ProtectedRoute anonymous={true}>
+                   <ResetPassword/>
+                 </ProtectedRoute>
                }/>
         <Route path="/profile"
                element={

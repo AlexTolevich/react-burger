@@ -2,7 +2,7 @@ import React from 'react';
 import style from './FillingIngredient.module.css'
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch} from "react-redux";
-import {DEL_INGREDIENT, delIngredient, SORT_INGREDIENTS, sortIngredient} from "../../services/actions/ingredients";
+import {delIngredient, sortIngredient} from "../../services/actions/ingredients";
 import {useDrop, useDrag} from 'react-dnd';
 import PropTypes from 'prop-types';
 import {ingredientsType} from "../../utils/ingredientsType";

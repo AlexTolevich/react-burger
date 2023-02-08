@@ -5,9 +5,9 @@ import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import {Link, Navigate, useNavigate} from "react-router-dom";
 import {useFormWithValidation} from "../../utils/hooks/useValidation";
 import {useDispatch, useSelector} from "react-redux";
-import {onForgotPSWD} from "../../services/actions";
 import {getForgotPSWDRequest, getLoggedIn} from "../../services/selectors/selectors";
 import Preloader from "../../components/Preloader/Preloader";
+import {onForgotPSWD} from "../../services/actions/auth";
 
 function ForgotPassword() {
   const dispatch = useDispatch();

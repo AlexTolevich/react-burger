@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef, useCallback} from 'react';
 import style from './BurgerIngredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector, useDispatch} from 'react-redux';
-import {SET_ACTIVE_TAB} from "../../services/actions";
+import {SET_ACTIVE_TAB} from "../../services/actions/ingredients";
 import Ingredient from "../Ingredient/Ingredient";
 import {getIngredientsFromStore} from "../../services/selectors/selectors";
 import Preloader from "../Preloader/Preloader";

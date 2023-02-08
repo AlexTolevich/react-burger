@@ -5,9 +5,9 @@ import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import {NavLink, useNavigate} from 'react-router-dom';
 import {useFormWithValidation} from '../../utils/hooks/useValidation';
 import {useDispatch, useSelector} from "react-redux";
-import {onLogout, onPatchUser} from "../../services/actions";
 import {getUser} from "../../services/selectors/selectors";
 import Preloader from "../../components/Preloader/Preloader";
+import {onLogout, onPatchUser} from "../../services/actions/user";
 
 function Profile() {
   const dispatch = useDispatch();

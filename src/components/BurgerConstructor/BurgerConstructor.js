@@ -4,11 +4,13 @@ import {ConstructorElement, Button, CurrencyIcon} from "@ya.praktikum/react-deve
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import {useSelector, useDispatch} from "react-redux";
-import {ADD_INGREDIENT, CLOSE_ORDER, submitOrder} from "../../services/actions";
+import {ADD_INGREDIENT} from "../../services/actions/ingredients";
 import {useDrop} from 'react-dnd';
 import FillingIngredient from "../FillingIngredient/FillingIngredient";
 import {getBurger, getLoggedIn} from "../../services/selectors/selectors";
 import {useNavigate} from "react-router-dom";
+import {v4 as uuidv4} from "uuid";
+import {CLOSE_ORDER, submitOrder} from "../../services/actions/order";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -19,7 +21,6 @@ function BurgerConstructor() {
   const [filling, setFilling] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const ingredients = burger.map(ingredient => ingredient._id);
-
 
   useEffect(() => {
     setBun(burger.filter((item) => item.type === 'bun'));
@@ -47,6 +48,7 @@ function BurgerConstructor() {
   }
 
   function handleBurger(ingredient) {
+    ingredient.id = uuidv4();
     dispatch({
       type: ADD_INGREDIENT,
       ingredient: ingredient

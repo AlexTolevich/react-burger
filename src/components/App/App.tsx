@@ -13,14 +13,15 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {useDispatch} from "react-redux";
-import {DEL_VIEWED_INGREDIENT, getIngredients, onGetUser} from "../../services/actions";
+import {DEL_VIEWED_INGREDIENT, getIngredients} from "../../services/actions/ingredients";
 import IngredientDetailsPage from "../../pages/IngredientDetailsPage/IngredientDetailsPage";
+import {onGetUser} from "../../services/actions/user";
 
 function App() {
-  let location = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  let state = location.state as { backgroundLocation?: Location };
+  const state = location.state as { backgroundLocation?: Location };
 
   useEffect(() => {
     // @ts-ignore

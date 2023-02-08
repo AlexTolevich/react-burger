@@ -5,9 +5,9 @@ import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import {Link, Navigate, useNavigate} from "react-router-dom";
 import {useFormWithValidation} from "../../utils/hooks/useValidation";
 import {useDispatch, useSelector} from "react-redux";
-import {onResetPSWD} from "../../services/actions";
 import {getForgotPSWD, getLoggedIn, getResetPSWDRequest} from "../../services/selectors/selectors";
 import Preloader from "../../components/Preloader/Preloader";
+import {onResetPSWD} from "../../services/actions/auth";
 
 function ResetPassword() {
   const dispatch = useDispatch();

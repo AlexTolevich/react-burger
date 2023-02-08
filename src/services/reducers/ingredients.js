@@ -5,7 +5,7 @@ import {
   ADD_VIEWED_INGREDIENT,
   DEL_VIEWED_INGREDIENT,
   SET_ACTIVE_TAB
-} from "../actions";
+} from "../actions/ingredients";
 
 const initialIngredients = {
   ingredients: [],

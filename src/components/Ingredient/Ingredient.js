@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import style from './Ingredient.module.css'
 import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector, useDispatch} from 'react-redux';
-import {ADD_VIEWED_INGREDIENT} from "../../services/actions";
+import {ADD_VIEWED_INGREDIENT} from "../../services/actions/ingredients";
 import {useDrag} from 'react-dnd';
 import {ingredientsType} from "../../utils/ingredientsType";
 import {getBurger} from "../../services/selectors/selectors";

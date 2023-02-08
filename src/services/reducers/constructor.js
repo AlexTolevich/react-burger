@@ -1,14 +1,10 @@
 import {
   ADD_INGREDIENT,
   DEL_INGREDIENT,
-  POST_ORDER_REQUEST,
-  POST_ORDER_SUCCESS,
-  POST_ORDER_FAILED,
   SORT_INGREDIENTS,
-  CLOSE_ORDER,
   RESET_INGREDIENTS
-} from "../actions";
-import {v4 as uuidv4} from "uuid";
+} from "../actions/ingredients";
+import {CLOSE_ORDER, POST_ORDER_FAILED, POST_ORDER_REQUEST, POST_ORDER_SUCCESS} from "../actions/order";
 
 const initialBurger = {
   burger: [],
@@ -26,8 +22,8 @@ export const constructorReducer = (state = initialBurger, action) => {
       return {
         ...state,
         burger: action.ingredient.type === 'bun' ?
-          [...state.burger.filter(item => item.type !== 'bun'), {...action.ingredient, id: uuidv4()}] :
-          [...state.burger, {...action.ingredient, id: uuidv4()}]
+          [...state.burger.filter(item => item.type !== 'bun'), {...action.ingredient}] :
+          [...state.burger, {...action.ingredient}]
       };
     }
     case DEL_INGREDIENT: {

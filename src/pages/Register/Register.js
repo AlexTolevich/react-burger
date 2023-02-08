@@ -5,9 +5,9 @@ import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import {Link, Navigate, useNavigate} from "react-router-dom";
 import {useFormWithValidation} from "../../utils/hooks/useValidation";
 import {useDispatch, useSelector} from "react-redux";
-import {onRegister} from "../../services/actions";
 import {getLoggedIn, getUserRequest} from "../../services/selectors/selectors";
 import Preloader from "../../components/Preloader/Preloader";
+import {onRegister} from "../../services/actions/auth";
 
 function Register() {
   const dispatch = useDispatch();

@@ -1,9 +1,13 @@
 import React from "react";
 import style from "./IngredientDetails.module.css";
-import PropTypes from "prop-types";
-import {ingredientsType} from "../../utils/ingredientsType";
+import {useParams} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {getIngredientsFromStore} from "../../services/selectors/selectors";
 
-function IngredientDetails({ingredient}) {
+function IngredientDetails() {
+  const {id} = useParams();
+  const {ingredients} = useSelector(getIngredientsFromStore);
+  const ingredient = ingredients?.filter(item => item._id === id)[0];
   return (
     <div className={style.details}>
       <img
@@ -50,10 +54,6 @@ function IngredientDetails({ingredient}) {
       </ul>
     </div>
   )
-}
-
-IngredientDetails.propTypes = {
-  ingredient: PropTypes.shape(ingredientsType).isRequired
 }
 
 export default IngredientDetails;

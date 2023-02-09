@@ -4,19 +4,23 @@ import {ConstructorElement, Button, CurrencyIcon} from "@ya.praktikum/react-deve
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import {useSelector, useDispatch} from "react-redux";
-import {ADD_INGREDIENT, CLOSE_ORDER, submitOrder} from "../../services/actions";
+import {addIngredient} from "../../services/actions/ingredients";
 import {useDrop} from 'react-dnd';
 import FillingIngredient from "../FillingIngredient/FillingIngredient";
-import {getBurger} from "../../services/selectors/selectors";
+import {getBurger, getLoggedIn} from "../../services/selectors/selectors";
+import {useNavigate} from "react-router-dom";
+import {v4 as uuidv4} from "uuid";
+import {closeOrder, submitOrder} from "../../services/actions/order";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
   const burger = useSelector(getBurger);
+  const loggedIn = useSelector(getLoggedIn);
+  const navigate = useNavigate();
   const [bun, setBun] = useState([]);
   const [filling, setFilling] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const ingredients = burger.map(ingredient => ingredient._id);
-
 
   useEffect(() => {
     setBun(burger.filter((item) => item.type === 'bun'));
@@ -29,20 +33,25 @@ function BurgerConstructor() {
   }
 
   function handleSubmit() {
-    dispatch(submitOrder({ingredients}))
-    setIsOpenModal(true);
+    if (loggedIn) {
+      dispatch(submitOrder({ingredients}));
+      setIsOpenModal(true);
+    } else {
+      navigate('/login');
+
+    }
   }
 
   function onClose() {
     setIsOpenModal(false);
-    dispatch({type: CLOSE_ORDER});
+    dispatch(closeOrder());
   }
 
+
+
   function handleBurger(ingredient) {
-    dispatch({
-      type: ADD_INGREDIENT,
-      ingredient: ingredient
-    });
+    ingredient.id = uuidv4();
+    dispatch(addIngredient(ingredient));
   }
 
   const [{isHover}, dropTarget] = useDrop({

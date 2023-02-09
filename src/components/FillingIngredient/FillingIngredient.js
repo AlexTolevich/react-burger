@@ -2,7 +2,7 @@ import React from 'react';
 import style from './FillingIngredient.module.css'
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch} from "react-redux";
-import {DEL_INGREDIENT, SORT_INGREDIENTS} from "../../services/actions";
+import {delIngredient, sortIngredient} from "../../services/actions/ingredients";
 import {useDrop, useDrag} from 'react-dnd';
 import PropTypes from 'prop-types';
 import {ingredientsType} from "../../utils/ingredientsType";
@@ -23,20 +23,13 @@ function FillingIngredient({element}) {
     collect: (monitor) => ((monitor.getItem())?.id),
     drop() {
       if (dragElementId && element.id && element.id !== dragElementId) {
-        dispatch({
-          type: SORT_INGREDIENTS,
-          dragElementId: dragElementId,
-          dropElementId: element.id
-        });
+        dispatch(sortIngredient(dragElementId, element.id));
       }
     }
   });
 
   function handleDelElement(element) {
-    dispatch({
-      type: DEL_INGREDIENT,
-      ingredient: element
-    })
+    dispatch(delIngredient(element))
   }
 
   return (

@@ -1,4 +1,5 @@
 import {getCookie} from "./cookies";
+import {IHeaders, IUserData} from "./types";
 
 const BASE_URL = "https://norma.nomoreparties.space/api";
 
@@ -8,21 +9,21 @@ const defaultHeaders =
     'Content-Type': 'application/json',
   };
 
-const _checkResponse = (res) => {
+const _checkResponse = (res: Response) => {
   if (res.ok) {
     return res.json();
   }
   return Promise.reject(res.status);
 }
 
-function getInrgedientsRequest(headers = defaultHeaders) {
+function getIngredientsRequest(headers: IHeaders = defaultHeaders) {
   return fetch(`${BASE_URL}/ingredients`, {
     method: 'GET',
     headers: headers,
   }).then((res) => _checkResponse(res));
 }
 
-function postOrder(data, headers = defaultHeaders) {
+function postOrder(data: string[], headers: IHeaders = defaultHeaders) {
   headers.authorization = 'Bearer ' + getCookie('accessToken');
   return fetch(`${BASE_URL}/orders`, {
     method: 'POST',
@@ -31,7 +32,7 @@ function postOrder(data, headers = defaultHeaders) {
   }).then((res) => _checkResponse(res));
 }
 
-function signup(data, headers = defaultHeaders) {
+function signup(data: Partial<IUserData>, headers: IHeaders = defaultHeaders) {
   return fetch(`${BASE_URL}/auth/register`, {
     method: 'POST',
     headers: headers,
@@ -39,7 +40,7 @@ function signup(data, headers = defaultHeaders) {
   }).then((res) => _checkResponse(res));
 }
 
-function signin(data, headers = defaultHeaders) {
+function signin(data: Partial<IUserData>, headers: IHeaders = defaultHeaders) {
   return fetch(`${BASE_URL}/auth/login`, {
     method: 'POST',
     headers: headers,
@@ -47,7 +48,7 @@ function signin(data, headers = defaultHeaders) {
   }).then((res) => _checkResponse(res));
 }
 
-function refreshToken(headers = defaultHeaders) {
+function refreshToken(headers: IHeaders = defaultHeaders) {
   return fetch(`${BASE_URL}/auth/token`, {
     method: 'POST',
     headers: headers,
@@ -55,17 +56,17 @@ function refreshToken(headers = defaultHeaders) {
   }).then((res) => _checkResponse(res));
 }
 
-function logout(data, headers = defaultHeaders) {
+function logout(data: string, headers: IHeaders = defaultHeaders) {
   return fetch(`${BASE_URL}/auth/logout`, {
     method: 'POST',
     headers: headers,
     body: JSON.stringify({
-      token: data.refreshToken,
+      token: data,
     })
   }).then((res) => _checkResponse(res));
 }
 
-function getUser(headers = defaultHeaders) {
+function getUser(headers: IHeaders = defaultHeaders) {
   headers.authorization = 'Bearer ' + getCookie('accessToken');
   return fetch(`${BASE_URL}/auth/user`, {
     method: 'GET',
@@ -73,7 +74,7 @@ function getUser(headers = defaultHeaders) {
   }).then((res) => _checkResponse(res));
 }
 
-function patchUser(data, headers = defaultHeaders) {
+function patchUser(data: Partial<IUserData>, headers: IHeaders = defaultHeaders) {
   headers.authorization = 'Bearer ' + getCookie('accessToken');
   return fetch(`${BASE_URL}/auth/user`, {
     method: 'PATCH',
@@ -82,7 +83,7 @@ function patchUser(data, headers = defaultHeaders) {
   }).then((res) => _checkResponse(res));
 }
 
-function forgotPSWD(data, headers = defaultHeaders) {
+function forgotPSWD(data: Partial<IUserData>, headers: IHeaders = defaultHeaders) {
   return fetch(`${BASE_URL}/password-reset`, {
     method: 'POST',
     headers: headers,
@@ -90,7 +91,7 @@ function forgotPSWD(data, headers = defaultHeaders) {
   }).then((res) => _checkResponse(res));
 }
 
-function resetPSWD(data, headers = defaultHeaders) {
+function resetPSWD(data: Partial<IUserData>, headers: IHeaders = defaultHeaders) {
   return fetch(`${BASE_URL}/password-reset/reset`, {
     method: 'POST',
     headers: headers,
@@ -103,7 +104,7 @@ function resetPSWD(data, headers = defaultHeaders) {
 
 
 export {
-  getInrgedientsRequest,
+  getIngredientsRequest,
   postOrder,
   signup,
   signin,

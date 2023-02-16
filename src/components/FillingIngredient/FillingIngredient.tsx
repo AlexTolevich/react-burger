@@ -1,14 +1,12 @@
-import React from 'react';
+import React, {FC} from 'react';
 import style from './FillingIngredient.module.css'
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch} from "react-redux";
 import {delIngredient, sortIngredient} from "../../services/actions/ingredients";
 import {useDrop, useDrag} from 'react-dnd';
-import PropTypes from 'prop-types';
-import {ingredientsType} from "../../utils/ingredientsType";
+import {IIngredient} from "../../utils/types";
 
-
-function FillingIngredient({element}) {
+const FillingIngredient: FC<{ element: IIngredient }> = ({element}) => {
   const dispatch = useDispatch();
 
   const [{isDrag}, dragRef] = useDrag({
@@ -20,7 +18,7 @@ function FillingIngredient({element}) {
   });
   const [dragElementId, dropRef] = useDrop({
     accept: 'filling',
-    collect: (monitor) => ((monitor.getItem())?.id),
+    collect: (monitor: any) => ((monitor.getItem())?.id),
     drop() {
       if (dragElementId && element.id && element.id !== dragElementId) {
         dispatch(sortIngredient(dragElementId, element.id));
@@ -28,12 +26,11 @@ function FillingIngredient({element}) {
     }
   });
 
-  function handleDelElement(element) {
+  function handleDelElement(element: IIngredient) {
     dispatch(delIngredient(element))
   }
 
-  return (
-    !isDrag &&
+  return isDrag ? null : (
     <li key={element.id} className={style.fillingItem}
         ref={(itemRef) => (element.type !== 'bun' ? dragRef(dropRef(itemRef)) : {})}>
       <DragIcon type="primary"/>
@@ -43,13 +40,9 @@ function FillingIngredient({element}) {
         thumbnail={element.image}
         handleClose={() => handleDelElement(element)}
       />
-    </li>
-  )
+    </li>)
 }
 
-FillingIngredient.propTypes = {
-  element: PropTypes.shape(ingredientsType).isRequired
-}
 export default FillingIngredient;
 
 

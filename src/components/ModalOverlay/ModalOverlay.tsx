@@ -1,10 +1,8 @@
-import React, {FC, ReactNode} from "react";
+import React, {FC} from "react";
 import style from './ModalOverlay.module.css'
+import {IModalOverlayProps} from "../../utils/types";
 
-interface IModalOverlayProps {
-  onClose: () => void,
-  children: ReactNode
-}
+
 
 const ModalOverlay: FC<IModalOverlayProps> = ({onClose, children}) => {
 

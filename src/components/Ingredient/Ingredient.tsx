@@ -1,10 +1,8 @@
 import React, {FC} from 'react';
-import PropTypes from "prop-types";
 import style from './Ingredient.module.css'
 import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector} from 'react-redux';
 import {useDrag} from 'react-dnd';
-import {ingredientsType} from "../../utils/ingredientsType";
 import {getBurger} from "../../services/selectors/selectors";
 import {Link, useLocation} from "react-router-dom";
 import {IIngredient} from "../../utils/types";
@@ -45,6 +43,3 @@ const Ingredient: FC<{ ingredient: IIngredient }> = ({ingredient}) =>  {
 
 export default Ingredient;
 
-Ingredient.propTypes = {
-  ingredient: PropTypes.shape(ingredientsType).isRequired
-}

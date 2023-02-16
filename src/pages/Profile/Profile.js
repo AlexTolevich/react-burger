@@ -44,7 +44,7 @@ function Profile() {
   }
 
   function handleExitUser() {
-    dispatch(onLogout({refreshToken},
+    dispatch(onLogout(refreshToken,
       () => navigate('/login')));
   }
 

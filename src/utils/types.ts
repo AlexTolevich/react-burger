@@ -1,3 +1,6 @@
+import {JSXElementConstructor, ReactElement, ReactNode} from "react";
+import {store} from '..';
+
 export interface IIngredient {
   readonly calories: number;
   readonly carbohydrates: number;
@@ -11,4 +14,41 @@ export interface IIngredient {
   readonly type: string;
   readonly __v: number;
   readonly _id: string;
+  id?: string;
 }
+
+export interface IModalOverlayProps {
+  onClose: () => void,
+  children: ReactNode
+}
+
+export interface IModalProps {
+  onClose: () => void,
+  children: ReactNode,
+  title?: string | undefined
+}
+
+export interface IProtectedRouteProps{
+  children: ReactNode,
+  anonymous?: boolean | undefined,
+}
+
+export interface ITab {
+  id: string,
+  type: string,
+  title: string
+}
+
+export interface IUserData {
+  name: string,
+  email: string,
+  password: string,
+  token: string
+}
+
+export interface IHeaders {
+  [name: string]: string,
+}
+
+export type TDispatch = typeof store.dispatch;
+

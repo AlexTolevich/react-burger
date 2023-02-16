@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import isEmail              from 'validator/es/lib/isEmail';
 
 export function useFormWithValidation() {
@@ -6,8 +6,8 @@ export function useFormWithValidation() {
   const [errors, setErrors] = React.useState({});
   const [isValid, setIsValid] = React.useState(false);
 
-  const handleChange = (event) => {
-    const target = event.target;
+  const handleChange = (event: ChangeEvent) => {
+    const target = event.target as HTMLInputElement;
     const name = target.name;
     const value = target.value;
     setValues({...values, [name]: value});
@@ -23,9 +23,9 @@ export function useFormWithValidation() {
     }
 
     if (name === 'email') {
-      setIsValid(isEmail(value) && target.closest('form').checkValidity());
+      setIsValid(isEmail(value) && Boolean(target.closest('form')?.checkValidity()));
     } else {
-      setIsValid(target.closest('form').checkValidity());
+      setIsValid(Boolean(target.closest('form')?.checkValidity()));
     }
   };
 

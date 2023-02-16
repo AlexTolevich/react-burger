@@ -3,12 +3,7 @@ import ReactDOM from "react-dom";
 import style from "./Modal.module.css";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-
-interface IModalProps {
-  onClose: () => void,
-  children: ReactNode,
-  title: string | undefined
-}
+import {IModalProps} from "../../utils/types";
 
 const Modal: FC<IModalProps> = ({onClose, children, title}) => {
   const modal = document.querySelector('#modal') as HTMLElement;

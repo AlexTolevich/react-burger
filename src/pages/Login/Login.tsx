@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, FormEvent} from 'react';
 
 import style from "./Login.module.css";
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
@@ -8,9 +8,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {getLoggedIn, getUserRequest} from "../../services/selectors/selectors";
 import Preloader from "../../components/Preloader/Preloader";
 import {onLogin} from "../../services/actions/auth";
+import {TDispatch} from "../../utils/types";
 
 function Login() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<TDispatch>();
   const location = useLocation();
   const navigate = useNavigate();
   const userRequest = useSelector(getUserRequest);
@@ -21,7 +22,7 @@ function Login() {
     resetForm();
   }, [resetForm]);
 
-  function handleSubmit(event) {
+  function handleSubmit(event: FormEvent) {
     event.preventDefault();
     dispatch(onLogin({
         email: values.email,
@@ -66,8 +67,8 @@ function Login() {
             error={Boolean(errors.password)}
             errorText={errors.password}
             size={'default'}
-            minLength="6"
-            maxLength="20"
+            minLength={6}
+            maxLength={20}
             required
           />
           <Button extraClass={style.button} htmlType="submit" type="primary" size="medium" disabled={!isValid}>

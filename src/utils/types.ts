@@ -52,3 +52,9 @@ export interface IHeaders {
 
 export type TDispatch = typeof store.dispatch;
 
+export type TLocationState = {
+  from: {
+    pathname: string;
+  }
+}
+

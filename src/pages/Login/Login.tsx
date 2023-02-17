@@ -2,17 +2,18 @@ import React, {useState, useEffect, FormEvent} from 'react';
 
 import style from "./Login.module.css";
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
-import {Link, useLocation, useNavigate, Navigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useFormWithValidation} from "../../utils/hooks/useValidation";
 import {useDispatch, useSelector} from "react-redux";
-import {getLoggedIn, getUserRequest} from "../../services/selectors/selectors";
+import {getUserRequest} from "../../services/selectors/selectors";
 import Preloader from "../../components/Preloader/Preloader";
 import {onLogin} from "../../services/actions/auth";
-import {TDispatch} from "../../utils/types";
+import {TDispatch, TLocationState} from "../../utils/types";
 
 function Login() {
   const dispatch = useDispatch<TDispatch>();
   const location = useLocation();
+  const { from } = location.state as TLocationState;
   const navigate = useNavigate();
   const userRequest = useSelector(getUserRequest);
   const {values, handleChange, errors, isValid, resetForm} = useFormWithValidation();
@@ -28,7 +29,7 @@ function Login() {
         email: values.email,
         password: values.password
       },
-      () => navigate(location.state?.from?.pathname ? location.state?.from?.pathname : "/")
+      () => navigate(from?.pathname ? from?.pathname : "/")
     ));
   }
 

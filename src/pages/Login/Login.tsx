@@ -13,11 +13,11 @@ import {TDispatch, TLocationState} from "../../utils/types";
 function Login() {
   const dispatch = useDispatch<TDispatch>();
   const location = useLocation();
-  const {from} = location.state as TLocationState;
   const navigate = useNavigate();
   const userRequest = useSelector(getUserRequest);
   const {values, handleChange, errors, isValid, resetForm} = useFormWithValidation();
   const [hidden, setHidden] = useState(true);
+  const {from} = location.state as TLocationState || '/';
 
   useEffect(() => {
     resetForm();

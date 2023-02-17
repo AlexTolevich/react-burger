@@ -68,7 +68,8 @@ function Profile() {
             История заказов
           </NavLink>
           <NavLink
-            to=""
+            to="/"
+            end
             className={classNavLink}
             onClick={handleExitUser}
           >

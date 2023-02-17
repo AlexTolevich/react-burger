@@ -8,6 +8,10 @@ import {getIngredientsFromStore} from "../../services/selectors/selectors";
 import Preloader from "../Preloader/Preloader";
 import {IIngredient, ITab, TDispatch} from "../../utils/types";
 
+interface IObj {
+  [name: string]: any,
+}
+
 const TABS = [
   {
     id: '001',
@@ -30,16 +34,16 @@ function BurgerIngredients() {
   const dispatch = useDispatch<TDispatch>();
   const [categories, setCategories] = useState<Array<string>>([]);
   const {ingredients, activeTab, ingredientsRequest} = useSelector(getIngredientsFromStore);
-  const refContainerIngredients = useRef(null);
-  const refArray = useRef<Array<object>>([]);
+  const refContainerIngredients = useRef<HTMLUListElement>(null);
+  const refArray = useRef<Array<HTMLLIElement>>([]);
   const addToRefs = useCallback((element: HTMLLIElement | undefined, index: number) => {
     if (!element || refArray.current.includes(element)) return;
     refArray.current.splice(index, 0, element);
   }, []);
 
   useEffect(() => {
-      const newCategories = [...new Set(ingredients?.map((item: IIngredient) => item.type))];
-      // @ts-ignore
+
+      const newCategories = ingredients ? [...new Set(ingredients?.map((item: IIngredient) => item.type))] : [];
       setCategories(newCategories);
     },
     [ingredients]
@@ -47,24 +51,21 @@ function BurgerIngredients() {
 
   function handleTabClick(tab: ITab) {
     dispatch(setActiveTab(tab.type));
-    // @ts-ignore
     const idTab = refArray.current?.findIndex(item => item.id === tab.type);
-    // @ts-ignore
     refArray.current?.[idTab]?.scrollIntoView();
   }
 
   function handleScroll() {
     const newViewCategory = refArray.current?.map(item => {
-      const obj = {}
-      // @ts-ignore
+      const obj: IObj = {}
       obj.type = item.id;
       // @ts-ignore
       obj.distance = Math.abs(refContainerIngredients.current?.getBoundingClientRect()?.top - item.getBoundingClientRect()?.top)
       return obj;
     });
-    // @ts-ignore
+
     const minDistanceObj = newViewCategory.reduce((a, b) => a.distance < b.distance ? a : b)
-    // @ts-ignore
+
     dispatch(setActiveTab(minDistanceObj.type));
   }
 

@@ -1,16 +1,16 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {Navigate, useLocation} from 'react-router-dom';
 import {getLoggedIn} from "../../services/selectors/selectors";
 import {useSelector} from "react-redux";
-import PropTypes from "prop-types";
+import {IProtectedRouteProps, TLocationState} from "../../utils/types";
 
-function ProtectedRoute({children, anonymous = false}) {
+const ProtectedRoute: FC<IProtectedRouteProps> = ({children, anonymous = false}) => {
   const loggedIn = useSelector(getLoggedIn);
   const location = useLocation();
-  const from = location.state?.from || '/';
+  const {from} = location.state as TLocationState || '/';
 
   if (anonymous && loggedIn) {
-    return <Navigate to={from}/>;
+    return <Navigate to={from.pathname}/>;
   }
 
   if (!anonymous && !loggedIn) {
@@ -18,11 +18,6 @@ function ProtectedRoute({children, anonymous = false}) {
   }
 
   return children;
-}
-
-ProtectedRoute.propTypes = {
-  children: PropTypes.element.isRequired,
-  anonymous: PropTypes.bool
 }
 
 export default ProtectedRoute;

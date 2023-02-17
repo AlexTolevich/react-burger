@@ -1,67 +1,55 @@
 import React, {useState, useEffect} from 'react';
 
-import style from "./Register.module.css";
+import style from "./Login.module.css";
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
-import {Link, Navigate, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useFormWithValidation} from "../../utils/hooks/useValidation";
 import {useDispatch, useSelector} from "react-redux";
-import {getLoggedIn, getUserRequest} from "../../services/selectors/selectors";
+import {getUserRequest} from "../../services/selectors/selectors";
 import Preloader from "../../components/Preloader/Preloader";
-import {onRegister} from "../../services/actions/auth";
+import {onLogin} from "../../services/actions/auth";
+import {TDispatch, TLocationState} from "../../utils/types";
 
-function Register() {
-  const dispatch = useDispatch();
+function Login() {
+  const dispatch = useDispatch<TDispatch>();
+  const location = useLocation();
   const navigate = useNavigate();
   const userRequest = useSelector(getUserRequest);
   const {values, handleChange, errors, isValid, resetForm} = useFormWithValidation();
   const [hidden, setHidden] = useState(true);
+  const {from} = location.state as TLocationState || '/';
 
   useEffect(() => {
     resetForm();
   }, [resetForm]);
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    dispatch(onRegister({
-        name: values.name,
+    dispatch(onLogin({
         email: values.email,
         password: values.password
       },
-      () => navigate('/')));
+      () => navigate(from?.pathname ? from?.pathname : "/")
+    ));
   }
 
   return (
     <section className={style.container}>
       <h2 className={`text text_type_main-medium pb-6`}>
-        Регистрация
+        Вход
       </h2>
       {userRequest ? <Preloader/> :
         <form
           className={style.form}
-          onSubmit={handleSubmit}
+          onSubmit={(event) => handleSubmit(event)}
           noValidate
         >
-          <Input
-            extraClass={'pb-6'}
-            type="text"
-            name="name"
-            placeholder={'Имя'}
-            onChange={(e) => handleChange(e)}
-            value={values.name || ""}
-            error={Boolean(errors.name)}
-            errorText={errors.name}
-            size={'default'}
-            minLength="2"
-            maxLength="30"
-            required
-          />
           <Input
             extraClass={'pb-6'}
             type="email"
             name="email"
             placeholder={'E-mail'}
             onChange={(e) => handleChange(e)}
-            onPaste={(e) => handleChange(e)}
             value={values.email || ""}
             error={Boolean(errors.email)}
             errorText={errors.email}
@@ -80,23 +68,27 @@ function Register() {
             error={Boolean(errors.password)}
             errorText={errors.password}
             size={'default'}
-            minLength="6"
-            maxLength="20"
+            minLength={6}
+            maxLength={20}
             required
           />
           <Button extraClass={style.button} htmlType="submit" type="primary" size="medium" disabled={!isValid}>
-            Зарегистрироваться
+            Войти
           </Button>
         </form>
       }
       <p className={`${style.text} text text_type_main-default mt-20`}>
-        Уже зарегистрированы?
-        <Link to="/login" className={style.link}> Войти</Link>
+        Вы — новый пользователь?
+        <Link to="/register" className={style.link}> Зарегистрироваться</Link>
+      </p>
+      <p className={`${style.text} text text_type_main-default mt-4`}>
+        Забыли пароль?
+        <Link to="/forgot-password" className={style.link}> Восстановить пароль</Link>
       </p>
     </section>
   )
 }
 
-export default Register;
+export default Login;
 
 

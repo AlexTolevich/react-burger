@@ -6,6 +6,7 @@ import {setActiveTab} from "../../services/actions/ingredients";
 import Ingredient from "../Ingredient/Ingredient";
 import {getIngredientsFromStore} from "../../services/selectors/selectors";
 import Preloader from "../Preloader/Preloader";
+import {IIngredient, IObj, ITab, TDispatch} from "../../utils/types";
 
 const TABS = [
   {
@@ -26,24 +27,24 @@ const TABS = [
 ];
 
 function BurgerIngredients() {
-  const dispatch = useDispatch();
-  const [categories, setCategories] = useState([]);
+  const dispatch = useDispatch<TDispatch>();
+  const [categories, setCategories] = useState<Array<string>>([]);
   const {ingredients, activeTab, ingredientsRequest} = useSelector(getIngredientsFromStore);
-  const refContainerIngredients = useRef(null);
-  const refArray = useRef([]);
-  const addToRefs = useCallback((element, index) => {
+  const refContainerIngredients = useRef<HTMLUListElement>(null);
+  const refArray = useRef<Array<HTMLLIElement>>([]);
+  const addToRefs = useCallback((element: HTMLLIElement | undefined, index: number) => {
     if (!element || refArray.current.includes(element)) return;
     refArray.current.splice(index, 0, element);
   }, []);
 
   useEffect(() => {
-      const newCategories = [...new Set(ingredients?.map(item => item.type))];
+      const newCategories = [...new Set<string>(ingredients?.map((item: IIngredient) => item.type))];
       setCategories(newCategories);
     },
     [ingredients]
   );
 
-  function handleTabClick(tab) {
+  function handleTabClick(tab: ITab) {
     dispatch(setActiveTab(tab.type));
     const idTab = refArray.current?.findIndex(item => item.id === tab.type);
     refArray.current?.[idTab]?.scrollIntoView();
@@ -51,12 +52,16 @@ function BurgerIngredients() {
 
   function handleScroll() {
     const newViewCategory = refArray.current?.map(item => {
-      const obj = {}
+      const obj: IObj = {type: '', distance: 0}
       obj.type = item.id;
-      obj.distance = Math.abs(refContainerIngredients.current?.getBoundingClientRect()?.top - item.getBoundingClientRect()?.top)
+      obj.distance = refContainerIngredients.current ?
+        Math.abs(refContainerIngredients.current?.getBoundingClientRect()?.top - item.getBoundingClientRect()?.top)
+        : item.getBoundingClientRect()?.top;
       return obj;
     });
+
     const minDistanceObj = newViewCategory.reduce((a, b) => a.distance < b.distance ? a : b)
+
     dispatch(setActiveTab(minDistanceObj.type));
   }
 
@@ -78,14 +83,14 @@ function BurgerIngredients() {
         <ul className={`${style.list} ${style.categoryList}`} ref={refContainerIngredients} onScroll={handleScroll}>
           {categories.map((cat, i) => (
               <li key={i} className={`${style.item} ${style.category} pt-10 pb-6`}
-                  ref={(element) => {
+                  ref={(element: HTMLLIElement) => {
                     addToRefs(element, i)
                   }} id={cat}>
                 <h3
                   className="text text_type_main-medium mb-6">{(cat === "bun") ? "Булки" : (cat === "sauce") ? "Соусы" : cat === "main" ? "Начинки" : cat}</h3>
                 <ul className={`${style.list} ${style.ingredientList} ml-4 mr-4`}>
-                  {ingredients?.filter(({type}) => type === cat)
-                    .map((ingredient) => (
+                  {ingredients?.filter(({type}: IIngredient) => type === cat)
+                    .map((ingredient: IIngredient) => (
                       <Ingredient ingredient={ingredient} key={ingredient._id}/>
                     ))}
                 </ul>

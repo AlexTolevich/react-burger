@@ -8,20 +8,21 @@ import {useDispatch, useSelector} from "react-redux";
 import {getUser} from "../../services/selectors/selectors";
 import Preloader from "../../components/Preloader/Preloader";
 import {onLogout, onPatchUser} from "../../services/actions/user";
+import {TDispatch} from "../../utils/types";
 
 function Profile() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<TDispatch>();
   const navigate = useNavigate();
   const {userRequest, email, name} = useSelector(getUser);
   const refreshToken = localStorage.getItem('refreshToken');
   const {values, handleChange, errors, resetForm} = useFormWithValidation();
-  const classNavLink = (isActive) => `${style.link} text text_type_main-medium ` + (isActive?.isActive && style.link_active);
+  const classNavLink = (isActive: { isActive: boolean }) => `${style.link} text text_type_main-medium ` + (isActive?.isActive && style.link_active);
 
   useEffect(() => {
     resetForm({name: name, email: email, password: ''});
   }, [resetForm, name, email]);
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     let data = {};
 
@@ -44,7 +45,7 @@ function Profile() {
   }
 
   function handleExitUser() {
-    dispatch(onLogout({refreshToken},
+    dispatch(onLogout(refreshToken,
       () => navigate('/login')));
   }
 
@@ -67,7 +68,8 @@ function Profile() {
             История заказов
           </NavLink>
           <NavLink
-            to=""
+            to="/"
+            end
             className={classNavLink}
             onClick={handleExitUser}
           >
@@ -84,7 +86,7 @@ function Profile() {
       </div>
       <form
         className={style.form}
-        onSubmit={handleSubmit}
+        onSubmit={(event) => handleSubmit(event)}
         noValidate
       >
         {userRequest ? <Preloader/> :
@@ -99,8 +101,8 @@ function Profile() {
               error={Boolean(errors.name)}
               errorText={errors.name}
               size={'default'}
-              minLength='2'
-              maxLength='30'
+              minLength={2}
+              maxLength={30}
               icon={'EditIcon'}
               required
             />
@@ -110,7 +112,6 @@ function Profile() {
               name='email'
               placeholder={'Логин'}
               onChange={(e) => handleChange(e)}
-              onPaste={(e) => handleChange(e)}
               value={values.email || ''}
               error={Boolean(errors.email)}
               errorText={errors.email}
@@ -128,8 +129,8 @@ function Profile() {
               error={Boolean(errors.password)}
               errorText={errors.password}
               size={'default'}
-              minLength='6'
-              maxLength='20'
+              minLength={6}
+              maxLength={20}
               icon={'EditIcon'}
               required
             />

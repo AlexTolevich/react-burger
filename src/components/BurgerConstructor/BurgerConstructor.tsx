@@ -11,24 +11,25 @@ import {getBurger, getLoggedIn} from "../../services/selectors/selectors";
 import {useNavigate} from "react-router-dom";
 import {v4 as uuidv4} from "uuid";
 import {closeOrder, submitOrder} from "../../services/actions/order";
+import {IIngredient, TDispatch} from "../../utils/types";
 
 function BurgerConstructor() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<TDispatch>();
   const burger = useSelector(getBurger);
   const loggedIn = useSelector(getLoggedIn);
   const navigate = useNavigate();
-  const [bun, setBun] = useState([]);
-  const [filling, setFilling] = useState([]);
+  const [bun, setBun] = useState<IIngredient[]>([]);
+  const [filling, setFilling] = useState<IIngredient[]>([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const ingredients = burger.map(ingredient => ingredient._id);
+  const ingredients: string[] = burger.map((ingredient: { _id: string; }) => ingredient._id);
 
   useEffect(() => {
-    setBun(burger.filter((item) => item.type === 'bun'));
-    setFilling(burger.filter(({type}) => type === 'sauce' || type === 'main'));
+    setBun(burger.filter((item: IIngredient) => item.type === 'bun'));
+    setFilling(burger.filter(({type}: IIngredient) => type === 'sauce' || type === 'main'));
   }, [burger])
 
   function calcTotalAmount() {
-    const amountFilling = filling.reduce((sum, i) => sum + i.price, 0);
+    const amountFilling = filling.reduce((sum: number, i: IIngredient) => sum + i.price, 0);
     return (bun.length ? bun[0]?.price * 2 : 0) + amountFilling;
   }
 
@@ -48,8 +49,7 @@ function BurgerConstructor() {
   }
 
 
-
-  function handleBurger(ingredient) {
+  function handleBurger(ingredient: IIngredient) {
     ingredient.id = uuidv4();
     dispatch(addIngredient(ingredient));
   }
@@ -59,7 +59,7 @@ function BurgerConstructor() {
     collect: monitor => ({
       isHover: monitor.isOver()
     }),
-    drop(ingredient) {
+    drop(ingredient: any) {
       handleBurger(ingredient);
     }
   });

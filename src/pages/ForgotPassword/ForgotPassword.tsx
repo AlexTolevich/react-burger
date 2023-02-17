@@ -5,12 +5,13 @@ import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import {Link, useNavigate} from "react-router-dom";
 import {useFormWithValidation} from "../../utils/hooks/useValidation";
 import {useDispatch, useSelector} from "react-redux";
-import {getForgotPSWDRequest, getLoggedIn} from "../../services/selectors/selectors";
+import {getForgotPSWDRequest} from "../../services/selectors/selectors";
 import Preloader from "../../components/Preloader/Preloader";
 import {onForgotPSWD} from "../../services/actions/auth";
+import {TDispatch} from "../../utils/types";
 
 function ForgotPassword() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<TDispatch>();
   const navigate = useNavigate();
   const forgotPSWDRequest = useSelector(getForgotPSWDRequest);
   const {values, handleChange, errors, isValid, resetForm} = useFormWithValidation();
@@ -19,7 +20,7 @@ function ForgotPassword() {
     resetForm();
   }, [resetForm]);
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     dispatch(onForgotPSWD({
         email: values.email,
@@ -35,7 +36,7 @@ function ForgotPassword() {
       {forgotPSWDRequest ? <Preloader/> :
         <form
           className={style.form}
-          onSubmit={handleSubmit}
+          onSubmit={(event) => handleSubmit(event)}
           noValidate
         >
           <Input

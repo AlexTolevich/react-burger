@@ -3,7 +3,6 @@ import React from 'react';
 import {Logo, BurgerIcon, ListIcon, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation} from 'react-router-dom';
 
-
 function AppHeader() {
   const path = useLocation();
   return (

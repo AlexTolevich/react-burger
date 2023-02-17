@@ -1,17 +1,17 @@
 import React, {useState, useEffect} from 'react';
 
-import style from "./Login.module.css";
+import style from "./Register.module.css";
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
-import {Link, useLocation, useNavigate, Navigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useFormWithValidation} from "../../utils/hooks/useValidation";
 import {useDispatch, useSelector} from "react-redux";
-import {getLoggedIn, getUserRequest} from "../../services/selectors/selectors";
+import {getUserRequest} from "../../services/selectors/selectors";
 import Preloader from "../../components/Preloader/Preloader";
-import {onLogin} from "../../services/actions/auth";
+import {onRegister} from "../../services/actions/auth";
+import {TDispatch} from "../../utils/types";
 
-function Login() {
-  const dispatch = useDispatch();
-  const location = useLocation();
+function Register() {
+  const dispatch = useDispatch<TDispatch>();
   const navigate = useNavigate();
   const userRequest = useSelector(getUserRequest);
   const {values, handleChange, errors, isValid, resetForm} = useFormWithValidation();
@@ -21,27 +21,41 @@ function Login() {
     resetForm();
   }, [resetForm]);
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    dispatch(onLogin({
+    dispatch(onRegister({
+        name: values.name,
         email: values.email,
         password: values.password
       },
-      () => navigate(location.state?.from?.pathname ? location.state?.from?.pathname : "/")
-    ));
+      () => navigate('/')));
   }
 
   return (
     <section className={style.container}>
       <h2 className={`text text_type_main-medium pb-6`}>
-        Вход
+        Регистрация
       </h2>
       {userRequest ? <Preloader/> :
         <form
           className={style.form}
-          onSubmit={handleSubmit}
+          onSubmit={(event) => handleSubmit(event)}
           noValidate
         >
+          <Input
+            extraClass={'pb-6'}
+            type="text"
+            name="name"
+            placeholder={'Имя'}
+            onChange={(e) => handleChange(e)}
+            value={values.name || ""}
+            error={Boolean(errors.name)}
+            errorText={errors.name}
+            size={'default'}
+            minLength={2}
+            maxLength={30}
+            required
+          />
           <Input
             extraClass={'pb-6'}
             type="email"
@@ -66,27 +80,23 @@ function Login() {
             error={Boolean(errors.password)}
             errorText={errors.password}
             size={'default'}
-            minLength="6"
-            maxLength="20"
+            minLength={6}
+            maxLength={20}
             required
           />
           <Button extraClass={style.button} htmlType="submit" type="primary" size="medium" disabled={!isValid}>
-            Войти
+            Зарегистрироваться
           </Button>
         </form>
       }
       <p className={`${style.text} text text_type_main-default mt-20`}>
-        Вы — новый пользователь?
-        <Link to="/register" className={style.link}> Зарегистрироваться</Link>
-      </p>
-      <p className={`${style.text} text text_type_main-default mt-4`}>
-        Забыли пароль?
-        <Link to="/forgot-password" className={style.link}> Восстановить пароль</Link>
+        Уже зарегистрированы?
+        <Link to="/login" className={style.link}> Войти</Link>
       </p>
     </section>
   )
 }
 
-export default Login;
+export default Register;
 
 

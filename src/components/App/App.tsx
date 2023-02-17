@@ -16,17 +16,16 @@ import {useDispatch} from "react-redux";
 import {getIngredients} from "../../services/actions/ingredients";
 import IngredientDetailsPage from "../../pages/IngredientDetailsPage/IngredientDetailsPage";
 import {onGetUser} from "../../services/actions/user";
+import {TDispatch} from "../../utils/types";
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<TDispatch>();
   const state = location.state as { backgroundLocation?: Location };
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(onGetUser());
-    // @ts-ignore
     dispatch(getIngredients());
   }, []);
 

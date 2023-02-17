@@ -1,17 +1,16 @@
-import React from 'react';
-import PropTypes from "prop-types";
+import React, {FC} from 'react';
 import style from './Ingredient.module.css'
 import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector} from 'react-redux';
 import {useDrag} from 'react-dnd';
-import {ingredientsType} from "../../utils/ingredientsType";
 import {getBurger} from "../../services/selectors/selectors";
 import {Link, useLocation} from "react-router-dom";
+import {IIngredient} from "../../utils/types";
 
-function Ingredient({ingredient}) {
+const Ingredient: FC<{ ingredient: IIngredient }> = ({ingredient}) => {
   const burger = useSelector(getBurger);
   const location = useLocation();
-  const count = burger.filter(item => item._id === ingredient._id).length;
+  const count = burger.filter((item: { _id: string; }) => item._id === ingredient._id).length;
 
   const [{isDrag}, dragRef] = useDrag({
     type: 'ingredient',
@@ -44,6 +43,3 @@ function Ingredient({ingredient}) {
 
 export default Ingredient;
 
-Ingredient.propTypes = {
-  ingredient: PropTypes.shape(ingredientsType).isRequired
-}

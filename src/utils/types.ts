@@ -1,4 +1,4 @@
-import {JSXElementConstructor, ReactElement, ReactNode} from "react";
+import {ReactNode} from "react";
 import {store} from '..';
 
 export interface IIngredient {
@@ -29,8 +29,8 @@ export interface IModalProps {
 }
 
 export interface IProtectedRouteProps{
-  children: ReactNode,
-  anonymous?: boolean | undefined,
+  children: JSX.Element,
+  anonymous?: boolean
 }
 
 export interface ITab {

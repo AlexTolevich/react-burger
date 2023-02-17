@@ -1,4 +1,4 @@
-import React, {useState, useEffect, FormEvent} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import style from "./Login.module.css";
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
@@ -13,7 +13,7 @@ import {TDispatch, TLocationState} from "../../utils/types";
 function Login() {
   const dispatch = useDispatch<TDispatch>();
   const location = useLocation();
-  const { from } = location.state as TLocationState;
+  const {from} = location.state as TLocationState;
   const navigate = useNavigate();
   const userRequest = useSelector(getUserRequest);
   const {values, handleChange, errors, isValid, resetForm} = useFormWithValidation();

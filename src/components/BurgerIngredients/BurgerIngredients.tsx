@@ -57,7 +57,6 @@ function BurgerIngredients() {
       obj.distance = refContainerIngredients.current ?
         Math.abs(refContainerIngredients.current?.getBoundingClientRect()?.top - item.getBoundingClientRect()?.top)
         : item.getBoundingClientRect()?.top;
-      console.log(obj)
       return obj;
     });
 

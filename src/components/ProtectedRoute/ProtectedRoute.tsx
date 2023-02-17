@@ -10,7 +10,7 @@ const ProtectedRoute: FC<IProtectedRouteProps> = ({children, anonymous = false})
   const {from} = location.state as TLocationState || '/';
 
   if (anonymous && loggedIn) {
-    return <Navigate to={from?.pathname ? from?.pathname : "/"}/>;
+    return <Navigate to={from.pathname}/>;
   }
 
   if (!anonymous && !loggedIn) {

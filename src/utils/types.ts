@@ -50,6 +50,10 @@ export interface IHeaders {
   [name: string]: string,
 }
 
+export interface IUseValidationState {
+  [name: string]: string,
+}
+
 export type TDispatch = typeof store.dispatch;
 
 export type TLocationState = {

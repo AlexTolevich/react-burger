@@ -1,4 +1,4 @@
-import React, {FormEvent, useEffect} from 'react';
+import React, {useEffect} from 'react';
 
 import style from "./ForgotPassword.module.css";
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
@@ -20,7 +20,7 @@ function ForgotPassword() {
     resetForm();
   }, [resetForm]);
 
-  function handleSubmit(event: FormEvent) {
+  function handleSubmit(event:  React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     dispatch(onForgotPSWD({
         email: values.email,
@@ -36,7 +36,7 @@ function ForgotPassword() {
       {forgotPSWDRequest ? <Preloader/> :
         <form
           className={style.form}
-          onSubmit={handleSubmit}
+          onSubmit={(event) => handleSubmit(event)}
           noValidate
         >
           <Input

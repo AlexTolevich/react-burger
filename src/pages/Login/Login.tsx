@@ -23,7 +23,7 @@ function Login() {
     resetForm();
   }, [resetForm]);
 
-  function handleSubmit(event: FormEvent) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     dispatch(onLogin({
         email: values.email,
@@ -41,7 +41,7 @@ function Login() {
       {userRequest ? <Preloader/> :
         <form
           className={style.form}
-          onSubmit={handleSubmit}
+          onSubmit={(event) => handleSubmit(event)}
           noValidate
         >
           <Input

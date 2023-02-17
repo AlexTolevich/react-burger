@@ -8,9 +8,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {getForgotPSWD, getResetPSWDRequest} from "../../services/selectors/selectors";
 import Preloader from "../../components/Preloader/Preloader";
 import {onResetPSWD} from "../../services/actions/auth";
+import {TDispatch} from "../../utils/types";
 
 function ResetPassword() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<TDispatch>();
   const navigate = useNavigate();
   const resetPSWDRequest = useSelector(getResetPSWDRequest);
   const forgotPSWD = useSelector(getForgotPSWD);
@@ -25,7 +26,7 @@ function ResetPassword() {
     resetForm();
   }, [resetForm]);
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     dispatch(onResetPSWD({
       token: values.token,
@@ -56,8 +57,8 @@ function ResetPassword() {
             error={Boolean(errors.password)}
             errorText={errors.password}
             size={'default'}
-            minLength="6"
-            maxLength="20"
+            minLength={6}
+            maxLength={20}
             required
           />
           <Input
@@ -70,8 +71,8 @@ function ResetPassword() {
             error={Boolean(errors.token)}
             errorText={errors.token}
             size={'default'}
-            minLength="2"
-            maxLength="50"
+            minLength={2}
+            maxLength={50}
             required
           />
           <Button extraClass={style.button} htmlType="submit" type="primary" size="medium" disabled={!isValid}>

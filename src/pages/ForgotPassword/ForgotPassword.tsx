@@ -20,7 +20,7 @@ function ForgotPassword() {
     resetForm();
   }, [resetForm]);
 
-  function handleSubmit(event:  React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     dispatch(onForgotPSWD({
         email: values.email,

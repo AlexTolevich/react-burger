@@ -9,7 +9,7 @@ function NotFound() {
     <main className={style.notfound}>
       <h1 className={style.header}>404</h1>
       <p className={style.text}>Страница не найдена</p>
-      <Button onClick={()=> navigate(-1)} htmlType="button" type="primary" size="medium">Назад</Button>
+      <Button onClick={() => navigate(-1)} htmlType="button" type="primary" size="medium">Назад</Button>
     </main>
   )
 }

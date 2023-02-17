@@ -5,9 +5,9 @@ import App from './components/App/App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 import {compose, createStore, applyMiddleware,} from 'redux';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
-import { rootReducer } from './services/reducers';
+import {rootReducer} from './services/reducers';
 
 declare global {
   interface Window {

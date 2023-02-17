@@ -7,7 +7,7 @@ import {getBurger} from "../../services/selectors/selectors";
 import {Link, useLocation} from "react-router-dom";
 import {IIngredient} from "../../utils/types";
 
-const Ingredient: FC<{ ingredient: IIngredient }> = ({ingredient}) =>  {
+const Ingredient: FC<{ ingredient: IIngredient }> = ({ingredient}) => {
   const burger = useSelector(getBurger);
   const location = useLocation();
   const count = burger.filter((item: { _id: string; }) => item._id === ingredient._id).length;

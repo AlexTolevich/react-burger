@@ -79,7 +79,7 @@ function App() {
                }/>
         <Route path="/profile/orders/:id"
                element={
-                 <ProtectedRoute >
+                 <ProtectedRoute>
                    <Profile/>
                  </ProtectedRoute>
                }/>

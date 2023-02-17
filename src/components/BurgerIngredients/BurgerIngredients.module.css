@@ -28,9 +28,11 @@
 .categoryList::-webkit-scrollbar {
   width: 8px;
 }
+
 .categoryList::-webkit-scrollbar-track {
   background: #2F2F37;
 }
+
 .categoryList::-webkit-scrollbar-thumb {
   background: #8585AD;
 }

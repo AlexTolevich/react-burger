@@ -6,11 +6,7 @@ import {setActiveTab} from "../../services/actions/ingredients";
 import Ingredient from "../Ingredient/Ingredient";
 import {getIngredientsFromStore} from "../../services/selectors/selectors";
 import Preloader from "../Preloader/Preloader";
-import {IIngredient, ITab, TDispatch} from "../../utils/types";
-
-interface IObj {
-  [name: string]: any,
-}
+import {IIngredient, IObj, ITab, TDispatch} from "../../utils/types";
 
 const TABS = [
   {
@@ -56,11 +52,12 @@ function BurgerIngredients() {
 
   function handleScroll() {
     const newViewCategory = refArray.current?.map(item => {
-      const obj: IObj = {}
+      const obj: IObj = {type: '', distance: 0}
       obj.type = item.id;
       obj.distance = refContainerIngredients.current ?
         Math.abs(refContainerIngredients.current?.getBoundingClientRect()?.top - item.getBoundingClientRect()?.top)
         : item.getBoundingClientRect()?.top;
+      console.log(obj)
       return obj;
     });
 

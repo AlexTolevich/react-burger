@@ -28,7 +28,7 @@ export interface IModalProps {
   title?: string | undefined
 }
 
-export interface IProtectedRouteProps{
+export interface IProtectedRouteProps {
   children: JSX.Element,
   anonymous?: boolean
 }
@@ -52,6 +52,11 @@ export interface IHeaders {
 
 export interface IUseValidationState {
   [name: string]: string,
+}
+
+export interface IObj {
+  type: string,
+  distance: number,
 }
 
 export type TDispatch = typeof store.dispatch;

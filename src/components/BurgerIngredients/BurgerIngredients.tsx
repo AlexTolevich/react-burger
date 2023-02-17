@@ -42,8 +42,7 @@ function BurgerIngredients() {
   }, []);
 
   useEffect(() => {
-
-      const newCategories = ingredients ? [...new Set(ingredients?.map((item: IIngredient) => item.type))] : [];
+      const newCategories = [...new Set<string>(ingredients?.map((item: IIngredient) => item.type))];
       setCategories(newCategories);
     },
     [ingredients]
@@ -59,8 +58,9 @@ function BurgerIngredients() {
     const newViewCategory = refArray.current?.map(item => {
       const obj: IObj = {}
       obj.type = item.id;
-      // @ts-ignore
-      obj.distance = Math.abs(refContainerIngredients.current?.getBoundingClientRect()?.top - item.getBoundingClientRect()?.top)
+      obj.distance = refContainerIngredients.current ?
+        Math.abs(refContainerIngredients.current?.getBoundingClientRect()?.top - item.getBoundingClientRect()?.top)
+        : item.getBoundingClientRect()?.top;
       return obj;
     });
 

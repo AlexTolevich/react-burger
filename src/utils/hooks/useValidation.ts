@@ -4,11 +4,13 @@ import isEmail from 'validator/es/lib/isEmail';
 export function useFormWithValidation() {
   const [values, setValues] = React.useState({
     email: '',
-    password: ''
+    password: '',
+    name: ''
   });
   const [errors, setErrors] = React.useState({
     email: '',
-    password: ''
+    password: '',
+    name: ''
   });
   const [isValid, setIsValid] = React.useState(false);
 
@@ -38,10 +40,12 @@ export function useFormWithValidation() {
   const resetForm = useCallback(
     (newValues = {
       email: '',
-      password: ''
+      password: '',
+      name: ''
     }, newErrors = {
       email: '',
-      password: ''
+      password: '',
+      name: ''
     }, newIsValid = false) => {
       setValues(newValues);
       setErrors(newErrors);

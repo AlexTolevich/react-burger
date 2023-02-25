@@ -7,7 +7,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {addIngredient} from "../../services/actions/ingredients";
 import {useDrop} from 'react-dnd';
 import FillingIngredient from "../FillingIngredient/FillingIngredient";
-import {getBurger, getLoggedIn} from "../../services/selectors/selectors";
+import {getBurger, getLoggedIn} from "../../services/constants/selectors";
 import {useNavigate} from "react-router-dom";
 import {v4 as uuidv4} from "uuid";
 import {closeOrder, submitOrder} from "../../services/actions/order";

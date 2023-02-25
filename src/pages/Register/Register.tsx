@@ -5,7 +5,7 @@ import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import {Link, useNavigate} from "react-router-dom";
 import {useFormWithValidation} from "../../utils/hooks/useValidation";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserRequest} from "../../services/selectors/selectors";
+import {getUserRequest} from "../../services/constants/selectors";
 import Preloader from "../../components/Preloader/Preloader";
 import {onRegister} from "../../services/actions/auth";
 import {TDispatch} from "../../utils/types";

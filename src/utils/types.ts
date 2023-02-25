@@ -59,6 +59,27 @@ export interface IObj {
   distance: number,
 }
 
+export interface IOrderIngredients {
+  ingredients: Array<string>,
+}
+
+export interface IOrder {
+  readonly "ingredients": Array<IIngredient>;
+  readonly "_id": string;
+  readonly "owner": {
+    readonly "name": string;
+    readonly "email": string,
+    readonly "createdAt": string,
+    readonly "updatedAt": string
+  };
+  readonly "status": string;
+  readonly "name": string;
+  readonly "createdAt": string;
+  readonly "updatedAt": string;
+  readonly "number": number;
+  readonly "price": number;
+}
+
 export type TDispatch = typeof store.dispatch;
 
 export type TLocationState = {

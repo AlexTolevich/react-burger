@@ -4,7 +4,7 @@ import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector, useDispatch} from 'react-redux';
 import {setActiveTab} from "../../services/actions/ingredients";
 import Ingredient from "../Ingredient/Ingredient";
-import {getIngredientsFromStore} from "../../services/selectors/selectors";
+import {getIngredientsFromStore} from "../../services/constants/selectors";
 import Preloader from "../Preloader/Preloader";
 import {IIngredient, IObj, ITab, TDispatch} from "../../utils/types";
 

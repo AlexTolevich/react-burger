@@ -2,18 +2,15 @@ import {
   FORGOT_PSWD_FAILED,
   FORGOT_PSWD_REQUEST,
   FORGOT_PSWD_SUCCESS,
+  POST_USER_REQUEST,
+  POST_USER_FAILED,
+  POST_USER_SUCCESS,
   RESET_PSWD_FAILED,
   RESET_PSWD_REQUEST,
   RESET_PSWD_SUCCESS,
   USER_LOGGED_IN,
   USER_LOGGED_OUT
-} from "../actions/auth";
-
-import {
-  POST_USER_FAILED,
-  POST_USER_REQUEST,
-  POST_USER_SUCCESS
-} from "../actions/auth";
+} from "../constants";
 
 const initialUser = {
   email: '',

@@ -1,6 +1,12 @@
 import {getUser, logout, patchUser} from "../../utils/Api";
 import {deleteCookie} from "../../utils/cookies";
+import {IUserData} from "../../utils/types";
 import {
+  IPostUserFailed,
+  IPostUserRequest,
+  IPostUserSuccess,
+  IUserLoggedIn,
+  IUserLoggedOut,
   onRefreshToken,
   postUserFailed,
   postUserRequest,
@@ -9,8 +15,8 @@ import {
   userLoggedOut
 } from "./auth";
 
-export function onLogout(data, navigate) {
-  return function (dispatch) {
+export function onLogout(data: string | null, navigate: { (): void; (): void; }) {
+  return function (dispatch: (arg0: IPostUserRequest | IPostUserSuccess | IUserLoggedOut | IPostUserFailed) => void) {
     dispatch(postUserRequest());
     logout(data)
       .then((res) => {
@@ -32,7 +38,7 @@ export function onLogout(data, navigate) {
 }
 
 export function onGetUser() {
-  return function (dispatch) {
+  return function (dispatch: (arg0: IPostUserRequest | IPostUserSuccess | IPostUserFailed | IUserLoggedIn) => void) {
     dispatch(postUserRequest());
     getUser()
       .then((res) => {
@@ -44,6 +50,7 @@ export function onGetUser() {
       )
       .catch((err) => {
           if (err === 403) {
+            // @ts-ignore
             dispatch(onRefreshToken())
             dispatch(postUserFailed());
           } else {
@@ -55,8 +62,8 @@ export function onGetUser() {
   }
 }
 
-export function onPatchUser(data) {
-  return function (dispatch) {
+export function onPatchUser(data: Partial<IUserData>) {
+  return function (dispatch: (arg0: IPostUserRequest | IPostUserSuccess | IPostUserFailed | IUserLoggedIn) => void) {
     dispatch(postUserRequest());
     patchUser(data)
       .then((res) => {

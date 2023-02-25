@@ -1,16 +1,11 @@
 import {
   ADD_INGREDIENT,
-  DEL_INGREDIENT,
-  SORT_INGREDIENTS,
-  RESET_INGREDIENTS
-} from "../actions/ingredients";
-
-import {
   CLOSE_ORDER,
-  POST_ORDER_FAILED,
-  POST_ORDER_REQUEST,
-  POST_ORDER_SUCCESS
-} from "../actions/order";
+  DEL_INGREDIENT,
+  POST_ORDER_FAILED, POST_ORDER_REQUEST, POST_ORDER_SUCCESS,
+  RESET_INGREDIENTS,
+  SORT_INGREDIENTS
+} from "../constants";
 
 const initialBurger = {
   burger: [],

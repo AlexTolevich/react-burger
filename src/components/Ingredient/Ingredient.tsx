@@ -3,7 +3,7 @@ import style from './Ingredient.module.css'
 import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector} from 'react-redux';
 import {useDrag} from 'react-dnd';
-import {getBurger} from "../../services/selectors/selectors";
+import {getBurger} from "../../services/constants/selectors";
 import {Link, useLocation} from "react-router-dom";
 import {IIngredient} from "../../utils/types";
 

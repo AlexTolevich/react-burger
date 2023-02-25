@@ -2,7 +2,7 @@ import React from "react";
 import style from "./OrderDetails.module.css";
 import done from "../../images/done.svg"
 import {useSelector} from "react-redux";
-import {getOrder} from "../../services/selectors/selectors";
+import {getOrder} from "../../services/constants/selectors";
 import Preloader from "../Preloader/Preloader";
 
 function OrderDetails() {

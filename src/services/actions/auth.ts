@@ -1,47 +1,142 @@
 import {forgotPSWD, refreshToken, resetPSWD, signin, signup} from "../../utils/Api";
 import {deleteCookie, setCookie} from "../../utils/cookies";
 import {onGetUser} from "./user";
+import {
+  FORGOT_PSWD_FAILED,
+  FORGOT_PSWD_REQUEST,
+  FORGOT_PSWD_SUCCESS,
+  POST_TOKEN_FAILED,
+  POST_TOKEN_REQUEST,
+  POST_TOKEN_SUCCESS,
+  POST_USER_FAILED,
+  POST_USER_REQUEST,
+  POST_USER_SUCCESS,
+  RESET_PSWD_FAILED,
+  RESET_PSWD_REQUEST,
+  RESET_PSWD_SUCCESS,
+  USER_LOGGED_IN,
+  USER_LOGGED_OUT
+} from "../constants";
+import {IUserData} from "../../utils/types";
 
-export const POST_USER_REQUEST = 'POST_USER_REQUEST';
-export const POST_USER_SUCCESS = 'POST_USER_SUCCESS';
-export const POST_USER_FAILED = 'POST_USER_FAILED';
-export const POST_TOKEN_REQUEST = 'POST_TOKEN_REQUEST';
-export const POST_TOKEN_SUCCESS = 'POST_TOKEN_SUCCESS';
-export const POST_TOKEN_FAILED = 'POST_TOKEN_FAILED';
-export const FORGOT_PSWD_REQUEST = 'FORGOT_PSWD_REQUEST';
-export const FORGOT_PSWD_SUCCESS = 'FORGOT_PSWD_SUCCESS';
-export const FORGOT_PSWD_FAILED = 'FORGOT_PSWD_FAILED';
-export const RESET_PSWD_REQUEST = 'RESET_PSWD_REQUEST';
-export const RESET_PSWD_SUCCESS = 'RESET_PSWD_SUCCESS';
-export const RESET_PSWD_FAILED = 'RESET_PSWD_FAILED';
-export const USER_LOGGED_IN = 'USER_LOGGED_IN';
-export const USER_LOGGED_OUT = 'USER_LOGGED_OUT';
+export interface IPostUserRequest {
+  readonly type: typeof POST_USER_REQUEST;
+}
 
-export function postUserRequest() {
+export interface IPostUserSuccess {
+  readonly type: typeof POST_USER_SUCCESS;
+  readonly user: Partial<IUserData>;
+}
+
+export interface IPostUserFailed {
+  readonly type: typeof POST_USER_FAILED;
+}
+
+export interface IUserLoggedIn {
+  readonly type: typeof USER_LOGGED_IN;
+}
+
+export interface IUserLoggedOut {
+  readonly type: typeof USER_LOGGED_OUT;
+}
+
+export interface IPostTokenRequest {
+  readonly type: typeof POST_TOKEN_REQUEST;
+}
+
+export interface IPostTokenSuccess {
+  readonly type: typeof POST_TOKEN_SUCCESS;
+}
+
+export interface IPostTokenFailed {
+  readonly type: typeof POST_TOKEN_FAILED;
+}
+
+export interface IForgotPSWDRequest {
+  readonly type: typeof FORGOT_PSWD_REQUEST;
+}
+
+export interface IForgotPSWDSuccess {
+  readonly type: typeof FORGOT_PSWD_SUCCESS;
+}
+
+export interface IForgotPSWDFailed {
+  readonly type: typeof FORGOT_PSWD_FAILED;
+}
+
+export interface IResetPSWDRequest {
+  readonly type: typeof RESET_PSWD_REQUEST;
+}
+
+export interface IResetPSWDSuccess {
+  readonly type: typeof RESET_PSWD_SUCCESS;
+}
+
+export interface IResetPSWDFailed {
+  readonly type: typeof RESET_PSWD_FAILED;
+}
+
+export function postUserRequest(): IPostUserRequest {
   return {type: POST_USER_REQUEST}
 }
 
-export function postUserSuccess(user) {
+export function postUserSuccess(user: Partial<IUserData>): IPostUserSuccess {
   return {
     type: POST_USER_SUCCESS,
     user
   }
 }
 
-export function postUserFailed() {
+export function postUserFailed(): IPostUserFailed {
   return {type: POST_USER_FAILED}
 }
 
-export function userLoggedIn() {
+export function userLoggedIn(): IUserLoggedIn {
   return {type: USER_LOGGED_IN}
 }
 
-export function userLoggedOut() {
+export function userLoggedOut(): IUserLoggedOut {
   return {type: USER_LOGGED_OUT}
 }
 
-export function onRegister(data, navigate) {
-  return function (dispatch) {
+export function postTokenRequest(): IPostTokenRequest {
+  return {type: POST_TOKEN_REQUEST}
+}
+
+export function postTokenSuccess(): IPostTokenSuccess {
+  return {type: POST_TOKEN_SUCCESS}
+}
+
+export function postTokenFailed(): IPostTokenFailed {
+  return {type: POST_TOKEN_FAILED}
+}
+
+export function forgotPSWDRequest(): IForgotPSWDRequest {
+  return {type: FORGOT_PSWD_REQUEST}
+}
+
+export function forgotPSWDSuccess(): IForgotPSWDSuccess {
+  return {type: FORGOT_PSWD_SUCCESS}
+}
+
+export function forgotPSWDFailed(): IForgotPSWDFailed {
+  return {type: FORGOT_PSWD_FAILED}
+}
+
+export function resetPSWDRequest(): IResetPSWDRequest {
+  return {type: RESET_PSWD_REQUEST}
+}
+
+export function resetPSWDSuccess(): IResetPSWDSuccess {
+  return {type: RESET_PSWD_SUCCESS}
+}
+
+export function resetPSWDFailed(): IResetPSWDFailed {
+  return {type: RESET_PSWD_FAILED}
+}
+
+export function onRegister(data: Partial<IUserData>, navigate: { (): void; (): void; }) {
+  return function (dispatch: (arg0: IPostUserRequest | IPostUserSuccess | IPostUserFailed | IUserLoggedIn) => void) {
     dispatch(postUserRequest());
     signup(data)
       .then((res) => {
@@ -70,12 +165,13 @@ export function onRegister(data, navigate) {
   }
 }
 
-export function onLogin(data, navigate) {
-  return function (dispatch) {
+export function onLogin(data: Partial<IUserData>, navigate: { (): void; (): void; }) {
+  return function (dispatch: (arg0: IPostUserRequest | IPostUserSuccess | IPostUserFailed | IUserLoggedIn) => void) {
     dispatch(postUserRequest());
     signin(data)
       .then((res) => {
           if (res && res.success) {
+
             dispatch(postUserSuccess(res.user));
             const authToken = res.accessToken?.split('Bearer ')[1];
             if (authToken) {
@@ -101,10 +197,8 @@ export function onLogin(data, navigate) {
 }
 
 export function onRefreshToken() {
-  return function (dispatch) {
-    dispatch({
-      type: POST_TOKEN_REQUEST,
-    });
+  return function (dispatch: (arg0: IPostTokenRequest | IPostTokenSuccess | IPostTokenFailed) => void) {
+    dispatch(postTokenRequest());
     deleteCookie('accessToken');
     refreshToken()
       .then((res) => {
@@ -112,45 +206,36 @@ export function onRefreshToken() {
       })
       .then((res) => {
           if (res && res.success) {
-            dispatch({
-              type: POST_TOKEN_SUCCESS,
-            });
+            dispatch(postTokenSuccess());
             const authToken = res.accessToken.split('Bearer ')[1];
             if (authToken) {
               setCookie('accessToken', authToken, {expires: 1200});
             }
             localStorage.setItem('refreshToken', res.refreshToken);
+            // @ts-ignore
             dispatch(onGetUser())
           }
         }
       ).catch((err) => {
-      dispatch({
-        type: POST_TOKEN_FAILED
-      });
+      dispatch(postTokenFailed());
       console.log(err, err.message, 'Произошла ошибка на сервере. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.');
     });
   }
 }
 
-export function onForgotPSWD(data, navigate) {
-  return function (dispatch) {
-    dispatch({
-      type: FORGOT_PSWD_REQUEST
-    });
+export function onForgotPSWD(data: Partial<IUserData>, navigate: { (): void; (): void; }) {
+  return function (dispatch: (arg0: IForgotPSWDRequest | IForgotPSWDSuccess | IForgotPSWDFailed) => void) {
+    dispatch(forgotPSWDRequest());
     forgotPSWD(data)
       .then((res) => {
           if (res && res.success) {
-            dispatch({
-              type: FORGOT_PSWD_SUCCESS
-            })
+            dispatch(forgotPSWDSuccess());
             navigate();
           }
         }
       )
       .catch((err) => {
-          dispatch({
-            type: FORGOT_PSWD_FAILED
-          });
+          dispatch(forgotPSWDFailed());
           console.log(err, err.message, 'Произошла ошибка на сервере. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.');
 
         }
@@ -158,25 +243,19 @@ export function onForgotPSWD(data, navigate) {
   }
 }
 
-export function onResetPSWD(data, navigate) {
-  return function (dispatch) {
-    dispatch({
-      type: RESET_PSWD_REQUEST
-    });
+export function onResetPSWD(data: Partial<IUserData>, navigate: { (): void; (): void; }) {
+  return function (dispatch: (arg0: IResetPSWDRequest | IResetPSWDSuccess | IResetPSWDFailed) => void) {
+    dispatch(resetPSWDRequest());
     resetPSWD(data)
       .then((res) => {
           if (res && res.success) {
-            dispatch({
-              type: RESET_PSWD_SUCCESS
-            })
+            dispatch(resetPSWDSuccess())
             navigate();
           }
         }
       )
       .catch((err) => {
-          dispatch({
-            type: RESET_PSWD_FAILED
-          });
+          dispatch(resetPSWDFailed());
           console.log(err, err.message, 'Произошла ошибка на сервере. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.');
 
         }

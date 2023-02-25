@@ -1,5 +1,5 @@
 import {getCookie} from "./cookies";
-import {IHeaders, IUserData} from "./types";
+import {IHeaders, IOrderIngredients, IUserData} from "./types";
 
 const BASE_URL = "https://norma.nomoreparties.space/api";
 
@@ -16,14 +16,14 @@ const _checkResponse = (res: Response) => {
   return Promise.reject(res.status);
 }
 
-function getIngredientsRequest(headers: IHeaders = defaultHeaders) {
+function onGetIngredientsRequest(headers: IHeaders = defaultHeaders) {
   return fetch(`${BASE_URL}/ingredients`, {
     method: 'GET',
     headers: headers,
   }).then((res) => _checkResponse(res));
 }
 
-function postOrder(data: string[], headers: IHeaders = defaultHeaders) {
+function postOrder(data: IOrderIngredients, headers: IHeaders = defaultHeaders) {
   headers.authorization = 'Bearer ' + getCookie('accessToken');
   return fetch(`${BASE_URL}/orders`, {
     method: 'POST',
@@ -56,7 +56,7 @@ function refreshToken(headers: IHeaders = defaultHeaders) {
   }).then((res) => _checkResponse(res));
 }
 
-function logout(data: string, headers: IHeaders = defaultHeaders) {
+function logout(data: string | null, headers: IHeaders = defaultHeaders) {
   return fetch(`${BASE_URL}/auth/logout`, {
     method: 'POST',
     headers: headers,
@@ -104,7 +104,7 @@ function resetPSWD(data: Partial<IUserData>, headers: IHeaders = defaultHeaders)
 
 
 export {
-  getIngredientsRequest,
+  onGetIngredientsRequest,
   postOrder,
   signup,
   signin,

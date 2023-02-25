@@ -100,6 +100,5 @@ type TApplicationActions =
 
 export type AppThunk<TReturn = void> = ThunkAction<TReturn, RootState, unknown, TApplicationActions>;
 
-
 export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
 

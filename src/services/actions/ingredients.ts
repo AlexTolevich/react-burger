@@ -44,6 +44,15 @@ export interface IGetIngredientsFailed {
   readonly type: typeof GET_INGREDIENTS_FAILED;
 }
 
+export type TIngredientsActions =
+  | IAddIngredient
+  | IDelIngredient
+  | ISortIngredient
+  | ISetActiveTab
+  | IGetIngredientsRequest
+  | IGetIngredientsSuccess
+  | IGetIngredientsFailed;
+
 export function addIngredient(ingredient: IIngredient): IAddIngredient {
   return {
     type: ADD_INGREDIENT,

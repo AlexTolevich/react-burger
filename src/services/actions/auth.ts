@@ -76,6 +76,22 @@ export interface IResetPSWDFailed {
   readonly type: typeof RESET_PSWD_FAILED;
 }
 
+export type TAuthActions =
+  | IPostUserRequest
+  | IPostUserSuccess
+  | IPostUserFailed
+  | IUserLoggedIn
+  | IUserLoggedOut
+  | IPostTokenRequest
+  | IPostTokenSuccess
+  | IPostTokenFailed
+  | IForgotPSWDRequest
+  | IForgotPSWDSuccess
+  | IForgotPSWDFailed
+  | IResetPSWDRequest
+  | IResetPSWDSuccess
+  | IResetPSWDFailed;
+
 export function postUserRequest(): IPostUserRequest {
   return {type: POST_USER_REQUEST}
 }

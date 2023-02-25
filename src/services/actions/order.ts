@@ -8,8 +8,8 @@ import {
 } from "../constants";
 import {IOrder, IOrderIngredients} from "../../utils/types";
 
-export function closeOrder() {
-  return {type: CLOSE_ORDER}
+export interface ICloseOrder {
+  readonly type: typeof CLOSE_ORDER;
 }
 
 export interface IPostOrderRequest {
@@ -27,6 +27,17 @@ export interface IPostOrderFailed {
 
 export interface IResetIngredients {
   readonly type: typeof RESET_INGREDIENTS;
+}
+
+export type TOrderActions =
+  | ICloseOrder
+  | IPostOrderRequest
+  | IPostOrderSuccess
+  | IPostOrderFailed
+  | IResetIngredients;
+
+export function closeOrder(): ICloseOrder {
+  return {type: CLOSE_ORDER}
 }
 
 export function postOrderRequest(): IPostOrderRequest {

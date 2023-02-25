@@ -1,12 +1,12 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import style from './BurgerIngredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useSelector, useDispatch} from 'react-redux';
 import {setActiveTab} from "../../services/actions/ingredients";
 import Ingredient from "../Ingredient/Ingredient";
 import {getIngredientsFromStore} from "../../services/constants/selectors";
 import Preloader from "../Preloader/Preloader";
-import {IIngredient, IObj, ITab, TDispatch} from "../../utils/types";
+import {IIngredient, IObj, ITab} from "../../utils/types";
+import {useDispatch, useSelector} from "../../services/hooks";
 
 const TABS = [
   {
@@ -27,7 +27,7 @@ const TABS = [
 ];
 
 function BurgerIngredients() {
-  const dispatch = useDispatch<TDispatch>();
+  const dispatch = useDispatch();
   const [categories, setCategories] = useState<Array<string>>([]);
   const {ingredients, activeTab, ingredientsRequest} = useSelector(getIngredientsFromStore);
   const refContainerIngredients = useRef<HTMLUListElement>(null);

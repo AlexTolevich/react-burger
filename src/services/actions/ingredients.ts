@@ -1,14 +1,19 @@
 import {onGetIngredientsRequest} from "../../utils/Api";
-import {IIngredient} from "../../utils/types";
+import {AppDispatch, AppThunk, IIngredient} from "../../utils/types";
 import {
   ADD_INGREDIENT,
   DEL_INGREDIENT,
   GET_INGREDIENTS_FAILED,
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
+  RESET_INGREDIENTS,
   SET_ACTIVE_TAB,
   SORT_INGREDIENTS
 } from "../constants";
+
+export interface IResetIngredients {
+  readonly type: typeof RESET_INGREDIENTS;
+}
 
 export interface IAddIngredient {
   readonly type: typeof ADD_INGREDIENT;
@@ -45,6 +50,7 @@ export interface IGetIngredientsFailed {
 }
 
 export type TIngredientsActions =
+  | IResetIngredients
   | IAddIngredient
   | IDelIngredient
   | ISortIngredient
@@ -52,6 +58,10 @@ export type TIngredientsActions =
   | IGetIngredientsRequest
   | IGetIngredientsSuccess
   | IGetIngredientsFailed;
+
+export function resetIngredients(): IResetIngredients {
+  return {type: RESET_INGREDIENTS}
+}
 
 export function addIngredient(ingredient: IIngredient): IAddIngredient {
   return {
@@ -97,8 +107,8 @@ export function getIngredientsFailed(): IGetIngredientsFailed {
   return {type: GET_INGREDIENTS_FAILED}
 }
 
-export function getIngredients() {
-  return function (dispatch: (arg0: IGetIngredientsRequest | IGetIngredientsSuccess | IGetIngredientsFailed) => void) {
+export const getIngredients = (): AppThunk => {
+  return function (dispatch) {
     dispatch(getIngredientsRequest());
     onGetIngredientsRequest().then(res => {
       if (res && res.success) {
@@ -109,4 +119,3 @@ export function getIngredients() {
     });
   };
 }
-

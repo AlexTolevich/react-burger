@@ -1,8 +1,8 @@
 import React, {FC} from "react";
 import style from "./IngredientDetails.module.css";
 import {useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
 import {getIngredientsFromStore} from "../../services/constants/selectors";
+import {useSelector} from "../../services/hooks";
 
 const IngredientDetails: FC = () => {
   const {id} = useParams();

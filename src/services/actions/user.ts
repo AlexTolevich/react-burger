@@ -1,12 +1,8 @@
 import {getUser, logout, patchUser} from "../../utils/Api";
 import {deleteCookie} from "../../utils/cookies";
-import {IUserData} from "../../utils/types";
+import {AppThunk, IUserData} from "../../utils/types";
 import {
-  IPostUserFailed,
-  IPostUserRequest,
-  IPostUserSuccess,
-  IUserLoggedIn,
-  IUserLoggedOut,
+
   onRefreshToken,
   postUserFailed,
   postUserRequest,
@@ -15,8 +11,8 @@ import {
   userLoggedOut
 } from "./auth";
 
-export function onLogout(data: string | null, navigate: { (): void; (): void; }) {
-  return function (dispatch: (arg0: IPostUserRequest | IPostUserSuccess | IUserLoggedOut | IPostUserFailed) => void) {
+export const onLogout = (data: string | null, navigate: () => void): AppThunk => {
+  return function (dispatch) {
     dispatch(postUserRequest());
     logout(data)
       .then((res) => {
@@ -37,8 +33,8 @@ export function onLogout(data: string | null, navigate: { (): void; (): void; })
   }
 }
 
-export function onGetUser() {
-  return function (dispatch: (arg0: IPostUserRequest | IPostUserSuccess | IPostUserFailed | IUserLoggedIn) => void) {
+export const onGetUser = (): AppThunk => {
+  return function (dispatch) {
     dispatch(postUserRequest());
     getUser()
       .then((res) => {
@@ -50,7 +46,6 @@ export function onGetUser() {
       )
       .catch((err) => {
           if (err === 403) {
-            // @ts-ignore
             dispatch(onRefreshToken())
             dispatch(postUserFailed());
           } else {
@@ -62,8 +57,8 @@ export function onGetUser() {
   }
 }
 
-export function onPatchUser(data: Partial<IUserData>) {
-  return function (dispatch: (arg0: IPostUserRequest | IPostUserSuccess | IPostUserFailed | IUserLoggedIn) => void) {
+export const onPatchUser = (data: Partial<IUserData>): AppThunk => {
+  return function (dispatch) {
     dispatch(postUserRequest());
     patchUser(data)
       .then((res) => {

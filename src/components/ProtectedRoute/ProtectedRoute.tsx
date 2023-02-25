@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {Navigate, useLocation} from 'react-router-dom';
 import {getLoggedIn} from "../../services/constants/selectors";
-import {useSelector} from "react-redux";
 import {IProtectedRouteProps, TLocationState} from "../../utils/types";
+import {useSelector} from "../../services/hooks";
 
 const ProtectedRoute: FC<IProtectedRouteProps> = ({children, anonymous = false}) => {
   const loggedIn = useSelector(getLoggedIn);

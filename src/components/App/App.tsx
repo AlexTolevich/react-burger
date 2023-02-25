@@ -12,16 +12,16 @@ import Profile from "../../pages/Profile/Profile";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import {useDispatch} from "react-redux";
+
+import {useDispatch} from "../../services/hooks";
 import {getIngredients} from "../../services/actions/ingredients";
 import IngredientDetailsPage from "../../pages/IngredientDetailsPage/IngredientDetailsPage";
 import {onGetUser} from "../../services/actions/user";
-import {TDispatch} from "../../utils/types";
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch<TDispatch>();
+  const dispatch = useDispatch();
   const state = location.state as { backgroundLocation?: Location };
 
   useEffect(() => {

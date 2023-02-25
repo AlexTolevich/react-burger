@@ -4,14 +4,14 @@ import style from "./Login.module.css";
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useFormWithValidation} from "../../utils/hooks/useValidation";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../services/hooks";
 import {getUserRequest} from "../../services/constants/selectors";
 import Preloader from "../../components/Preloader/Preloader";
 import {onLogin} from "../../services/actions/auth";
-import {TDispatch, TLocationState} from "../../utils/types";
+import {TLocationState} from "../../utils/types";
 
 function Login() {
-  const dispatch = useDispatch<TDispatch>();
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const userRequest = useSelector(getUserRequest);

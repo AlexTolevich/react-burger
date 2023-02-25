@@ -6,18 +6,31 @@ import {
   RESET_INGREDIENTS,
   SORT_INGREDIENTS
 } from "../constants";
+import {TIngredientsActions} from "../actions/ingredients";
+import {TOrderActions} from "../actions/order";
+import {IIngredient} from "../../utils/types";
 
-const initialBurger = {
+type TBurgerState = {
+  burger: Array<IIngredient>;
+}
+
+type TOrderState = {
+  orderRequest: boolean;
+  orderFailed: boolean;
+  order: number;
+}
+
+const initialBurger: TBurgerState = {
   burger: [],
 };
 
-const initialOrder = {
+const initialOrder: TOrderState = {
   orderRequest: false,
   orderFailed: false,
   order: 0
 }
 
-export const constructorReducer = (state = initialBurger, action) => {
+export const constructorReducer = (state = initialBurger, action: TIngredientsActions): TBurgerState => {
   switch (action.type) {
     case ADD_INGREDIENT: {
       return {
@@ -35,9 +48,11 @@ export const constructorReducer = (state = initialBurger, action) => {
     }
     case SORT_INGREDIENTS: {
       const indexDropElement = state.burger.findIndex(item => item.id === action.dropElementId);
-      const dragElement = state.burger.find(item => item.id === action.dragElementId);
+      const dragElement: IIngredient | undefined = state.burger.find(item => item.id === action.dragElementId);
       const sortedBurger = state.burger.filter(item => item.id !== action.dragElementId);
-      sortedBurger.splice(indexDropElement, 0, dragElement);
+      if (dragElement) {
+        sortedBurger.splice(indexDropElement, 0, dragElement);
+      }
       return {
         ...state,
         burger: sortedBurger,
@@ -49,7 +64,7 @@ export const constructorReducer = (state = initialBurger, action) => {
   }
 };
 
-export const orderReducer = (state = initialOrder, action) => {
+export const orderReducer = (state = initialOrder, action: TOrderActions): TOrderState => {
   switch (action.type) {
     case POST_ORDER_REQUEST: {
       return {...state, orderRequest: true};

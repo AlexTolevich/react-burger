@@ -3,7 +3,6 @@ import style from './BurgerConstructor.module.css'
 import {ConstructorElement, Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import {useSelector, useDispatch} from "react-redux";
 import {addIngredient} from "../../services/actions/ingredients";
 import {useDrop} from 'react-dnd';
 import FillingIngredient from "../FillingIngredient/FillingIngredient";
@@ -11,10 +10,11 @@ import {getBurger, getLoggedIn} from "../../services/constants/selectors";
 import {useNavigate} from "react-router-dom";
 import {v4 as uuidv4} from "uuid";
 import {closeOrder, submitOrder} from "../../services/actions/order";
-import {IIngredient, TDispatch} from "../../utils/types";
+import {IIngredient} from "../../utils/types";
+import {useDispatch, useSelector} from "../../services/hooks";
 
 function BurgerConstructor() {
-  const dispatch = useDispatch<TDispatch>();
+  const dispatch = useDispatch();
   const burger = useSelector(getBurger);
   const loggedIn = useSelector(getLoggedIn);
   const navigate = useNavigate();

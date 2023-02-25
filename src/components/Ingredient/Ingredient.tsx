@@ -1,11 +1,11 @@
 import React, {FC} from 'react';
 import style from './Ingredient.module.css'
 import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useSelector} from 'react-redux';
 import {useDrag} from 'react-dnd';
 import {getBurger} from "../../services/constants/selectors";
 import {Link, useLocation} from "react-router-dom";
 import {IIngredient} from "../../utils/types";
+import {useSelector} from "../../services/hooks";
 
 const Ingredient: FC<{ ingredient: IIngredient }> = ({ingredient}) => {
   const burger = useSelector(getBurger);

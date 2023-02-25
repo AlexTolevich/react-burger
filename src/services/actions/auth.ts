@@ -17,7 +17,7 @@ import {
   USER_LOGGED_IN,
   USER_LOGGED_OUT
 } from "../constants";
-import {IUserData} from "../../utils/types";
+import {AppThunk, IUserData} from "../../utils/types";
 
 export interface IPostUserRequest {
   readonly type: typeof POST_USER_REQUEST;
@@ -151,8 +151,8 @@ export function resetPSWDFailed(): IResetPSWDFailed {
   return {type: RESET_PSWD_FAILED}
 }
 
-export function onRegister(data: Partial<IUserData>, navigate: { (): void; (): void; }) {
-  return function (dispatch: (arg0: IPostUserRequest | IPostUserSuccess | IPostUserFailed | IUserLoggedIn) => void) {
+export const onRegister = (data: Partial<IUserData>, navigate: () => void): AppThunk => {
+  return function (dispatch) {
     dispatch(postUserRequest());
     signup(data)
       .then((res) => {
@@ -181,8 +181,8 @@ export function onRegister(data: Partial<IUserData>, navigate: { (): void; (): v
   }
 }
 
-export function onLogin(data: Partial<IUserData>, navigate: { (): void; (): void; }) {
-  return function (dispatch: (arg0: IPostUserRequest | IPostUserSuccess | IPostUserFailed | IUserLoggedIn) => void) {
+export const onLogin = (data: Partial<IUserData>, navigate: () => void): AppThunk => {
+  return function (dispatch) {
     dispatch(postUserRequest());
     signin(data)
       .then((res) => {
@@ -212,8 +212,8 @@ export function onLogin(data: Partial<IUserData>, navigate: { (): void; (): void
   }
 }
 
-export function onRefreshToken() {
-  return function (dispatch: (arg0: IPostTokenRequest | IPostTokenSuccess | IPostTokenFailed) => void) {
+export const onRefreshToken = (): AppThunk => {
+  return function (dispatch) {
     dispatch(postTokenRequest());
     deleteCookie('accessToken');
     refreshToken()
@@ -228,8 +228,7 @@ export function onRefreshToken() {
               setCookie('accessToken', authToken, {expires: 1200});
             }
             localStorage.setItem('refreshToken', res.refreshToken);
-            // @ts-ignore
-            dispatch(onGetUser())
+                      dispatch(onGetUser())
           }
         }
       ).catch((err) => {
@@ -239,8 +238,8 @@ export function onRefreshToken() {
   }
 }
 
-export function onForgotPSWD(data: Partial<IUserData>, navigate: { (): void; (): void; }) {
-  return function (dispatch: (arg0: IForgotPSWDRequest | IForgotPSWDSuccess | IForgotPSWDFailed) => void) {
+export const onForgotPSWD = (data: Partial<IUserData>, navigate: () => void): AppThunk => {
+  return function (dispatch) {
     dispatch(forgotPSWDRequest());
     forgotPSWD(data)
       .then((res) => {
@@ -259,8 +258,8 @@ export function onForgotPSWD(data: Partial<IUserData>, navigate: { (): void; ():
   }
 }
 
-export function onResetPSWD(data: Partial<IUserData>, navigate: { (): void; (): void; }) {
-  return function (dispatch: (arg0: IResetPSWDRequest | IResetPSWDSuccess | IResetPSWDFailed) => void) {
+export const onResetPSWD = (data: Partial<IUserData>, navigate: () => void): AppThunk => {
+  return function (dispatch) {
     dispatch(resetPSWDRequest());
     resetPSWD(data)
       .then((res) => {

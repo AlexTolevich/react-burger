@@ -4,14 +4,13 @@ import style from './Profile.module.css';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import {NavLink, useLocation, useNavigate} from 'react-router-dom';
 import {useFormWithValidation} from '../../utils/hooks/useValidation';
-import {useDispatch, useSelector} from "react-redux";
 import {getUser} from "../../services/constants/selectors";
 import Preloader from "../../components/Preloader/Preloader";
 import {onLogout, onPatchUser} from "../../services/actions/user";
-import {TDispatch} from "../../utils/types";
+import {useDispatch, useSelector} from "../../services/hooks";
 
 function Profile() {
-  const dispatch = useDispatch<TDispatch>();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const {userRequest, email, name} = useSelector(getUser);
@@ -46,7 +45,7 @@ function Profile() {
   }
 
   function handleExitUser() {
-    dispatch(onLogout(refreshToken,
+     dispatch(onLogout(refreshToken,
       () => navigate('/login', {replace: true, state: {from: location}})));
   }
 

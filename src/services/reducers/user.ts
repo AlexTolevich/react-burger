@@ -11,19 +11,40 @@ import {
   USER_LOGGED_IN,
   USER_LOGGED_OUT
 } from "../constants";
+import {TAuthActions} from "../actions/auth";
 
-const initialUser = {
+type TUserState = {
+  email: string | undefined;
+  name: string | undefined;
+  userRequest: boolean;
+  userFailed: boolean;
+};
+
+type TLoggedInUserState = {
+  loggedIn: boolean;
+};
+
+type TPSWDRecoverState = {
+  forgotPSWDRequest: boolean;
+  forgotPSWDFailed: boolean;
+  resetPSWDRequest: boolean;
+  resetPSWDFailed: boolean;
+  forgotPSWD: boolean;
+  resetPSWD: boolean;
+}
+
+const initialUser: TUserState = {
   email: '',
   name: '',
   userRequest: false,
   userFailed: false,
 }
 
-const initialLoggedInUser = {
+const initialLoggedInUser: TLoggedInUserState = {
   loggedIn: false,
 }
 
-const initialPSWDRecover = {
+const initialPSWDRecover: TPSWDRecoverState = {
   forgotPSWDRequest: false,
   forgotPSWDFailed: false,
   resetPSWDRequest: false,
@@ -32,7 +53,7 @@ const initialPSWDRecover = {
   resetPSWD: false,
 }
 
-export const userReducer = (state = initialUser, action) => {
+export const userReducer = (state = initialUser, action: TAuthActions): TUserState => {
   switch (action.type) {
     case POST_USER_REQUEST: {
       return {...state, userRequest: true};
@@ -55,7 +76,7 @@ export const userReducer = (state = initialUser, action) => {
   }
 };
 
-export const userLoggedInReducer = (state = initialLoggedInUser, action) => {
+export const userLoggedInReducer = (state = initialLoggedInUser, action: TAuthActions): TLoggedInUserState => {
   switch (action.type) {
     case USER_LOGGED_IN: {
       return {loggedIn: true};
@@ -69,7 +90,7 @@ export const userLoggedInReducer = (state = initialLoggedInUser, action) => {
   }
 };
 
-export const PSWDReducer = (state = initialPSWDRecover, action) => {
+export const PSWDReducer = (state = initialPSWDRecover, action: TAuthActions): TPSWDRecoverState => {
   switch (action.type) {
     case FORGOT_PSWD_REQUEST: {
       return {...state, forgotPSWDRequest: true};

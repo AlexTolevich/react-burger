@@ -1,5 +1,10 @@
 import {ReactNode} from "react";
 import {store} from '..';
+import {TAuthActions} from "../services/actions/auth";
+import {TIngredientsActions} from "../services/actions/ingredients";
+import {TOrderActions} from "../services/actions/order";
+
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
 
 export interface IIngredient {
   readonly calories: number;
@@ -80,11 +85,21 @@ export interface IOrder {
   readonly "price": number;
 }
 
-export type TDispatch = typeof store.dispatch;
-
 export type TLocationState = {
   from: {
     pathname: string;
   }
 }
+
+export type RootState = ReturnType<typeof store.getState>;
+
+type TApplicationActions =
+  | TAuthActions
+  | TIngredientsActions
+  | TOrderActions;
+
+export type AppThunk<TReturn = void> = ThunkAction<TReturn, RootState, unknown, TApplicationActions>;
+
+
+export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
 

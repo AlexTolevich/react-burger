@@ -17,6 +17,7 @@ import {useDispatch} from "../../services/hooks";
 import {getIngredients} from "../../services/actions/ingredients";
 import IngredientDetailsPage from "../../pages/IngredientDetailsPage/IngredientDetailsPage";
 import {onGetUser} from "../../services/actions/user";
+import {Feed} from "../../pages/Feed/Feed";
 
 function App() {
   const location = useLocation();
@@ -86,6 +87,10 @@ function App() {
         <Route path="/ingredients/:id"
                element={
                  <IngredientDetailsPage/>
+               }/>
+        <Route path="/feed"
+               element={
+                 <Feed/>
                }/>
         <Route path="*"
                element={

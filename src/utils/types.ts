@@ -85,6 +85,16 @@ export interface IOrder {
   readonly "price": number;
 }
 
+export interface IFeedOrderItem {
+  readonly "_id": string;
+  readonly "ingredients": Array<string>;
+  readonly "status": string;
+  readonly "name": string;
+  readonly "createdAt": string;
+  readonly "updatedAt": string;
+  readonly "number": number;
+}
+
 export type TLocationState = {
   from: {
     pathname: string;

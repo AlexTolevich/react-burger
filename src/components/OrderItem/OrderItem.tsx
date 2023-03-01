@@ -14,9 +14,9 @@ export const OrderItem: FC<{ order: IFeedOrderItem }> = (order) => {
     return ingredients.find(item => item._id === ingredientId)
   });
 
-  console.log(orderIngredients)
   return (
-    <Link to={`/feed/${order.order._id}`}
+    <Link className={style.link}
+          to={`/feed/${order.order._id}`}
           state={{backgroundLocation: location}}
     >
       <li className={style.order}>
@@ -24,7 +24,8 @@ export const OrderItem: FC<{ order: IFeedOrderItem }> = (order) => {
           <p className={`text text_type_digits-default`}>
             #{order.order.number}
           </p>
-          <FormattedDate date={new Date(order.order.createdAt)}/>
+          <FormattedDate className={style.date}
+            date={new Date(order.order.createdAt)}/>
         </div>
         <h4 className={`${style.title} text text_type_main-medium mt-6`}>
           {order.order.name}

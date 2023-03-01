@@ -4,13 +4,17 @@ export const testWsData = {
     {
       "_id": "63fb1dce936b17001be618b2",
       "ingredients": [
+        "60d3b41abdacab0026a733c7",
+        "60d3b41abdacab0026a733c8",
         "60d3b41abdacab0026a733c6",
         "60d3b41abdacab0026a733cd",
         "60d3b41abdacab0026a733cd",
-        "60d3b41abdacab0026a733cf",
-        "60d3b41abdacab0026a733cf",
-        "60d3b41abdacab0026a733cc",
-        "60d3b41abdacab0026a733c6"
+        "60d3b41abdacab0026a733c7",
+        "60d3b41abdacab0026a733cd",
+        "60d3b41abdacab0026a733c7",
+        "60d3b41abdacab0026a733c7",
+        "60d3b41abdacab0026a733cd",
+        "60d3b41abdacab0026a733c7"
       ],
       "status": "done",
       "name": "Space spicy краторный антарианский бургер",

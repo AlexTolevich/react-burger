@@ -5,7 +5,7 @@
   width: 520px;
 }
 
-.list {
+.orderList {
   list-style: none;
   display: flex;
   justify-content: space-between;

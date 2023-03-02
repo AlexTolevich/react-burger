@@ -18,6 +18,7 @@ import {getIngredients} from "../../services/actions/ingredients";
 import IngredientDetailsPage from "../../pages/IngredientDetailsPage/IngredientDetailsPage";
 import {onGetUser} from "../../services/actions/user";
 import {Feed} from "../../pages/Feed/Feed";
+import Orders from "../../pages/Orders/Orders";
 
 function App() {
   const location = useLocation();
@@ -75,13 +76,13 @@ function App() {
         <Route path="/profile/orders"
                element={
                  <ProtectedRoute>
-                   <Profile/>
+                   <Orders/>
                  </ProtectedRoute>
                }/>
         <Route path="/profile/orders/:id"
                element={
                  <ProtectedRoute>
-                   <Profile/>
+                   <Orders/>
                  </ProtectedRoute>
                }/>
         <Route path="/ingredients/:id"

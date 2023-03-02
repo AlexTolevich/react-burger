@@ -1,0 +1,83 @@
+.orderInfo {
+  width: 640px;
+  text-align: start;
+}
+
+.number {
+  text-align: center;
+}
+
+.orderStatus {
+
+}
+
+.orderStatusDone {
+  color: #00CCCC;
+}
+
+.orderStatusCreated {
+
+}
+
+.orderStatusCanceled {
+  color: #c21111;
+}
+
+.list {
+  width: 100%;
+  list-style: none;
+  max-height: calc(100vh - 20px - 88px - 122px - 230px - 150px);
+  padding: 0 24px 0 0;
+  margin: 0 0 40px;
+  overflow-y: scroll;
+  box-sizing: border-box;
+}
+
+.list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.list::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: #8585AD;
+}
+
+.ingredient {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.ingredientContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+}
+
+.icon {
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  background: #131316 center center /cover no-repeat;
+  border: 2px solid #801ab2;
+  border-radius: 100%;
+  box-sizing: border-box;
+
+}
+
+.infoContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.priceContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

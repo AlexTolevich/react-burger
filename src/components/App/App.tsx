@@ -19,6 +19,8 @@ import IngredientDetailsPage from "../../pages/IngredientDetailsPage/IngredientD
 import {onGetUser} from "../../services/actions/user";
 import {Feed} from "../../pages/Feed/Feed";
 import Orders from "../../pages/Orders/Orders";
+import OrderInfo from "../OrderInfo/OrderInfo";
+import OrderInfoPage from "../../pages/OrderInfoPage/OrderInfoPage";
 
 function App() {
   const location = useLocation();
@@ -82,7 +84,7 @@ function App() {
         <Route path="/profile/orders/:id"
                element={
                  <ProtectedRoute>
-                   <Orders/>
+                   <OrderInfoPage/>
                  </ProtectedRoute>
                }/>
         <Route path="/ingredients/:id"
@@ -92,6 +94,10 @@ function App() {
         <Route path="/feed"
                element={
                  <Feed/>
+               }/>
+        <Route path="/feed/:id"
+               element={
+                 <OrderInfoPage/>
                }/>
         <Route path="*"
                element={
@@ -103,6 +109,14 @@ function App() {
           <Route path="/ingredients/:id" element={<Modal onClose={onCloseModal} title="Детали ингредиента">
             <IngredientDetails/>
           </Modal>}/>
+          <Route path="/profile/orders/:id" element={<Modal onClose={onCloseModal}>
+            <OrderInfo/>
+          </Modal>
+          }/>
+          <Route path="/feed/:id" element={<Modal onClose={onCloseModal}>
+            <OrderInfo/>
+          </Modal>
+          }/>
         </Routes>
       )}
     </div>

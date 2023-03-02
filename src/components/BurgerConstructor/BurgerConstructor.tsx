@@ -12,6 +12,7 @@ import {v4 as uuidv4} from "uuid";
 import {closeOrder, submitOrder} from "../../services/actions/order";
 import {IIngredient} from "../../utils/types";
 import {useDispatch, useSelector} from "../../services/hooks";
+import {calculateOrderAmount} from "../../utils/calculateOrderAmount";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -27,11 +28,6 @@ function BurgerConstructor() {
     setBun(burger.filter((item: IIngredient) => item.type === 'bun'));
     setFilling(burger.filter(({type}: IIngredient) => type === 'sauce' || type === 'main'));
   }, [burger])
-
-  function calcTotalAmount() {
-    const amountFilling = filling.reduce((sum: number, i: IIngredient) => sum + i.price, 0);
-    return (bun.length ? bun[0]?.price * 2 : 0) + amountFilling;
-  }
 
   function handleSubmit() {
     if (loggedIn) {
@@ -106,7 +102,7 @@ function BurgerConstructor() {
           </div>
           <div className={`${style.order} mt-10 mr-4`}>
             <div className={`${style.priceContainer} mr-10`}>
-              <p className="text text_type_digits-medium mr-2">{calcTotalAmount()}</p>
+              <p className="text text_type_digits-medium mr-2">{calculateOrderAmount(burger)}</p>
               <CurrencyIcon type="primary"/>
             </div>
             <Button type="primary" size="large" onClick={handleSubmit} htmlType="button">

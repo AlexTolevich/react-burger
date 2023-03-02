@@ -12,7 +12,7 @@ export const Feed: FC = () => {
         className={'mt-10 mb-5 text text_type_main-large'}>
         Лента заказов
       </h2>
-      <ul className={`${style.order__list}`}>
+      <ul className={`${style.list}`}>
         {
           testWsData.orders.map((order: IFeedOrderItem) => (
           <OrderItem key={order._id} order={order}/>

@@ -1,6 +1,7 @@
 .link {
   text-decoration: none;
   color: #F2F2F3;
+
 }
 
 .order {
@@ -8,16 +9,19 @@
   border-radius: 40px;
   background-color: #1C1C21;
   padding: 24px;
+  margin-bottom: 16px;
+  text-align: start;
 }
 
-.numberCover {
+.numberContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.date {
-  color: #8585AD;
+.orderContainer {
+  display: flex;
+  justify-content: space-between;
 }
 
 .ingredientList {
@@ -32,15 +36,40 @@
   position: relative;
   left: 16px;
   overflow: hidden;
-  background:  #131316 center center /cover no-repeat;
+  background: #131316 center center /cover no-repeat;
   margin-left: -16px;
   border: 2px solid #801ab2;
-  /*border-image: linear-gradient(*/
-  /*  63.18deg,*/
-  /*  #801AB2,*/
-  /*  #4C4CFF*/
-  /*) 1 100%;*/
-
-  border-radius: 50%;
+  border-radius: 100%;
   box-sizing: border-box;
+}
+
+.overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #00000075;
+}
+
+.priceContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.orderStatus {
+
+}
+
+.orderStatusDone {
+  color: #00CCCC;
+}
+
+.orderStatusCreated {
+
+}
+
+.orderStatusCanceled {
+  color: #c21111;
 }

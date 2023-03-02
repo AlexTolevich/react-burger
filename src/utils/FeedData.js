@@ -16,15 +16,21 @@ export const testWsData = {
         "60d3b41abdacab0026a733cd",
         "60d3b41abdacab0026a733c7"
       ],
-      "status": "done",
+      "status": "created",
       "name": "Space spicy краторный антарианский бургер",
-      "createdAt": "2023-02-26T08:52:30.487Z",
-      "updatedAt": "2023-02-26T08:52:30.879Z",
+      "createdAt": "2023-02-28T08:52:30.487Z",
+      "updatedAt": "2023-03-01T08:52:30.879Z",
       "number": 41767
     },
     {
       "_id": "63fb1a92936b17001be618aa",
       "ingredients": [
+        "60d3b41abdacab0026a733c7",
+        "60d3b41abdacab0026a733cd",
+        "60d3b41abdacab0026a733c7",
+        "60d3b41abdacab0026a733c7",
+        "60d3b41abdacab0026a733cd",
+        "60d3b41abdacab0026a733c7",
         "60d3b41abdacab0026a733c7",
         "60d3b41abdacab0026a733cd",
         "60d3b41abdacab0026a733c7"
@@ -42,7 +48,7 @@ export const testWsData = {
         "60d3b41abdacab0026a733cd",
         "60d3b41abdacab0026a733c7"
       ],
-      "status": "done",
+      "status": "cancel",
       "name": "Space флюоресцентный бургер",
       "createdAt": "2023-02-26T08:38:28.302Z",
       "updatedAt": "2023-02-26T08:38:28.675Z",
@@ -55,7 +61,7 @@ export const testWsData = {
         "60d3b41abdacab0026a733cd",
         "60d3b41abdacab0026a733c7"
       ],
-      "status": "done",
+      "status": "pending",
       "name": "Space флюоресцентный бургер",
       "createdAt": "2023-02-26T08:34:37.805Z",
       "updatedAt": "2023-02-26T08:34:38.213Z",

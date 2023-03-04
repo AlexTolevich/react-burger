@@ -1,17 +1,44 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import style from './Orders.module.css';
 import ProfileNavMenu from "../../components/ProfileNavMenu/ProfileNavMenu";
-import {testWsData} from "../../utils/FeedData";
 import {IFeedOrderItem} from "../../utils/types";
 import {OrderItem} from "../../components/OrderItem/OrderItem";
+import {useDispatch, useSelector} from "../../services/hooks";
+import {WS_USER_CONNECTION_START, WS_USER_CONNECTION_STOP} from "../../services/constants/wsAction";
+import {getUserOrders} from "../../services/constants/selectors";
 
 function Orders() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch({type: WS_USER_CONNECTION_START})
+    return () => {
+      dispatch({type: WS_USER_CONNECTION_STOP})
+    }
+  }, []);
+
+  const {data} = useSelector(getUserOrders);
+  const orders = data && JSON.parse(data);
+
+  const sortedOrders = orders?.orders?.sort((orderA: IFeedOrderItem, orderB: IFeedOrderItem) => {
+      if (orderA.createdAt < orderB.createdAt) {
+        return 1
+      }
+      if (orderA.createdAt === orderB.createdAt) {
+        return 0
+      }
+      if (orderA.createdAt > orderB.createdAt) {
+        return -1
+      }
+    }
+  )
+
   return (
     <main className={style.orders}>
       <ProfileNavMenu/>
       <ul className={`${style.orderList} mt-10`}>
         {
-          testWsData.orders.map((order: IFeedOrderItem) => (
+          sortedOrders?.map((order: IFeedOrderItem) => (
             <OrderItem key={order._id} order={order}/>
           ))}
       </ul>

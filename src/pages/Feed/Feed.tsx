@@ -1,10 +1,23 @@
-import React, {FC} from "react";
-import {testWsData} from "../../utils/FeedData";
+import React, {FC, useEffect} from "react";
 import style from './Feed.module.css'
 import {IFeedOrderItem} from "../../utils/types";
 import {OrderItem} from "../../components/OrderItem/OrderItem";
+import {WS_CONNECTION_START, WS_CONNECTION_STOP} from "../../services/constants/wsAction";
+import {useDispatch, useSelector} from "../../services/hooks";
+import {getOrders} from "../../services/constants/selectors";
 
 export const Feed: FC = () => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch({type: WS_CONNECTION_START})
+    return () => {
+      dispatch({type: WS_CONNECTION_STOP})
+    }
+  }, []);
+
+  const {data} = useSelector(getOrders);
+  const orders = data && JSON.parse(data);
 
   return (
     <main className={style.feed}>
@@ -15,7 +28,7 @@ export const Feed: FC = () => {
         </h2>
         <ul className={`${style.orderList}`}>
           {
-            testWsData.orders.map((order: IFeedOrderItem) => (
+            orders?.orders?.map((order: IFeedOrderItem) => (
               <OrderItem key={order._id} order={order}/>
             ))}
         </ul>
@@ -28,7 +41,7 @@ export const Feed: FC = () => {
             </p>
             <div className={style.statusList}>
               <ul className={`${style.orders}`}>
-                {testWsData.orders.filter((order) => order.status === 'done')
+                {orders?.orders?.filter((order: IFeedOrderItem) => order.status === 'done')
                   .slice(0, 10)
                   .map((order: IFeedOrderItem) => (
                     <li className={`${style.order} ${style.orderStatusDone} text text_type_digits-default mb-2`}
@@ -38,9 +51,9 @@ export const Feed: FC = () => {
                     </li>
                   ))}
               </ul>
-              {testWsData.orders.length > 10 && (
+              {orders?.orders?.length > 10 && (
                 <ul className={`${style.orders}`}>
-                  {testWsData.orders.filter((order) => order.status === 'done')
+                  {orders?.orders?.filter((order: IFeedOrderItem) => order.status === 'done')
                     .slice(11, 21)
                     .map((order: IFeedOrderItem) => (
                       <li className={`${style.order} ${style.orderStatusDone}  text text_type_digits-default mb-2`}
@@ -59,7 +72,7 @@ export const Feed: FC = () => {
             </p>
             <div className={style.statusList}>
               <ul className={`${style.orders}`}>
-                {testWsData.orders.filter((order) => order.status === 'pending')
+                {orders?.orders?.filter((order: IFeedOrderItem) => order.status === 'pending')
                   .slice(0, 10)
                   .map((order: IFeedOrderItem) => (
                     <li className={`${style.order} text text_type_digits-default mb-2`}
@@ -69,9 +82,9 @@ export const Feed: FC = () => {
                     </li>
                   ))}
               </ul>
-              {testWsData.orders.length > 10 && (
+              {orders?.orders?.length > 10 && (
                 <ul className={`${style.orders}`}>
-                  {testWsData.orders.filter((order) => order.status === 'pending')
+                  {orders?.orders?.filter((order: IFeedOrderItem) => order.status === 'pending')
                     .slice(11, 21)
                     .map((order: IFeedOrderItem) => (
                       <li className={`${style.order} text text_type_digits-default mb-2`}
@@ -89,13 +102,13 @@ export const Feed: FC = () => {
           Выполнено за все время:
         </p>
         <p className={`${style.count} text text_type_digits-large`}>
-          {testWsData.total}
+          {orders?.total}
         </p>
         <p className={`text text_type_main-medium mt-15`}>
           Выполнено за сегодня:
         </p>
         <p className={`${style.count} text text_type_digits-large`}>
-          {testWsData.totalToday}
+          {orders?.totalToday}
         </p>
       </section>
     </main>)

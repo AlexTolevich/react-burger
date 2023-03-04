@@ -22,8 +22,6 @@ import Orders from "../../pages/Orders/Orders";
 import OrderInfo from "../OrderInfo/OrderInfo";
 import OrderInfoPage from "../../pages/OrderInfoPage/OrderInfoPage";
 
-import {WS_CONNECTION_START, WS_USER_CONNECTION_START} from "../../services/constants/wsAction";
-
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,9 +31,6 @@ function App() {
   useEffect(() => {
     dispatch(onGetUser());
     dispatch(getIngredients());
-    // dispatch({type: WS_CONNECTION_START})
-    dispatch({type: WS_USER_CONNECTION_START})
-
   }, []);
 
   function onCloseModal() {

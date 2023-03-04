@@ -1,24 +1,27 @@
 import React, {FC} from "react";
 import style from "./OrderInfo.module.css";
-import {useParams} from "react-router-dom";
-import {getIngredientsFromStore} from "../../services/constants/selectors";
+import {useLocation, useParams} from "react-router-dom";
+import {getIngredientsFromStore, getOrders, getUserOrders} from "../../services/constants/selectors";
 import {useSelector} from "../../services/hooks";
 import {IFeedOrderItem, IIngredient} from "../../utils/types";
-import {testWsData} from "../../utils/FeedData";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {calculateOrderAmount} from "../../utils/calculateOrderAmount";
 
 const OrderInfo: FC = () => {
+  const path = useLocation();
   const {id} = useParams();
   const {ingredients} = useSelector(getIngredientsFromStore);
 
-  const currentOrder = testWsData.orders.find((order: IFeedOrderItem) => order._id === id)!;
+  const {data} = useSelector(path.pathname.includes("/profile") ? getUserOrders : getOrders);
+  const orders = data && JSON.parse(data);
+
+  const currentOrder = orders?.orders?.find((order: IFeedOrderItem) => order._id === id)!;
 
   const uniqueIngredientList = [...new Set(currentOrder?.ingredients)];
 
   const orderIngredients: IIngredient[] = [];
   if (currentOrder) {
-    currentOrder.ingredients.forEach(ingredientId => {
+    currentOrder.ingredients.forEach((ingredientId: string) => {
       const item = ingredients.find(ingredient => ingredient._id === ingredientId);
       if (item) orderIngredients.push(item);
     })

@@ -38,7 +38,7 @@ export interface IWsClosed {
 
 export interface IWsGetMessage {
   readonly type: typeof WS_GET_MESSAGE | typeof WS_USER_GET_MESSAGE;
-  readonly  payload: { data: MessageEvent };
+  readonly  payload:  string;
 }
 
 export type TWsActions =

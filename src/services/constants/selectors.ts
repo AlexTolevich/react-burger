@@ -9,3 +9,5 @@ export const getUserRequest = (state: RootState) => state.user.userRequest;
 export const getUser = (state: RootState) => state.user;
 export const getLoggedIn = (state: RootState) => state.loggedIn.loggedIn;
 export const getForgotPSWD = (state: RootState) => state.password.forgotPSWD;
+export const getOrders = (state: RootState) => state.orders;
+export const getUserOrders = (state: RootState) => state.userOrders;

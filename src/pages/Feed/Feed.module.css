@@ -32,6 +32,20 @@
 
 .statistics {
   width: 612px;
+  max-height: calc(100vh - 20px - 88px - 100px - 60px);
+  overflow-y: scroll;
+}
+
+.statistics::-webkit-scrollbar {
+  width: 8px;
+}
+
+.statistics::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+
+.statistics::-webkit-scrollbar-thumb {
+  background: #8585AD;
 }
 
 .coverStatisticOrders {

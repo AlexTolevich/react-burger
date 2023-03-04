@@ -1,10 +1,10 @@
 import React, {FC} from 'react';
 import style from './FillingIngredient.module.css'
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch} from "react-redux";
 import {delIngredient, sortIngredient} from "../../services/actions/ingredients";
 import {useDrop, useDrag} from 'react-dnd';
 import {IIngredient} from "../../utils/types";
+import {useDispatch} from "../../services/hooks";
 
 const FillingIngredient: FC<{ element: IIngredient }> = ({element}) => {
   const dispatch = useDispatch();

@@ -10,7 +10,7 @@ import {useSelector} from "../../services/hooks";
 const Ingredient: FC<{ ingredient: IIngredient }> = ({ingredient}) => {
   const burger = useSelector(getBurger);
   const location = useLocation();
-  const count = burger.filter((item: { _id: string; }) => item._id === ingredient._id).length;
+  const count = burger.filter((item) => item._id === ingredient._id).length;
 
   const [{isDrag}, dragRef] = useDrag({
     type: 'ingredient',

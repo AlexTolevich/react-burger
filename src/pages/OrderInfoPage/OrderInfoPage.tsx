@@ -24,11 +24,17 @@ function OrderInfoPage() {
       if (data.includes('Invalid or missing token') || !accessToken) {
         refreshToken()
           .then(() => {
-            dispatch({type: WS_USER_CONNECTION_START})
+            dispatch({
+              type: WS_USER_CONNECTION_START,
+              payload: `?token=${accessToken}`
+            })
           })
           .catch((err) => console.log(err, err.message, 'Произошла ошибка на сервере. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.'))
       } else {
-        dispatch({type: WS_USER_CONNECTION_START})
+        dispatch({
+          type: WS_USER_CONNECTION_START,
+          payload: `?token=${accessToken}`
+        })
       }
     } else {
       dispatch({type: WS_CONNECTION_START})

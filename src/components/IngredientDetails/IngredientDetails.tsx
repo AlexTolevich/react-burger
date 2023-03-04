@@ -7,7 +7,7 @@ import {useSelector} from "../../services/hooks";
 const IngredientDetails: FC = () => {
   const {id} = useParams();
   const {ingredients} = useSelector(getIngredientsFromStore);
-  const ingredient = ingredients?.filter((item: { _id: string | undefined; }) => item._id === id)[0];
+  const ingredient = ingredients?.filter((item) => item._id === id)[0];
   return (
     <div className={style.details}>
       <img

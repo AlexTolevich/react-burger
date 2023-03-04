@@ -30,7 +30,7 @@ const OrderInfo: FC = () => {
   const groupedIngredients: Array<IIngredient[]> = []
   if (uniqueIngredientList) {
     uniqueIngredientList?.forEach(ingredientId => {
-      const items = orderIngredients?.filter((item: IIngredient) => item._id === ingredientId);
+      const items = orderIngredients?.filter((item) => item._id === ingredientId);
       if (items) groupedIngredients.push(items);
     });
   }

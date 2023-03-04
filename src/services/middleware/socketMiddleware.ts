@@ -1,30 +1,26 @@
-import type {Middleware, MiddlewareAPI} from 'redux';
-import {AppDispatch, RootState, TApplicationActions} from "../../utils/types";
-import {getCookie} from "../../utils/cookies";
+import type {AnyAction, Middleware, MiddlewareAPI} from 'redux';
+import {AppDispatch, RootState} from "../../utils/types";
 
 export interface IWsAction {
-  wsStart: string,
-  wsStop: string,
-  wsGetMessage: string,
-  wsSuccess: string,
-  wsClosed: string,
-  wsError: string
+  wsStart: any,
+  wsStop: any,
+  wsGetMessage: any,
+  wsSuccess: any,
+  wsClosed: any,
+  wsError: any
 }
 
-export const socketMiddleware = (wsUrl: string, wsActions: any): Middleware => {
+export const socketMiddleware = (wsUrl: string, wsActions: IWsAction): Middleware => {
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
 
-    return next => (action: TApplicationActions) => {
+    return next => (action: AnyAction) => {
       const {dispatch} = store;
-      const {type} = action;
-
+      const {type, payload} = action;
       const {wsStart, wsStop, wsGetMessage, wsSuccess, wsClosed, wsError} = wsActions
+
       if (type === wsStart) {
-        socket = new WebSocket(
-          wsUrl.includes('orders/all')
-            ? wsUrl
-            : `${wsUrl}?token=${getCookie('accessToken')}`);
+        socket = new WebSocket(`${wsUrl}${payload ? payload : ''}`);
       }
       if (socket) {
         if (type === wsStop) {

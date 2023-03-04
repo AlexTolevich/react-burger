@@ -22,11 +22,11 @@ function BurgerConstructor() {
   const [bun, setBun] = useState<IIngredient[]>([]);
   const [filling, setFilling] = useState<IIngredient[]>([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const ingredients: string[] = burger.map((ingredient: { _id: string; }) => ingredient._id);
+  const ingredients: string[] = burger.map((ingredient) => ingredient._id);
 
   useEffect(() => {
-    setBun(burger.filter((item: IIngredient) => item.type === 'bun'));
-    setFilling(burger.filter(({type}: IIngredient) => type === 'sauce' || type === 'main'));
+    setBun(burger.filter((item) => item.type === 'bun'));
+    setFilling(burger.filter(({type}) => type === 'sauce' || type === 'main'));
   }, [burger])
 
   function handleSubmit() {
@@ -35,7 +35,6 @@ function BurgerConstructor() {
       setIsOpenModal(true);
     } else {
       navigate('/login');
-
     }
   }
 

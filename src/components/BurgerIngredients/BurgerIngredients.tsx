@@ -38,7 +38,7 @@ function BurgerIngredients() {
   }, []);
 
   useEffect(() => {
-      const newCategories = [...new Set<string>(ingredients?.map((item: IIngredient) => item.type))];
+      const newCategories = [...new Set<string>(ingredients?.map((item) => item.type))];
       setCategories(newCategories);
     },
     [ingredients]
@@ -89,8 +89,8 @@ function BurgerIngredients() {
                 <h3
                   className="text text_type_main-medium mb-6">{(cat === "bun") ? "Булки" : (cat === "sauce") ? "Соусы" : cat === "main" ? "Начинки" : cat}</h3>
                 <ul className={`${style.list} ${style.ingredientList} ml-4 mr-4`}>
-                  {ingredients?.filter(({type}: IIngredient) => type === cat)
-                    .map((ingredient: IIngredient) => (
+                  {ingredients?.filter(({type}) => type === cat)
+                    .map((ingredient) => (
                       <Ingredient ingredient={ingredient} key={ingredient._id}/>
                     ))}
                 </ul>

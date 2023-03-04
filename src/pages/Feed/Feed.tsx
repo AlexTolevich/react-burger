@@ -17,7 +17,8 @@ export const Feed: FC = () => {
   }, []);
 
   const {data} = useSelector(getOrders);
-  const orders = data && JSON.parse(data);
+  const parsedData = data && JSON.parse(data);
+  const orders: Array<IFeedOrderItem>  = parsedData.orders;
 
   return (
     <main className={style.feed}>
@@ -28,7 +29,7 @@ export const Feed: FC = () => {
         </h2>
         <ul className={`${style.orderList}`}>
           {
-            orders?.orders?.map((order: IFeedOrderItem) => (
+            orders?.map((order) => (
               <OrderItem key={order._id} order={order}/>
             ))}
         </ul>
@@ -41,9 +42,9 @@ export const Feed: FC = () => {
             </p>
             <div className={style.statusList}>
               <ul className={`${style.orders}`}>
-                {orders?.orders?.filter((order: IFeedOrderItem) => order.status === 'done')
+                {orders?.filter((order) => order.status === 'done')
                   .slice(0, 10)
-                  .map((order: IFeedOrderItem) => (
+                  .map((order) => (
                     <li className={`${style.order} ${style.orderStatusDone} text text_type_digits-default mb-2`}
                         key={order._id}
                     >
@@ -51,11 +52,11 @@ export const Feed: FC = () => {
                     </li>
                   ))}
               </ul>
-              {orders?.orders?.length > 10 && (
+              {orders?.length > 10 && (
                 <ul className={`${style.orders}`}>
-                  {orders?.orders?.filter((order: IFeedOrderItem) => order.status === 'done')
+                  {orders?.filter((order) => order.status === 'done')
                     .slice(11, 21)
-                    .map((order: IFeedOrderItem) => (
+                    .map((order) => (
                       <li className={`${style.order} ${style.orderStatusDone}  text text_type_digits-default mb-2`}
                           key={order._id}
                       >
@@ -72,9 +73,9 @@ export const Feed: FC = () => {
             </p>
             <div className={style.statusList}>
               <ul className={`${style.orders}`}>
-                {orders?.orders?.filter((order: IFeedOrderItem) => order.status === 'pending')
+                {orders?.filter((order) => order.status === 'pending')
                   .slice(0, 10)
-                  .map((order: IFeedOrderItem) => (
+                  .map((order) => (
                     <li className={`${style.order} text text_type_digits-default mb-2`}
                         key={order._id}
                     >
@@ -82,11 +83,11 @@ export const Feed: FC = () => {
                     </li>
                   ))}
               </ul>
-              {orders?.orders?.length > 10 && (
+              {orders?.length > 10 && (
                 <ul className={`${style.orders}`}>
-                  {orders?.orders?.filter((order: IFeedOrderItem) => order.status === 'pending')
+                  {orders?.filter((order) => order.status === 'pending')
                     .slice(11, 21)
-                    .map((order: IFeedOrderItem) => (
+                    .map((order) => (
                       <li className={`${style.order} text text_type_digits-default mb-2`}
                           key={order._id}
                       >
@@ -102,13 +103,13 @@ export const Feed: FC = () => {
           Выполнено за все время:
         </p>
         <p className={`${style.count} text text_type_digits-large`}>
-          {orders?.total}
+          {parsedData?.total}
         </p>
         <p className={`text text_type_main-medium mt-15`}>
           Выполнено за сегодня:
         </p>
         <p className={`${style.count} text text_type_digits-large`}>
-          {orders?.totalToday}
+          {parsedData?.totalToday}
         </p>
       </section>
     </main>)

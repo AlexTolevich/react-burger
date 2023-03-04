@@ -6,12 +6,16 @@ import {OrderItem} from "../../components/OrderItem/OrderItem";
 import {useDispatch, useSelector} from "../../services/hooks";
 import {WS_USER_CONNECTION_START, WS_USER_CONNECTION_STOP} from "../../services/constants/wsAction";
 import {getUserOrders} from "../../services/constants/selectors";
+import {getCookie} from "../../utils/cookies";
 
 function Orders() {
   const dispatch = useDispatch()
-
+  const accessToken = getCookie('accessToken');
   useEffect(() => {
-    dispatch({type: WS_USER_CONNECTION_START})
+    dispatch({
+      type: WS_USER_CONNECTION_START,
+      payload: `?token=${accessToken}`
+    })
     return () => {
       dispatch({type: WS_USER_CONNECTION_STOP})
     }
@@ -20,7 +24,7 @@ function Orders() {
   const {data} = useSelector(getUserOrders);
   const orders = data && JSON.parse(data);
 
-  const sortedOrders = orders?.orders?.sort((orderA: IFeedOrderItem, orderB: IFeedOrderItem) => {
+  const sortedOrders: Array<IFeedOrderItem> = orders?.orders?.sort((orderA: IFeedOrderItem, orderB: IFeedOrderItem) => {
       if (orderA.createdAt < orderB.createdAt) {
         return 1
       }
@@ -38,7 +42,7 @@ function Orders() {
       <ProfileNavMenu/>
       <ul className={`${style.orderList} mt-10`}>
         {
-          sortedOrders?.map((order: IFeedOrderItem) => (
+          sortedOrders?.map((order) => (
             <OrderItem key={order._id} order={order}/>
           ))}
       </ul>

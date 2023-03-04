@@ -15,6 +15,7 @@ import {
 
 export interface IWsStart {
   readonly type: typeof WS_CONNECTION_START | typeof WS_USER_CONNECTION_START;
+  readonly payload?: string;
 }
 
 export interface IWsStop {

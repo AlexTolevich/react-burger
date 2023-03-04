@@ -5,6 +5,7 @@ import {TIngredientsActions} from "../services/actions/ingredients";
 import {TOrderActions} from "../services/actions/order";
 
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {TWsActions} from "../services/actions/socketMiddleware";
 
 export interface IIngredient {
   readonly calories: number;
@@ -103,10 +104,11 @@ export type TLocationState = {
 
 export type RootState = ReturnType<typeof store.getState>;
 
-type TApplicationActions =
+export type TApplicationActions =
   | TAuthActions
   | TIngredientsActions
-  | TOrderActions;
+  | TOrderActions
+  | TWsActions;
 
 export type AppThunk<TReturn = void> = ThunkAction<TReturn, RootState, unknown, TApplicationActions>;
 

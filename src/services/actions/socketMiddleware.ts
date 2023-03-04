@@ -38,7 +38,7 @@ export interface IWsClosed {
 
 export interface IWsGetMessage {
   readonly type: typeof WS_GET_MESSAGE | typeof WS_USER_GET_MESSAGE;
-  readonly  payload:  string;
+  readonly  payload: string;
 }
 
 export type TWsActions =
@@ -48,87 +48,6 @@ export type TWsActions =
   | IWsError
   | IWsClosed
   | IWsGetMessage;
-
-// export function wsStart(): IWsStart {
-//   return {type: WS_CONNECTION_START}
-// }
-//
-// export function wsStop(): IWsStop {
-//   return {type: WS_CONNECTION_STOP};
-// }
-//
-// export function wsSuccess(event: Event): IWsSuccess {
-//   return {
-//     type: WS_CONNECTION_SUCCESS,
-//     payload: event
-//   }
-// }
-//
-// export function wsError(event: Event): IWsError {
-//   return {
-//     type: WS_CONNECTION_ERROR,
-//     payload: event
-//   }
-// }
-//
-// export function wsClosed(event: CloseEvent): IWsClosed {
-//   return {
-//     type: WS_CONNECTION_CLOSED,
-//     payload: event
-//   }
-// }
-//
-//
-// export function wsGetMessage(event: MessageEvent): IWsGetMessage {
-//   return {
-//     type: WS_GET_MESSAGE,
-//     payload: event.data
-//   };
-// }
-//
-// export function wsSendMessage(): IWsSendMessage {
-//   return {type: WS_SEND_MESSAGE}
-// }
-//
-// export function wsUserStart(): IWsStart {
-//   return {type: WS_USER_CONNECTION_START}
-// }
-//
-// export function wsUserStop(): IWsStop {
-//   return {type: WS_USER_CONNECTION_STOP};
-// }
-//
-// export function wsUserSuccess(event: Event): IWsSuccess {
-//   return {
-//     type: WS_USER_CONNECTION_SUCCESS,
-//     payload: event
-//   }
-// }
-//
-// export function wsUserError(event: Event): IWsError {
-//   return {
-//     type: WS_USER_CONNECTION_ERROR,
-//     payload: event
-//   }
-// }
-//
-// export function wsUserClosed(event: CloseEvent): IWsClosed {
-//   return {
-//     type: WS_USER_CONNECTION_CLOSED,
-//     payload: event
-//   }
-// }
-//
-// export function wsUserGetMessage(event: MessageEvent): IWsGetMessage {
-//   return {
-//     type: WS_USER_GET_MESSAGE,
-//     payload: event.data
-//   };
-// }
-//
-// export function wsUserSendMessage(): IWsSendMessage {
-//   return {type: WS_USER_SEND_MESSAGE}
-// }
 
 export const wsActions = {
   wsStart: WS_CONNECTION_START,

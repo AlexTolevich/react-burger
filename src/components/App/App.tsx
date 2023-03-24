@@ -12,16 +12,20 @@ import Profile from "../../pages/Profile/Profile";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import {useDispatch} from "react-redux";
+
+import {useDispatch} from "../../services/hooks";
 import {getIngredients} from "../../services/actions/ingredients";
 import IngredientDetailsPage from "../../pages/IngredientDetailsPage/IngredientDetailsPage";
 import {onGetUser} from "../../services/actions/user";
-import {TDispatch} from "../../utils/types";
+import {Feed} from "../../pages/Feed/Feed";
+import Orders from "../../pages/Orders/Orders";
+import OrderInfo from "../OrderInfo/OrderInfo";
+import OrderInfoPage from "../../pages/OrderInfoPage/OrderInfoPage";
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch<TDispatch>();
+  const dispatch = useDispatch();
   const state = location.state as { backgroundLocation?: Location };
 
   useEffect(() => {
@@ -74,18 +78,26 @@ function App() {
         <Route path="/profile/orders"
                element={
                  <ProtectedRoute>
-                   <Profile/>
+                   <Orders/>
                  </ProtectedRoute>
                }/>
         <Route path="/profile/orders/:id"
                element={
                  <ProtectedRoute>
-                   <Profile/>
+                   <OrderInfoPage/>
                  </ProtectedRoute>
                }/>
         <Route path="/ingredients/:id"
                element={
                  <IngredientDetailsPage/>
+               }/>
+        <Route path="/feed"
+               element={
+                 <Feed/>
+               }/>
+        <Route path="/feed/:id"
+               element={
+                 <OrderInfoPage/>
                }/>
         <Route path="*"
                element={
@@ -97,6 +109,14 @@ function App() {
           <Route path="/ingredients/:id" element={<Modal onClose={onCloseModal} title="Детали ингредиента">
             <IngredientDetails/>
           </Modal>}/>
+          <Route path="/profile/orders/:id" element={<Modal onClose={onCloseModal}>
+            <OrderInfo/>
+          </Modal>
+          }/>
+          <Route path="/feed/:id" element={<Modal onClose={onCloseModal}>
+            <OrderInfo/>
+          </Modal>
+          }/>
         </Routes>
       )}
     </div>

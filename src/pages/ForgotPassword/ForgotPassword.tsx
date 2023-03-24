@@ -4,14 +4,14 @@ import style from "./ForgotPassword.module.css";
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import {Link, useNavigate} from "react-router-dom";
 import {useFormWithValidation} from "../../utils/hooks/useValidation";
-import {useDispatch, useSelector} from "react-redux";
-import {getForgotPSWDRequest} from "../../services/selectors/selectors";
+import {getForgotPSWDRequest} from "../../services/constants/selectors";
 import Preloader from "../../components/Preloader/Preloader";
 import {onForgotPSWD} from "../../services/actions/auth";
-import {TDispatch} from "../../utils/types";
+import {useDispatch, useSelector} from "../../services/hooks";
+
 
 function ForgotPassword() {
-  const dispatch = useDispatch<TDispatch>();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const forgotPSWDRequest = useSelector(getForgotPSWDRequest);
   const {values, handleChange, errors, isValid, resetForm} = useFormWithValidation();

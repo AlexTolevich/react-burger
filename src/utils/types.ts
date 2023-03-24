@@ -1,5 +1,11 @@
 import {ReactNode} from "react";
 import {store} from '..';
+import {TAuthActions} from "../services/actions/auth";
+import {TIngredientsActions} from "../services/actions/ingredients";
+import {TOrderActions} from "../services/actions/order";
+
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {TWsActions} from "../services/actions/socketMiddleware";
 
 export interface IIngredient {
   readonly calories: number;
@@ -59,11 +65,52 @@ export interface IObj {
   distance: number,
 }
 
-export type TDispatch = typeof store.dispatch;
+export interface IOrderIngredients {
+  ingredients: Array<string>,
+}
+
+export interface IOrder {
+  readonly "ingredients": Array<IIngredient>;
+  readonly "_id": string;
+  readonly "owner": {
+    readonly "name": string;
+    readonly "email": string,
+    readonly "createdAt": string,
+    readonly "updatedAt": string
+  };
+  readonly "status": string;
+  readonly "name": string;
+  readonly "createdAt": string;
+  readonly "updatedAt": string;
+  readonly "number": number;
+  readonly "price": number;
+}
+
+export interface IFeedOrderItem {
+  readonly "_id": string;
+  readonly "ingredients": Array<string>;
+  readonly "status": string;
+  readonly "name": string;
+  readonly "createdAt": string;
+  readonly "updatedAt": string;
+  readonly "number": number;
+}
 
 export type TLocationState = {
   from: {
     pathname: string;
   }
 }
+
+export type RootState = ReturnType<typeof store.getState>;
+
+export type TApplicationActions =
+  | TAuthActions
+  | TIngredientsActions
+  | TOrderActions
+  | TWsActions;
+
+export type AppThunk<TReturn = void> = ThunkAction<TReturn, RootState, unknown, TApplicationActions>;
+
+export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
 

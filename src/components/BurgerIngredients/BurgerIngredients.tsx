@@ -1,12 +1,12 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import style from './BurgerIngredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useSelector, useDispatch} from 'react-redux';
 import {setActiveTab} from "../../services/actions/ingredients";
 import Ingredient from "../Ingredient/Ingredient";
-import {getIngredientsFromStore} from "../../services/selectors/selectors";
+import {getIngredientsFromStore} from "../../services/constants/selectors";
 import Preloader from "../Preloader/Preloader";
-import {IIngredient, IObj, ITab, TDispatch} from "../../utils/types";
+import {IIngredient, IObj, ITab} from "../../utils/types";
+import {useDispatch, useSelector} from "../../services/hooks";
 
 const TABS = [
   {
@@ -27,7 +27,7 @@ const TABS = [
 ];
 
 function BurgerIngredients() {
-  const dispatch = useDispatch<TDispatch>();
+  const dispatch = useDispatch();
   const [categories, setCategories] = useState<Array<string>>([]);
   const {ingredients, activeTab, ingredientsRequest} = useSelector(getIngredientsFromStore);
   const refContainerIngredients = useRef<HTMLUListElement>(null);
@@ -38,7 +38,7 @@ function BurgerIngredients() {
   }, []);
 
   useEffect(() => {
-      const newCategories = [...new Set<string>(ingredients?.map((item: IIngredient) => item.type))];
+      const newCategories = [...new Set<string>(ingredients?.map((item) => item.type))];
       setCategories(newCategories);
     },
     [ingredients]
@@ -89,8 +89,8 @@ function BurgerIngredients() {
                 <h3
                   className="text text_type_main-medium mb-6">{(cat === "bun") ? "Булки" : (cat === "sauce") ? "Соусы" : cat === "main" ? "Начинки" : cat}</h3>
                 <ul className={`${style.list} ${style.ingredientList} ml-4 mr-4`}>
-                  {ingredients?.filter(({type}: IIngredient) => type === cat)
-                    .map((ingredient: IIngredient) => (
+                  {ingredients?.filter(({type}) => type === cat)
+                    .map((ingredient) => (
                       <Ingredient ingredient={ingredient} key={ingredient._id}/>
                     ))}
                 </ul>

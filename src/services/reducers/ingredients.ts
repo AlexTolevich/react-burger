@@ -1,18 +1,27 @@
 import {
-  GET_INGREDIENTS_SUCCESS,
-  GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_FAILED,
+  GET_INGREDIENTS_REQUEST,
+  GET_INGREDIENTS_SUCCESS,
   SET_ACTIVE_TAB
-} from "../actions/ingredients";
+} from "../constants";
+import {TIngredientsActions} from "../actions/ingredients";
+import {IIngredient} from "../../utils/types";
 
-const initialIngredients = {
+type TIngredientsState = {
+  ingredients: Array<IIngredient>;
+  ingredientsRequest: boolean;
+  ingredientsFailed: boolean;
+  activeTab: string;
+};
+
+const initialIngredients: TIngredientsState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
   activeTab: 'bun',
 };
 
-export const ingredientsReducer = (state = initialIngredients, action) => {
+export const ingredientsReducer = (state = initialIngredients, action: TIngredientsActions): TIngredientsState => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {...state, ingredientsRequest: true};

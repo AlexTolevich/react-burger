@@ -1,13 +1,13 @@
 import React, {FC} from "react";
 import style from "./IngredientDetails.module.css";
 import {useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {getIngredientsFromStore} from "../../services/selectors/selectors";
+import {getIngredientsFromStore} from "../../services/constants/selectors";
+import {useSelector} from "../../services/hooks";
 
 const IngredientDetails: FC = () => {
   const {id} = useParams();
   const {ingredients} = useSelector(getIngredientsFromStore);
-  const ingredient = ingredients?.filter((item: { _id: string | undefined; }) => item._id === id)[0];
+  const ingredient = ingredients?.filter((item) => item._id === id)[0];
   return (
     <div className={style.details}>
       <img

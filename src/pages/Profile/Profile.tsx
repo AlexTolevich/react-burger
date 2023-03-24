@@ -2,21 +2,17 @@ import React, {useEffect} from 'react';
 
 import style from './Profile.module.css';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
-import {NavLink, useNavigate} from 'react-router-dom';
 import {useFormWithValidation} from '../../utils/hooks/useValidation';
-import {useDispatch, useSelector} from "react-redux";
-import {getUser} from "../../services/selectors/selectors";
+import {getUser} from "../../services/constants/selectors";
 import Preloader from "../../components/Preloader/Preloader";
-import {onLogout, onPatchUser} from "../../services/actions/user";
-import {TDispatch} from "../../utils/types";
+import {onPatchUser} from "../../services/actions/user";
+import {useDispatch, useSelector} from "../../services/hooks";
+import ProfileNavMenu from "../../components/ProfileNavMenu/ProfileNavMenu";
 
 function Profile() {
-  const dispatch = useDispatch<TDispatch>();
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {userRequest, email, name} = useSelector(getUser);
-  const refreshToken = localStorage.getItem('refreshToken');
   const {values, handleChange, errors, resetForm} = useFormWithValidation();
-  const classNavLink = (isActive: { isActive: boolean }) => `${style.link} text text_type_main-medium ` + (isActive?.isActive && style.link_active);
 
   useEffect(() => {
     resetForm({name: name, email: email, password: ''});
@@ -44,48 +40,11 @@ function Profile() {
     resetForm({name: name, email: email, password: ''});
   }
 
-  function handleExitUser() {
-    dispatch(onLogout(refreshToken,
-      () => navigate('/login')));
-  }
-
   return (
     <section className={style.container}>
-      <div className={`${style.navContainer} ml-5`}>
-        <nav className={style.nav}>
-          <NavLink
-            to="/profile"
-            end
-            className={classNavLink}
-          >
-            Профиль
-          </NavLink>
-          <NavLink
-            to="/profile/orders"
-            end
-            className={classNavLink}
-          >
-            История заказов
-          </NavLink>
-          <NavLink
-            to="/"
-            end
-            className={classNavLink}
-            onClick={handleExitUser}
-          >
-            Выход
-          </NavLink>
-        </nav>
-        <p
-          className={`${
-            style.text
-          } text text_type_main-default mt-20`}
-        >
-          В&nbsp;этом разделе вы&nbsp;можете изменить свои персональные данные
-        </p>
-      </div>
+      <ProfileNavMenu/>
       <form
-        className={style.form}
+        className={`${style.form} pt-30`}
         onSubmit={(event) => handleSubmit(event)}
         noValidate
       >

@@ -1,6 +1,8 @@
 import {getUser, logout, patchUser} from "../../utils/Api";
 import {deleteCookie} from "../../utils/cookies";
+import {AppThunk, IUserData} from "../../utils/types";
 import {
+
   onRefreshToken,
   postUserFailed,
   postUserRequest,
@@ -9,7 +11,7 @@ import {
   userLoggedOut
 } from "./auth";
 
-export function onLogout(data, navigate) {
+export const onLogout = (data: string | null, navigate: () => void): AppThunk => {
   return function (dispatch) {
     dispatch(postUserRequest());
     logout(data)
@@ -31,7 +33,7 @@ export function onLogout(data, navigate) {
   }
 }
 
-export function onGetUser() {
+export const onGetUser = (): AppThunk => {
   return function (dispatch) {
     dispatch(postUserRequest());
     getUser()
@@ -55,7 +57,7 @@ export function onGetUser() {
   }
 }
 
-export function onPatchUser(data) {
+export const onPatchUser = (data: Partial<IUserData>): AppThunk => {
   return function (dispatch) {
     dispatch(postUserRequest());
     patchUser(data)

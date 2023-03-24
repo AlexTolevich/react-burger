@@ -3,35 +3,31 @@ import style from './BurgerConstructor.module.css'
 import {ConstructorElement, Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import {useSelector, useDispatch} from "react-redux";
 import {addIngredient} from "../../services/actions/ingredients";
 import {useDrop} from 'react-dnd';
 import FillingIngredient from "../FillingIngredient/FillingIngredient";
-import {getBurger, getLoggedIn} from "../../services/selectors/selectors";
+import {getBurger, getLoggedIn} from "../../services/constants/selectors";
 import {useNavigate} from "react-router-dom";
 import {v4 as uuidv4} from "uuid";
 import {closeOrder, submitOrder} from "../../services/actions/order";
-import {IIngredient, TDispatch} from "../../utils/types";
+import {IIngredient} from "../../utils/types";
+import {useDispatch, useSelector} from "../../services/hooks";
+import {calculateOrderAmount} from "../../utils/calculateOrderAmount";
 
 function BurgerConstructor() {
-  const dispatch = useDispatch<TDispatch>();
+  const dispatch = useDispatch();
   const burger = useSelector(getBurger);
   const loggedIn = useSelector(getLoggedIn);
   const navigate = useNavigate();
   const [bun, setBun] = useState<IIngredient[]>([]);
   const [filling, setFilling] = useState<IIngredient[]>([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const ingredients: string[] = burger.map((ingredient: { _id: string; }) => ingredient._id);
+  const ingredients: string[] = burger.map((ingredient) => ingredient._id);
 
   useEffect(() => {
-    setBun(burger.filter((item: IIngredient) => item.type === 'bun'));
-    setFilling(burger.filter(({type}: IIngredient) => type === 'sauce' || type === 'main'));
+    setBun(burger.filter((item) => item.type === 'bun'));
+    setFilling(burger.filter(({type}) => type === 'sauce' || type === 'main'));
   }, [burger])
-
-  function calcTotalAmount() {
-    const amountFilling = filling.reduce((sum: number, i: IIngredient) => sum + i.price, 0);
-    return (bun.length ? bun[0]?.price * 2 : 0) + amountFilling;
-  }
 
   function handleSubmit() {
     if (loggedIn) {
@@ -39,7 +35,6 @@ function BurgerConstructor() {
       setIsOpenModal(true);
     } else {
       navigate('/login');
-
     }
   }
 
@@ -106,7 +101,7 @@ function BurgerConstructor() {
           </div>
           <div className={`${style.order} mt-10 mr-4`}>
             <div className={`${style.priceContainer} mr-10`}>
-              <p className="text text_type_digits-medium mr-2">{calcTotalAmount()}</p>
+              <p className="text text_type_digits-medium mr-2">{calculateOrderAmount(burger)}</p>
               <CurrencyIcon type="primary"/>
             </div>
             <Button type="primary" size="large" onClick={handleSubmit} htmlType="button">

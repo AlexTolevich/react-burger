@@ -20,7 +20,7 @@ type TWSOrdersState = {
   isTrusted: Event | null;
 };
 
-const initialWSOrders: TWSOrdersState = {
+export const initialWSOrders: TWSOrdersState = {
   connected: false,
   data: '',
   error: null,

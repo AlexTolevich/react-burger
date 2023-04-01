@@ -126,8 +126,8 @@ describe("burger constructor reducers test", () => {
     ],
     "_id": "64284f8b0905fd001b625f71",
     "owner": {
-      "name": "а нет блин б",
-      "email": "fxxdtn@drhjvdedtguj.ry",
+      "name": "test",
+      "email": "test@test.ru",
       "createdAt": "2023-03-05T12:17:16.260Z",
       "updatedAt": "2023-03-05T12:17:16.260Z"
     },
@@ -135,7 +135,7 @@ describe("burger constructor reducers test", () => {
     "name": "Бессмертный флюоресцентный бургер",
     "createdAt": "2023-04-01T15:36:43.372Z",
     "updatedAt": "2023-04-01T15:36:43.902Z",
-    "number": 47291,
+    "number": 12345,
     "price": 2325
   };
 

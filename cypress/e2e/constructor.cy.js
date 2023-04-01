@@ -1,7 +1,7 @@
 describe("modal window test", () => {
   before("the page is available", () => {
     cy.viewport(1280, 720);
-    cy.visit("http://localhost:3000");
+    cy.visit("/");
   });
 
   it("modal window test", () => {
@@ -15,7 +15,7 @@ describe("modal window test", () => {
 describe("ingredients dragging and ordering test", () => {
   before("the page is available", () => {
     cy.viewport(1280, 720);
-    cy.visit("http://localhost:3000");
+    cy.visit("/");
   });
   beforeEach("interception of authorization requests and post orders", () => {
     cy.intercept("GET", "api/auth/user", {fixture: "testUser.json"});

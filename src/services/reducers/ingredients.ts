@@ -14,7 +14,7 @@ type TIngredientsState = {
   activeTab: string;
 };
 
-const initialIngredients: TIngredientsState = {
+export const initialIngredients: TIngredientsState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,

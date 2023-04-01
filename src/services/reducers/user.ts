@@ -33,18 +33,18 @@ type TPSWDRecoverState = {
   resetPSWD: boolean;
 }
 
-const initialUser: TUserState = {
+export const initialUser: TUserState = {
   email: '',
   name: '',
   userRequest: false,
   userFailed: false,
 }
 
-const initialLoggedInUser: TLoggedInUserState = {
+export const initialLoggedInUser: TLoggedInUserState = {
   loggedIn: false,
 }
 
-const initialPSWDRecover: TPSWDRecoverState = {
+export const initialPSWDRecover: TPSWDRecoverState = {
   forgotPSWDRequest: false,
   forgotPSWDFailed: false,
   resetPSWDRequest: false,

@@ -2,7 +2,9 @@ import {
   ADD_INGREDIENT,
   CLOSE_ORDER,
   DEL_INGREDIENT,
-  POST_ORDER_FAILED, POST_ORDER_REQUEST, POST_ORDER_SUCCESS,
+  POST_ORDER_FAILED,
+  POST_ORDER_REQUEST,
+  POST_ORDER_SUCCESS,
   RESET_INGREDIENTS,
   SORT_INGREDIENTS
 } from "../constants";
@@ -20,11 +22,11 @@ type TOrderState = {
   order: number;
 }
 
-const initialBurger: TBurgerState = {
+export const initialBurger: TBurgerState = {
   burger: [],
 };
 
-const initialOrder: TOrderState = {
+export const initialOrder: TOrderState = {
   orderRequest: false,
   orderFailed: false,
   order: 0
@@ -70,10 +72,10 @@ export const orderReducer = (state = initialOrder, action: TOrderActions): TOrde
       return {...state, orderRequest: true};
     }
     case POST_ORDER_SUCCESS: {
-      return {...state, orderFailed: false, order: action.order.number, orderRequest: false};
+      return {orderFailed: false, order: action.order.number, orderRequest: false};
     }
     case POST_ORDER_FAILED: {
-      return {...state, orderFailed: true, order: 0, orderRequest: false};
+      return {orderFailed: true, order: 0, orderRequest: false};
     }
     case CLOSE_ORDER: {
       return {orderFailed: false, order: 0, orderRequest: false};

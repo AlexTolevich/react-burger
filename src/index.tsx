@@ -33,12 +33,18 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter basename="/react-burger">
         <App/>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );
+
+// @ts-ignore
+if (window.Cypress) {
+  // @ts-ignore
+  window.testCyStore = store
+}
 
 // If you want to start measuring performance in your App, pass a function
 // to log results (for example: reportWebVitals(console.log))
